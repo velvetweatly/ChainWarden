@@ -13,3 +13,7 @@ Keep a Changelog, and this project uses semantic versioning.
 ## [0.6.0] - 2026-09-02
 
 ### Added
+
+- `--format json` output mode: the report renderer can now emit one JSON object
+  per finding, which makes the auditor safe to pipe into alerting pipelines.
+- `--key-size-min` and `--days-before-expiry` overrides on the `audit`
