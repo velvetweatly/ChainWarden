@@ -33,3 +33,8 @@ Keep a Changelog, and this project uses semantic versioning.
 - Expiry cliff detection: when a configurable share of certificates in one
   directory expire inside the same window, a single `EXPIRY_CLIFF` finding is
   reported for the group instead of hundreds of individual lines.
+- `--group-by` on `audit` to cluster findings by issuer, by day of expiry, or
+  by key size for triage.
+
+### Changed
+
