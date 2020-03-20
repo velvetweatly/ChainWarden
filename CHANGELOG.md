@@ -42,3 +42,7 @@ Keep a Changelog, and this project uses semantic versioning.
   then INFO, regardless of scan order.
 
 ## [0.4.0] - 2024-06-21
+
+### Added
+
+- Extended key usage and basic constraints sanity checks for CA certificates:
