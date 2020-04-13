@@ -75,3 +75,7 @@ Keep a Changelog, and this project uses semantic versioning.
 ## [0.2.0] - 2022-09-04
 
 ### Added
+
+- Policy checks with severities: weak signature algorithm, weak RSA key,
+  expired, not yet valid, expiring soon, and the basic sanity checks from the
+  initial release (`policy.py`).
