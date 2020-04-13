@@ -62,3 +62,8 @@ Keep a Changelog, and this project uses semantic versioning.
 
 - Name based chain assembly with self signed root detection and loop guarding
   (`chainbuild.py`). Chains are built by matching issuer names to subject
+  names and walking upward until a self signed anchor or a loop is found.
+- `chain` subcommand that prints each resolved chain, its depth, and the
+  anchor fingerprint.
+
+### Changed
