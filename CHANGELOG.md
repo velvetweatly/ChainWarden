@@ -67,3 +67,7 @@ Keep a Changelog, and this project uses semantic versioning.
   anchor fingerprint.
 
 ### Changed
+
+- `pemread` accepts concatenated bundles (multiple `BEGIN CERTIFICATE` blocks
+  in one buffer) and labels every block with its line range for error
+  reporting.
