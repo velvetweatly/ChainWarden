@@ -87,3 +87,7 @@ Keep a Changelog, and this project uses semantic versioning.
 ## [0.1.0] - 2021-06-14
 
 ### Added
+
+- PEM block reader that splits a text buffer into labelled base64 blocks and
+  decodes `CERTIFICATE` blocks (`pemread.py`).
+- Minimal DER tag-length-value walker that rejects indefinite lengths and
