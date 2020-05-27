@@ -65,3 +65,12 @@ python -m chainwarden <subcommand> ...
 ```
 
 The only requirement is Python 3.11 or newer, declared in `pyproject.toml`.
+There are no third party dependencies to resolve.
+
+## Commands
+
+ChainWarden has four subcommands. The top level help lists them:
+
+```
+$ python -m chainwarden --help
+usage: chainwarden [-h] {audit,chain,expiry,version} ...
