@@ -49,3 +49,11 @@ Two properties make it dependable in a pipeline:
   and a run in CI next week produce identical output from identical input.
 
 ## Install
+
+Install from the project root. This exposes a `chainwarden` command on your
+path:
+
+```
+pip install .
+```
+
