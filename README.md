@@ -82,3 +82,11 @@ positional arguments:
     audit               run policy checks and print findings
     chain               build and print trust chains
     expiry              list certificates by expiry
+    version             print the version and exit
+
+options:
+  -h, --help            show this help message and exit
+```
+
+| Subcommand | What it does                                       | Needs `--as-of` |
+|------------|----------------------------------------------------|-----------------|
