@@ -90,3 +90,11 @@ options:
 
 | Subcommand | What it does                                       | Needs `--as-of` |
 |------------|----------------------------------------------------|-----------------|
+| `audit`    | Run every check and print findings                 | Yes             |
+| `chain`    | Build and print candidate trust chains             | No              |
+| `expiry`   | List certificates ordered by expiry                | Yes             |
+| `version`  | Print the version and exit                         | No              |
+
+A path argument may be a single PEM file that holds one or many CERTIFICATE
+blocks, or a directory. When it is a directory, every `*.pem`, `*.crt`, and
+`*.cer` file inside is read, non recursively. Files are visited in sorted order
