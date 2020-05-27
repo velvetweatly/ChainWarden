@@ -57,3 +57,11 @@ path:
 pip install .
 ```
 
+You can also run it straight from a checkout without installing, which is how
+every command in this document was run:
+
+```
+python -m chainwarden <subcommand> ...
+```
+
+The only requirement is Python 3.11 or newer, declared in `pyproject.toml`.
