@@ -74,3 +74,11 @@ ChainWarden has four subcommands. The top level help lists them:
 ```
 $ python -m chainwarden --help
 usage: chainwarden [-h] {audit,chain,expiry,version} ...
+
+Offline X.509 and TLS certificate fleet auditor.
+
+positional arguments:
+  {audit,chain,expiry,version}
+    audit               run policy checks and print findings
+    chain               build and print trust chains
+    expiry              list certificates by expiry
