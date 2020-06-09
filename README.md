@@ -106,3 +106,11 @@ The `audit` subcommand takes four tuning flags beyond the input paths:
 ```
 $ python -m chainwarden audit --help
 usage: chainwarden audit [-h] --as-of YYYY-MM-DD
+                         [--expiry-warn-days EXPIRY_WARN_DAYS]
+                         [--cliff-window-days CLIFF_WINDOW_DAYS]
+                         [--cliff-count CLIFF_COUNT]
+                         paths [paths ...]
+
+positional arguments:
+  paths                 PEM files or directories of PEM certificates
+
