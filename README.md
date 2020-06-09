@@ -98,3 +98,11 @@ options:
 A path argument may be a single PEM file that holds one or many CERTIFICATE
 blocks, or a directory. When it is a directory, every `*.pem`, `*.crt`, and
 `*.cer` file inside is read, non recursively. Files are visited in sorted order
+and blocks in file order, and duplicate certificates (same SHA256 fingerprint)
+are kept once, so the output is deterministic.
+
+The `audit` subcommand takes four tuning flags beyond the input paths:
+
+```
+$ python -m chainwarden audit --help
+usage: chainwarden audit [-h] --as-of YYYY-MM-DD
