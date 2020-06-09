@@ -114,3 +114,11 @@ usage: chainwarden audit [-h] --as-of YYYY-MM-DD
 positional arguments:
   paths                 PEM files or directories of PEM certificates
 
+options:
+  -h, --help            show this help message and exit
+  --as-of YYYY-MM-DD    reference date for expiry checks
+  --expiry-warn-days EXPIRY_WARN_DAYS
+  --cliff-window-days CLIFF_WINDOW_DAYS
+  --cliff-count CLIFF_COUNT
+```
+
