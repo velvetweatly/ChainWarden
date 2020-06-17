@@ -122,3 +122,11 @@ options:
   --cliff-count CLIFF_COUNT
 ```
 
+The defaults are 90 days for the expiring soon warning, a 30 day window for the
+cliff grouping, and a minimum of 3 certificates to call a window a cliff.
+
+## A worked audit
+
+This section follows one certificate, `leaf-weak.pem` in the samples, from the
+PEM text on disk to the two findings it produces. The other samples travel the
+same path.
