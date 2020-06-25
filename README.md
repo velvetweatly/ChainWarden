@@ -130,3 +130,12 @@ cliff grouping, and a minimum of 3 certificates to call a window a cliff.
 This section follows one certificate, `leaf-weak.pem` in the samples, from the
 PEM text on disk to the two findings it produces. The other samples travel the
 same path.
+
+The file starts as base64 wrapped in markers:
+
+```
+-----BEGIN CERTIFICATE-----
+MIIC... (trimmed)
+-----END CERTIFICATE-----
+```
+
