@@ -155,3 +155,11 @@ outer certificate is `1.2.840.113549.1.1.5`, which the name table renders as
 `sha1WithRSAEncryption`.
 
 Two policy checks in `policy.py` now have targets. `check_weak_key` sees the
+1024 bit modulus is below the 2048 bit minimum and emits an ERROR with code
+`WEAK_KEY`. `check_weak_signature` looks up the signature OID in the weak set,
+finds the SHA1 reason, and emits an ERROR with code `WEAK_SIG`. Running the
+audit over the bundle confirms both, verbatim:
+
+```
+$ python -m chainwarden audit samples/bundle.pem --as-of 2026-09-02
+# ChainWarden audit as of 2026-09-02
