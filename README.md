@@ -147,3 +147,11 @@ skipped rather than treated as an error.
 `certmodel.parse_certificate` then walks that DER with the tag-length-value
 reader in `der.py`. It descends the outer `Certificate` SEQUENCE into the
 `TBSCertificate`, reads past the optional version tag, and pulls out the serial,
+the issuer and subject names, the two validity times, and the
+`SubjectPublicKeyInfo`. For this leaf the public key algorithm OID is
+`1.2.840.113549.1.1.1` (rsaEncryption), so the parser reads the RSA modulus
+INTEGER and measures its bit length: 1024. The signature algorithm OID on the
+outer certificate is `1.2.840.113549.1.1.5`, which the name table renders as
+`sha1WithRSAEncryption`.
+
+Two policy checks in `policy.py` now have targets. `check_weak_key` sees the
