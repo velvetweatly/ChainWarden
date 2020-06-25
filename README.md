@@ -139,3 +139,11 @@ MIIC... (trimmed)
 -----END CERTIFICATE-----
 ```
 
+`pemread.certificate_ders` splits the buffer on the BEGIN and END lines, keeps
+only blocks labelled `CERTIFICATE`, and base64 decodes the body to raw DER
+bytes. Any other label, such as a `PRIVATE KEY` block in a mixed bundle, is
+skipped rather than treated as an error.
+
+`certmodel.parse_certificate` then walks that DER with the tag-length-value
+reader in `der.py`. It descends the outer `Certificate` SEQUENCE into the
+`TBSCertificate`, reads past the optional version tag, and pulls out the serial,
