@@ -171,3 +171,11 @@ WARN  EXPIRING_SOON    C=US, O=ChainWarden Test PKI, CN=soon.example.test :: exp
 ```
 
 The two `weak.example.test` lines are the end of the journey for `leaf-weak.pem`.
+The `EXPIRED` and `EXPIRING_SOON` lines come from two other leaves that took the
+same path with different data.
+
+The `chain` subcommand walks the same parsed certificates upward instead. It
+takes each leaf and repeatedly finds a certificate whose subject equals the
+current issuer, until it reaches a self signed root or runs out of candidates.
+For the weak leaf that path is three deep and complete:
+
