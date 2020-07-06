@@ -196,3 +196,11 @@ chain expired.example.test depth=3 complete
 chain weak.example.test depth=3 complete
 [leaf] weak.example.test exp 2028-01-01 rsaEncryption/1024 sha1WithRSAEncryption
   [ca] ChainWarden Test Intermediate CA exp 2032-01-01 rsaEncryption/2048 sha256WithRSAEncryption
+    [root] ChainWarden Test Root CA exp 2034-01-01 rsaEncryption/2048 sha256WithRSAEncryption
+```
+
+The four chains above are drawn in the diagram below. Every common name and
+expiry date in the diagram is the same text the CLI printed.
+
+![Four leaf certificates, good soon expired and weak, each chaining through one shared intermediate CA to one shared self signed root, three levels deep](docs/assets/chain-depth.svg)
+
