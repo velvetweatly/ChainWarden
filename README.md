@@ -187,3 +187,12 @@ chain good.example.test depth=3 complete
     [root] ChainWarden Test Root CA exp 2034-01-01 rsaEncryption/2048 sha256WithRSAEncryption
 chain soon.example.test depth=3 complete
 [leaf] soon.example.test exp 2026-10-01 rsaEncryption/2048 sha256WithRSAEncryption
+  [ca] ChainWarden Test Intermediate CA exp 2032-01-01 rsaEncryption/2048 sha256WithRSAEncryption
+    [root] ChainWarden Test Root CA exp 2034-01-01 rsaEncryption/2048 sha256WithRSAEncryption
+chain expired.example.test depth=3 complete
+[leaf] expired.example.test exp 2024-06-01 rsaEncryption/2048 sha256WithRSAEncryption
+  [ca] ChainWarden Test Intermediate CA exp 2032-01-01 rsaEncryption/2048 sha256WithRSAEncryption
+    [root] ChainWarden Test Root CA exp 2034-01-01 rsaEncryption/2048 sha256WithRSAEncryption
+chain weak.example.test depth=3 complete
+[leaf] weak.example.test exp 2028-01-01 rsaEncryption/1024 sha1WithRSAEncryption
+  [ca] ChainWarden Test Intermediate CA exp 2032-01-01 rsaEncryption/2048 sha256WithRSAEncryption
