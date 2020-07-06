@@ -179,3 +179,11 @@ takes each leaf and repeatedly finds a certificate whose subject equals the
 current issuer, until it reaches a self signed root or runs out of candidates.
 For the weak leaf that path is three deep and complete:
 
+```
+$ python -m chainwarden chain samples/bundle.pem
+chain good.example.test depth=3 complete
+[leaf] good.example.test exp 2027-01-01 rsaEncryption/2048 sha256WithRSAEncryption
+  [ca] ChainWarden Test Intermediate CA exp 2032-01-01 rsaEncryption/2048 sha256WithRSAEncryption
+    [root] ChainWarden Test Root CA exp 2034-01-01 rsaEncryption/2048 sha256WithRSAEncryption
+chain soon.example.test depth=3 complete
+[leaf] soon.example.test exp 2026-10-01 rsaEncryption/2048 sha256WithRSAEncryption
