@@ -204,3 +204,11 @@ expiry date in the diagram is the same text the CLI printed.
 
 ![Four leaf certificates, good soon expired and weak, each chaining through one shared intermediate CA to one shared self signed root, three levels deep](docs/assets/chain-depth.svg)
 
+## What each check means
+
+Each finding has a severity, a stable code, the subject it concerns, and a
+message. The table below is the catalogue. Codes come from the `Finding`
+objects constructed in `policy.py`.
+
+| Check id           | Severity | What triggers it                                                                 | What to do                                                                 |
+|--------------------|----------|----------------------------------------------------------------------------------|----------------------------------------------------------------------------|
