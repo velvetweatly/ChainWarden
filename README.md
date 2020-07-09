@@ -212,3 +212,11 @@ objects constructed in `policy.py`.
 
 | Check id           | Severity | What triggers it                                                                 | What to do                                                                 |
 |--------------------|----------|----------------------------------------------------------------------------------|----------------------------------------------------------------------------|
+| `EXPIRED`          | ERROR    | `not_after` is earlier than `--as-of`                                            | Renew or remove the certificate now, it is already invalid                 |
+| `NOT_YET_VALID`    | WARN     | `not_before` is later than `--as-of`                                             | Check the clock and the issuance date, deploy only after the start date    |
+| `EXPIRING_SOON`    | WARN     | `not_after` is within `--expiry-warn-days` of `--as-of` (default 90)             | Schedule renewal before the printed date                                   |
+| `WEAK_SIG`         | ERROR    | Signature algorithm is an MD5 or SHA1 based OID                                   | Reissue with a SHA256 or stronger signature                                |
+| `WEAK_KEY`         | ERROR    | RSA modulus is below 2048 bits                                                    | Reissue with a 2048 bit or larger RSA key                                  |
+| `LEAF_CERTSIGN`    | ERROR    | Basic constraints say not a CA, but key usage asserts `keyCertSign`              | Reissue without `keyCertSign`, a leaf must not sign certificates           |
+| `CA_NO_CERTSIGN`   | WARN     | Basic constraints say CA, but key usage omits `keyCertSign`                      | Add `keyCertSign` to the CA, or it cannot issue                            |
+| `BC_NOT_CRITICAL`  | WARN     | Basic constraints CA:TRUE is present but not marked critical                     | Reissue with basic constraints marked critical, per RFC 5280               |
