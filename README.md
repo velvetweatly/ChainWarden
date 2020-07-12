@@ -220,3 +220,11 @@ objects constructed in `policy.py`.
 | `LEAF_CERTSIGN`    | ERROR    | Basic constraints say not a CA, but key usage asserts `keyCertSign`              | Reissue without `keyCertSign`, a leaf must not sign certificates           |
 | `CA_NO_CERTSIGN`   | WARN     | Basic constraints say CA, but key usage omits `keyCertSign`                      | Add `keyCertSign` to the CA, or it cannot issue                            |
 | `BC_NOT_CRITICAL`  | WARN     | Basic constraints CA:TRUE is present but not marked critical                     | Reissue with basic constraints marked critical, per RFC 5280               |
+| `CHAIN_INCOMPLETE` | ERROR    | A leaf never reaches a self signed root present in the pool                      | Add the missing issuer or root PEM to the input, then re-run              |
+| `PATHLEN_EXCEEDED` | ERROR    | More certificates appear below a CA than its `pathlen` constraint allows         | Shorten the chain or reissue the CA with a larger `pathlen`                |
+| `EXPIRY_CLIFF`     | WARN     | `--cliff-count` or more certificates expire inside one `--cliff-window-days`     | Stagger the renewals so they do not all fall due together                  |
+
+The sample bundle does not trigger a cliff at the default 30 day window, because
+the leaf expiries are spread across years. Widening the window to 1400 days
+groups all four leaves into one bucket and the check fires:
+
