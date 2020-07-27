@@ -228,3 +228,11 @@ The sample bundle does not trigger a cliff at the default 30 day window, because
 the leaf expiries are spread across years. Widening the window to 1400 days
 groups all four leaves into one bucket and the check fires:
 
+```
+$ python -m chainwarden audit samples/bundle.pem --as-of 2026-09-02 --cliff-window-days 1400 --cliff-count 3
+# ChainWarden audit as of 2026-09-02
+ERROR EXPIRED          C=US, O=ChainWarden Test PKI, CN=expired.example.test :: expired 823 days ago on 2024-06-01
+ERROR WEAK_KEY         C=US, O=ChainWarden Test PKI, CN=weak.example.test :: RSA key size 1024 bits is below the 2048 bit minimum
+ERROR WEAK_SIG         C=US, O=ChainWarden Test PKI, CN=weak.example.test :: weak signature algorithm sha1WithRSAEncryption (SHA1 based signature)
+WARN  EXPIRING_SOON    C=US, O=ChainWarden Test PKI, CN=soon.example.test :: expires in 29 days on 2026-10-01
+WARN  EXPIRY_CLIFF     (fleet) :: 4 certificates expire between 2024-06-01 and 2028-01-01, within a 1400 day window
