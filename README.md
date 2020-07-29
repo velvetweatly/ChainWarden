@@ -236,3 +236,11 @@ ERROR WEAK_KEY         C=US, O=ChainWarden Test PKI, CN=weak.example.test :: RSA
 ERROR WEAK_SIG         C=US, O=ChainWarden Test PKI, CN=weak.example.test :: weak signature algorithm sha1WithRSAEncryption (SHA1 based signature)
 WARN  EXPIRING_SOON    C=US, O=ChainWarden Test PKI, CN=soon.example.test :: expires in 29 days on 2026-10-01
 WARN  EXPIRY_CLIFF     (fleet) :: 4 certificates expire between 2024-06-01 and 2028-01-01, within a 1400 day window
+```
+
+The cliff buckets are anchored at the earliest `not_after` in the pool and use
+fixed width windows, so the grouping does not depend on `--as-of`. This is a
+deliberate simplification, discussed under design decisions below.
+
+## Output format
+
