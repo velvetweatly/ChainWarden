@@ -269,3 +269,11 @@ common name:
 ```
 $ python -m chainwarden expiry samples/bundle.pem --as-of 2026-09-02
 # expiry sorted by notAfter, as of 2026-09-02
+2024-06-01   -823d EXPIRED expired.example.test
+2026-10-01     29d valid   soon.example.test
+2027-01-01    121d valid   good.example.test
+2028-01-01    486d valid   weak.example.test
+2032-01-01   1947d valid   ChainWarden Test Intermediate CA
+2034-01-01   2678d valid   ChainWarden Test Root CA
+```
+
