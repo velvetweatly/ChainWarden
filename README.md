@@ -285,3 +285,11 @@ with the RSA size appended when known, and the signature algorithm.
 
 ## Exit codes
 
+The exit code is the machine readable summary. It lets a CI job or a shell
+script react without parsing the text.
+
+| Code | Meaning              | Which subcommands                                        |
+|------|----------------------|----------------------------------------------------------|
+| 0    | Clean                | `audit` with no findings; `chain` when all chains complete; `expiry` when nothing is expired; `version` always |
+| 1    | Findings present     | `audit` with one or more findings; `chain` with an incomplete chain; `expiry` when at least one certificate is expired |
+| 2    | Usage error          | Any subcommand: a path not found, malformed PEM, bad DER, or a certificate that fails to parse |
