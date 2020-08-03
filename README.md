@@ -277,3 +277,11 @@ $ python -m chainwarden expiry samples/bundle.pem --as-of 2026-09-02
 2034-01-01   2678d valid   ChainWarden Test Root CA
 ```
 
+The `chain` output prints, per leaf, a header line reading
+`chain <cn> depth=<n> <complete|incomplete>`, then one indented line per
+certificate from leaf to anchor. Each certificate line names its role (`leaf`,
+`ca`, or `root`), the common name, the expiry date, the public key algorithm
+with the RSA size appended when known, and the signature algorithm.
+
+## Exit codes
+
