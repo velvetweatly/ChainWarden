@@ -244,3 +244,12 @@ deliberate simplification, discussed under design decisions below.
 
 ## Output format
 
+Output is line oriented and rendered by `report.py`. Every subcommand prints one
+record per line so two runs can be diffed cleanly in git.
+
+The `audit` output opens with a header line, then one line per finding sorted by
+severity then code then subject, then a summary line. Each finding line has four
+fields:
+
+| Field    | Column     | Width      | Source                          | Example                                        |
+|----------|------------|------------|---------------------------------|------------------------------------------------|
