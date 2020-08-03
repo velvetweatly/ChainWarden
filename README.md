@@ -261,3 +261,11 @@ fields:
 When there are no findings the body is a single `OK  no findings` line. The
 summary counts findings by severity in the fixed order ERROR, WARN, INFO.
 
+The `expiry` output opens with a header, then one line per certificate sorted by
+`not_after` then common name. Each line carries the expiry date, the remaining
+days as a signed right aligned integer with a `d` suffix, a state word, and the
+common name:
+
+```
+$ python -m chainwarden expiry samples/bundle.pem --as-of 2026-09-02
+# expiry sorted by notAfter, as of 2026-09-02
