@@ -253,3 +253,11 @@ fields:
 
 | Field    | Column     | Width      | Source                          | Example                                        |
 |----------|------------|------------|---------------------------------|------------------------------------------------|
+| Severity | 1          | 5, left    | `Finding.severity`              | `ERROR`                                        |
+| Code     | 2          | 16, left   | `Finding.code`                  | `WEAK_KEY`                                      |
+| Subject  | 3          | to `::`    | `Finding.subject` (full RDN)    | `C=US, O=ChainWarden Test PKI, CN=weak...`     |
+| Message  | after `::` | rest       | `Finding.message`               | `RSA key size 1024 bits is below the 2048...`  |
+
+When there are no findings the body is a single `OK  no findings` line. The
+summary counts findings by severity in the fixed order ERROR, WARN, INFO.
+
