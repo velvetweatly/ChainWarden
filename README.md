@@ -293,3 +293,11 @@ script react without parsing the text.
 | 0    | Clean                | `audit` with no findings; `chain` when all chains complete; `expiry` when nothing is expired; `version` always |
 | 1    | Findings present     | `audit` with one or more findings; `chain` with an incomplete chain; `expiry` when at least one certificate is expired |
 | 2    | Usage error          | Any subcommand: a path not found, malformed PEM, bad DER, or a certificate that fails to parse |
+
+Confirmed from the runs above: the audit over the sample bundle prints findings
+and exits 1, and pointing `chain` at a missing directory exits 2:
+
+```
+$ python -m chainwarden chain no_such_dir_xyz
+error: path not found: no_such_dir_xyz
+$ echo $LASTEXITCODE
