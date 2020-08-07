@@ -301,3 +301,11 @@ and exits 1, and pointing `chain` at a missing directory exits 2:
 $ python -m chainwarden chain no_such_dir_xyz
 error: path not found: no_such_dir_xyz
 $ echo $LASTEXITCODE
+2
+```
+
+## The test PKI in samples
+
+The `samples/` directory holds a real test PKI generated with OpenSSL 3.6.1 on
+the machine that built the project. These are test vectors, not production
+certificates. Every private key was discarded after signing, so nothing here can
