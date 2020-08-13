@@ -326,3 +326,11 @@ The validity dates are pinned with OpenSSL's `-not_before` and `-not_after`
 flags rather than `-days`, and serial numbers are fixed with `-set_serial`, so
 regenerating the PKI produces the same dates and serials on any machine. The
 public keys, and therefore the SHA256 fingerprints, differ on each run because
+fresh keypairs are generated. The exact commands live in `samples/gen_pki.sh`;
+`samples/README.md` narrates them. To regenerate, with OpenSSL on the path:
+
+```
+sh samples/gen_pki.sh
+```
+
+`leaf-expired.pem` is already past its `notAfter`, and `leaf-weak.pem` carries
