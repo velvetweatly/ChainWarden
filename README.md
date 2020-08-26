@@ -334,3 +334,11 @@ sh samples/gen_pki.sh
 ```
 
 `leaf-expired.pem` is already past its `notAfter`, and `leaf-weak.pem` carries
+both a 1024 bit RSA key and a SHA1 signature, so the weak key and weak signature
+checks each have a dedicated target. The root and intermediate are ordinary
+healthy CA certificates, and the intermediate carries `pathlen:0`.
+
+## What ChainWarden does not verify
+
+This tool is deliberately narrow. Read this section as a contract about what a
+clean run does and does not tell you.
