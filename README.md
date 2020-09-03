@@ -342,3 +342,11 @@ healthy CA certificates, and the intermediate carries `pathlen:0`.
 
 This tool is deliberately narrow. Read this section as a contract about what a
 clean run does and does not tell you.
+
+- It does not verify signatures. Chain building is by name matching only: the
+  issuer name of one certificate is compared, as a string, to the subject name
+  of another. Name-based chain building is not signature verification. The tool
+  does not check that the issuer's private key actually signed the certificate,
+  and it does not consult authority or subject key identifiers. A certificate
+  that claims an issuer it was never signed by will still be linked into a
+  chain. Treat the chain output as a structural map, not proof of trust.
