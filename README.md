@@ -350,3 +350,11 @@ clean run does and does not tell you.
   and it does not consult authority or subject key identifiers. A certificate
   that claims an issuer it was never signed by will still be linked into a
   chain. Treat the chain output as a structural map, not proof of trust.
+- It does not check revocation. There is no CRL handling and no OCSP handling,
+  by design, because both require network access and this tool makes none. A
+  certificate revoked by its issuer this morning will still be reported as valid
+  if its dates and structure are fine.
+- It does not validate name constraints, policy constraints, or the full set of
+  RFC 5280 path validation rules. It covers basic constraints, key usage,
+  extended key usage parsing, and path length only.
+- The DER reader targets the specific fields listed above. It measures RSA key
