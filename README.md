@@ -358,3 +358,11 @@ clean run does and does not tell you.
   RFC 5280 path validation rules. It covers basic constraints, key usage,
   extended key usage parsing, and path length only.
 - The DER reader targets the specific fields listed above. It measures RSA key
+  sizes but does not size elliptic curve or Ed25519 keys, so weak key detection
+  applies to RSA only.
+- Expiry cliff bucketing is anchored at the earliest expiry in the pool and uses
+  fixed width windows. It groups nearby expiries, it does not cluster them
+  adaptively, so two certificates one day apart can land in different buckets if
+  they straddle a window boundary.
+
+## Design decisions
