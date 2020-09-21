@@ -366,3 +366,12 @@ clean run does and does not tell you.
   they straddle a window boundary.
 
 ## Design decisions
+
+The two decisions most likely to surprise a reader are the hand-rolled DER
+reader and the name-based chain builder. Both were deliberate.
+
+**A hand-rolled DER walker instead of a dependency.** The obvious alternative
+was to depend on `cryptography` or `pyOpenSSL` and let a mature library parse
+the certificates. That would have given signature verification for free, which
+this tool does not attempt. The reason not to is the constraint that shaped the
+whole project: standard library only, no network, no build step for a C
