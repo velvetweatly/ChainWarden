@@ -375,3 +375,11 @@ was to depend on `cryptography` or `pyOpenSSL` and let a mature library parse
 the certificates. That would have given signature verification for free, which
 this tool does not attempt. The reason not to is the constraint that shaped the
 whole project: standard library only, no network, no build step for a C
+extension. A pure Python tag-length-value reader that reaches exactly the fields
+in the audit is small, auditable in one sitting, and installs anywhere Python
+3.11 runs with nothing to compile. The cost is real and stated plainly in the
+limitations: no signature checking, and RSA is the only key type sized. The
+reader in `der.py` is intentionally strict, rejecting the indefinite length
+encodings that DER forbids anyway, so malformed input fails loudly rather than
+parsing into nonsense.
+
