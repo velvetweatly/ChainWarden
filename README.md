@@ -399,3 +399,11 @@ structure now, cryptography later, and never pretend the first is the second.
 
 A smaller decision worth noting: the reference date is a required argument, not
 a default of "today". Reading the wall clock would make output depend on when it
+ran, which breaks reproducible diffs and makes a test suite awkward. Requiring
+`--as-of` and echoing it in the header keeps every run pinned to a date the
+reader can see.
+
+## Repository layout
+
+```
+ChainWarden/
