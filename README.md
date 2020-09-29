@@ -391,3 +391,11 @@ places. It was accepted as a first cut because the tool's primary job is
 lifecycle auditing, expiry and weak crypto, not trust decisions, and for that
 job a structural map of which certificate claims to be issued by which is enough
 to tell an operator whether a root is missing from their bundle. Building the
+name index and walking it is a few lines in `chainbuild.py`, it is deterministic
+because ties are broken by fingerprint, and it is loop guarded by tracking
+visited fingerprints. Adding real signature verification would mean adding a
+crypto dependency, which reopens the decision above. The honest split is:
+structure now, cryptography later, and never pretend the first is the second.
+
+A smaller decision worth noting: the reference date is a required argument, not
+a default of "today". Reading the wall clock would make output depend on when it
