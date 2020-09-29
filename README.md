@@ -383,3 +383,11 @@ reader in `der.py` is intentionally strict, rejecting the indefinite length
 encodings that DER forbids anyway, so malformed input fails loudly rather than
 parsing into nonsense.
 
+**Name-based chaining as an acceptable first cut.** Proper path building matches
+the authority key identifier of a certificate to the subject key identifier of
+its issuer, and then verifies the signature. ChainWarden matches issuer name to
+subject name and stops there. This is weaker, and the README says so in three
+places. It was accepted as a first cut because the tool's primary job is
+lifecycle auditing, expiry and weak crypto, not trust decisions, and for that
+job a structural map of which certificate claims to be issued by which is enough
+to tell an operator whether a root is missing from their bundle. Building the
