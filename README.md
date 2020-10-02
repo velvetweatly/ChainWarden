@@ -407,3 +407,11 @@ reader can see.
 
 ```
 ChainWarden/
+  README.md                  this document
+  CHANGELOG.md               notable changes, Keep a Changelog format
+  LICENSE                    MIT licence text
+  pyproject.toml             package metadata, entry point, Python 3.11+
+  .gitignore                 ignores build and cache artefacts
+  .github/workflows/ci.yml   runs the tests and audits the sample bundle
+  docs/assets/
+    logo.svg                 wordmark: a three block certificate chain
