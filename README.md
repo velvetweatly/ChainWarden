@@ -415,3 +415,11 @@ ChainWarden/
   .github/workflows/ci.yml   runs the tests and audits the sample bundle
   docs/assets/
     logo.svg                 wordmark: a three block certificate chain
+    chain-depth.svg          the sample chains, names and dates from the CLI
+  samples/
+    gen_pki.sh               regenerates the test PKI with pinned dates
+    openssl.cnf              two line minimal config the OpenSSL build needs
+    root.pem                 self signed test root CA
+    intermediate.pem         test intermediate CA, pathlen:0
+    leaf-good.pem            healthy RSA 2048 SHA256 leaf
+    leaf-soon.pem            leaf expiring soon relative to the sample date
