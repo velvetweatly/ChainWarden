@@ -423,3 +423,12 @@ ChainWarden/
     intermediate.pem         test intermediate CA, pathlen:0
     leaf-good.pem            healthy RSA 2048 SHA256 leaf
     leaf-soon.pem            leaf expiring soon relative to the sample date
+    leaf-expired.pem         leaf already past notAfter
+    leaf-weak.pem            RSA 1024, SHA1 signature, the weak target
+    bundle.pem               all six certificates concatenated
+    README.md                explains the fixtures and how they were built
+  src/chainwarden/
+    __init__.py              package marker and version string
+    __main__.py              enables python -m chainwarden
+    cli.py                   argument parsing, file gathering, dispatch
+    pemread.py               PEM block splitter and base64 decoder
