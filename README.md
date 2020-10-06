@@ -432,3 +432,11 @@ ChainWarden/
     __main__.py              enables python -m chainwarden
     cli.py                   argument parsing, file gathering, dispatch
     pemread.py               PEM block splitter and base64 decoder
+    der.py                   tag-length-value DER reader
+    certmodel.py             Certificate model, parsed from DER
+    chainbuild.py            name-based chain assembly
+    policy.py                the checks and their severities
+    report.py                line oriented rendering
+  tests/
+    test_der.py              DER reader unit tests
+    test_pemread.py          PEM splitting and label filtering tests
