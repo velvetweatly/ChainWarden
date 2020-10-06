@@ -448,3 +448,11 @@ ChainWarden/
 ## Glossary of X.509 terms
 
 | Term                | Meaning as used here                                                                 |
+|---------------------|--------------------------------------------------------------------------------------|
+| X.509               | The certificate format this tool parses, defined by RFC 5280 and ITU-T X.509         |
+| DER                 | Distinguished Encoding Rules, the binary encoding of a certificate's ASN.1 structure |
+| PEM                 | Base64 of the DER wrapped in `-----BEGIN CERTIFICATE-----` markers                   |
+| TLV                 | Tag-length-value, the triple the DER reader walks                                    |
+| OID                 | Object identifier, a dotted-number name for an algorithm or attribute                |
+| RDN                 | Relative distinguished name, one component of a subject or issuer name such as `CN=` |
+| Subject             | The entity a certificate identifies                                                  |
