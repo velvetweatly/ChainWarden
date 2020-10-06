@@ -440,3 +440,11 @@ ChainWarden/
   tests/
     test_der.py              DER reader unit tests
     test_pemread.py          PEM splitting and label filtering tests
+    test_certmodel.py        certificate parsing against the samples
+    test_chain_policy.py     chain building and policy checks
+    test_cli.py              end to end CLI behaviour and exit codes
+```
+
+## Glossary of X.509 terms
+
+| Term                | Meaning as used here                                                                 |
