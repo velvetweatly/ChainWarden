@@ -456,3 +456,11 @@ ChainWarden/
 | OID                 | Object identifier, a dotted-number name for an algorithm or attribute                |
 | RDN                 | Relative distinguished name, one component of a subject or issuer name such as `CN=` |
 | Subject             | The entity a certificate identifies                                                  |
+| Issuer              | The entity whose key signed the certificate; its name links a certificate upward     |
+| Leaf                | An end entity certificate, not a CA, at the bottom of a chain                        |
+| CA                  | Certificate authority, a certificate allowed to sign other certificates              |
+| Root                | A self signed CA at the top of a chain, where subject equals issuer                  |
+| Basic constraints   | The extension that marks a certificate as a CA and may cap chain depth with `pathlen`|
+| Key usage           | The extension listing allowed operations, such as `keyCertSign`                      |
+| `notBefore`/`notAfter` | The start and end of a certificate's validity window                              |
+| Fingerprint         | The SHA256 hash of the DER bytes, used here to de-duplicate and break ties           |
