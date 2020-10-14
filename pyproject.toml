@@ -5,3 +5,4 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "chainwarden"
 version = "0.6.0"
+description = "Offline X.509 and TLS certificate fleet lifecycle auditor."
