@@ -10,3 +10,4 @@ readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "MIT" }
 authors = [{ name = "the ChainWarden authors" }]
+keywords = ["x509", "tls", "certificate", "pki", "audit"]
