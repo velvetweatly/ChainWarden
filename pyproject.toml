@@ -15,3 +15,4 @@ keywords = ["x509", "tls", "certificate", "pki", "audit"]
 [project.scripts]
 chainwarden = "chainwarden.cli:main"
 
+[tool.setuptools]
