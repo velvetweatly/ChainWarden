@@ -16,3 +16,4 @@ keywords = ["x509", "tls", "certificate", "pki", "audit"]
 chainwarden = "chainwarden.cli:main"
 
 [tool.setuptools]
+package-dir = { "" = "src" }
