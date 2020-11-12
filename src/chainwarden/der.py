@@ -10,3 +10,8 @@ The parser is deliberately strict about lengths and rejects indefinite-length
 encodings, which DER forbids anyway.
 """
 
+from __future__ import annotations
+
+from dataclasses import dataclass
+
+
