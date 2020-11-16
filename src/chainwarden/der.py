@@ -20,3 +20,8 @@ class DERError(ValueError):
 
 
 # ASN.1 universal tag numbers we care about.
+TAG_BOOLEAN = 0x01
+TAG_INTEGER = 0x02
+TAG_BIT_STRING = 0x03
+TAG_OCTET_STRING = 0x04
+TAG_NULL = 0x05
