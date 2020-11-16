@@ -15,3 +15,8 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 
+class DERError(ValueError):
+    """Raised when a byte string is not well formed DER for our purposes."""
+
+
+# ASN.1 universal tag numbers we care about.
