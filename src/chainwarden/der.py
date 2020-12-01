@@ -40,3 +40,8 @@ class TLV:
     """One tag-length-value triple parsed from a DER buffer."""
 
     tag: int
+    # Byte offset of the value (content), relative to the buffer start.
+    value_start: int
+    # Length of the value in bytes.
+    length: int
+    # The raw content bytes.
