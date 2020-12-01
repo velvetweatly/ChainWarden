@@ -49,3 +49,8 @@ class TLV:
     # Byte offset just past this TLV, useful when walking siblings.
     end: int
 
+
+def read_tlv(buf: bytes, offset: int = 0) -> TLV:
+    """Read one TLV starting at offset. Rejects indefinite lengths."""
+    if offset >= len(buf):
+        raise DERError("read past end of buffer")
