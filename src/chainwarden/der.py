@@ -45,3 +45,7 @@ class TLV:
     # Length of the value in bytes.
     length: int
     # The raw content bytes.
+    value: bytes
+    # Byte offset just past this TLV, useful when walking siblings.
+    end: int
+
