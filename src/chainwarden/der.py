@@ -35,3 +35,8 @@ TAG_UTC_TIME = 0x17
 TAG_GENERALIZED_TIME = 0x18
 
 
+@dataclass(frozen=True)
+class TLV:
+    """One tag-length-value triple parsed from a DER buffer."""
+
+    tag: int
