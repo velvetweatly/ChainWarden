@@ -54,3 +54,8 @@ def read_tlv(buf: bytes, offset: int = 0) -> TLV:
     """Read one TLV starting at offset. Rejects indefinite lengths."""
     if offset >= len(buf):
         raise DERError("read past end of buffer")
+    tag = buf[offset]
+    pos = offset + 1
+    if pos >= len(buf):
+        raise DERError("truncated length")
+    first = buf[pos]
