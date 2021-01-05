@@ -59,3 +59,8 @@ def read_tlv(buf: bytes, offset: int = 0) -> TLV:
     if pos >= len(buf):
         raise DERError("truncated length")
     first = buf[pos]
+    pos += 1
+    if first < 0x80:
+        length = first
+    elif first == 0x80:
+        raise DERError("indefinite length is not valid DER")
