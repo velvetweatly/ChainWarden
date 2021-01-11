@@ -64,3 +64,8 @@ def read_tlv(buf: bytes, offset: int = 0) -> TLV:
         length = first
     elif first == 0x80:
         raise DERError("indefinite length is not valid DER")
+    else:
+        num = first & 0x7F
+        if num > 4:
+            raise DERError("length field too large")
+        if pos + num > len(buf):
