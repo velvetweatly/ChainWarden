@@ -69,3 +69,8 @@ def read_tlv(buf: bytes, offset: int = 0) -> TLV:
         if num > 4:
             raise DERError("length field too large")
         if pos + num > len(buf):
+            raise DERError("truncated long length")
+        length = int.from_bytes(buf[pos : pos + num], "big")
+        pos += num
+    value_start = pos
+    end = value_start + length
