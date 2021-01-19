@@ -79,3 +79,8 @@ def read_tlv(buf: bytes, offset: int = 0) -> TLV:
     return TLV(tag, value_start, length, buf[value_start:end], end)
 
 
+def read_children(tlv: TLV, buf: bytes) -> list[TLV]:
+    """Parse the direct children of a constructed TLV (SEQUENCE or SET)."""
+    children: list[TLV] = []
+    pos = tlv.value_start
+    end = tlv.value_start + tlv.length
