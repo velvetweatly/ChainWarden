@@ -89,3 +89,8 @@ def read_children(tlv: TLV, buf: bytes) -> list[TLV]:
         children.append(child)
         pos = child.end
     return children
+
+
+def decode_oid(value: bytes) -> str:
+    """Decode an OID content octets into dotted decimal string."""
+    if not value:
