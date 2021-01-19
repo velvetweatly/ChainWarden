@@ -74,3 +74,8 @@ def read_tlv(buf: bytes, offset: int = 0) -> TLV:
         pos += num
     value_start = pos
     end = value_start + length
+    if end > len(buf):
+        raise DERError("value runs past end of buffer")
+    return TLV(tag, value_start, length, buf[value_start:end], end)
+
+
