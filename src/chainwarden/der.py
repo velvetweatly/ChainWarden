@@ -84,3 +84,8 @@ def read_children(tlv: TLV, buf: bytes) -> list[TLV]:
     children: list[TLV] = []
     pos = tlv.value_start
     end = tlv.value_start + tlv.length
+    while pos < end:
+        child = read_tlv(buf, pos)
+        children.append(child)
+        pos = child.end
+    return children
