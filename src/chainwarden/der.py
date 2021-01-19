@@ -94,3 +94,8 @@ def read_children(tlv: TLV, buf: bytes) -> list[TLV]:
 def decode_oid(value: bytes) -> str:
     """Decode an OID content octets into dotted decimal string."""
     if not value:
+        raise DERError("empty OID")
+    first = value[0]
+    arcs = [str(first // 40), str(first % 40)]
+    acc = 0
+    for i, byte in enumerate(value[1:], start=1):
