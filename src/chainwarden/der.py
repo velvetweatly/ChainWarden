@@ -104,3 +104,7 @@ def decode_oid(value: bytes) -> str:
             arcs.append(str(acc))
             acc = 0
         elif i == len(value) - 1:
+            raise DERError("OID ends mid subidentifier")
+    return ".".join(arcs)
+
+
