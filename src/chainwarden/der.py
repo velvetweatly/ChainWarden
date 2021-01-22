@@ -99,3 +99,8 @@ def decode_oid(value: bytes) -> str:
     arcs = [str(first // 40), str(first % 40)]
     acc = 0
     for i, byte in enumerate(value[1:], start=1):
+        acc = (acc << 7) | (byte & 0x7F)
+        if not byte & 0x80:
+            arcs.append(str(acc))
+            acc = 0
+        elif i == len(value) - 1:
