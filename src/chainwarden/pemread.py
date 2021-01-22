@@ -11,3 +11,7 @@ bundle that mixes material does not crash the reader.
 """
 
 from __future__ import annotations
+
+import base64
+import binascii
+from dataclasses import dataclass
