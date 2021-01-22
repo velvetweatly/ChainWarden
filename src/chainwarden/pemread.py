@@ -8,3 +8,6 @@ A PEM block looks like:
 
 We only decode CERTIFICATE blocks. Other labels (keys, CSRs) are skipped so a
 bundle that mixes material does not crash the reader.
+"""
+
+from __future__ import annotations
