@@ -18,3 +18,6 @@ from dataclasses import dataclass
 
 _BEGIN = "-----BEGIN "
 _END = "-----END "
+_SUFFIX = "-----"
+
+
