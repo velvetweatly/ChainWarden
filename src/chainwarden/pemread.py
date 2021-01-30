@@ -21,3 +21,6 @@ _END = "-----END "
 _SUFFIX = "-----"
 
 
+class PEMError(ValueError):
+    """Raised when a PEM block is malformed."""
+
