@@ -24,3 +24,7 @@ _SUFFIX = "-----"
 class PEMError(ValueError):
     """Raised when a PEM block is malformed."""
 
+
+@dataclass(frozen=True)
+class PEMBlock:
+    label: str
