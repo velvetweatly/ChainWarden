@@ -31,3 +31,6 @@ class PEMBlock:
     der: bytes
 
 
+def split_blocks(text: str) -> list[PEMBlock]:
+    """Return every well formed PEM block in text, in file order.
+
