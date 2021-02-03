@@ -28,3 +28,6 @@ class PEMError(ValueError):
 @dataclass(frozen=True)
 class PEMBlock:
     label: str
+    der: bytes
+
+
