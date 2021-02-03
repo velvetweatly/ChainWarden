@@ -34,3 +34,6 @@ class PEMBlock:
 def split_blocks(text: str) -> list[PEMBlock]:
     """Return every well formed PEM block in text, in file order.
 
+    Lines outside BEGIN/END markers are ignored, which matches how real PEM
+    bundles carry human readable headers between certificates.
+    """
