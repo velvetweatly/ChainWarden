@@ -41,3 +41,6 @@ def split_blocks(text: str) -> list[PEMBlock]:
     lines = text.splitlines()
     i = 0
     n = len(lines)
+    while i < n:
+        line = lines[i].strip()
+        if line.startswith(_BEGIN) and line.endswith(_SUFFIX):
