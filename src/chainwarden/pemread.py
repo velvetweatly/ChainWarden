@@ -37,3 +37,7 @@ def split_blocks(text: str) -> list[PEMBlock]:
     Lines outside BEGIN/END markers are ignored, which matches how real PEM
     bundles carry human readable headers between certificates.
     """
+    blocks: list[PEMBlock] = []
+    lines = text.splitlines()
+    i = 0
+    n = len(lines)
