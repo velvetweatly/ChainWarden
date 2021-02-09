@@ -47,3 +47,6 @@ def split_blocks(text: str) -> list[PEMBlock]:
             label = line[len(_BEGIN) : -len(_SUFFIX)]
             end_marker = f"{_END}{label}{_SUFFIX}"
             body: list[str] = []
+            i += 1
+            found_end = False
+            while i < n:
