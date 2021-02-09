@@ -50,3 +50,7 @@ def split_blocks(text: str) -> list[PEMBlock]:
             i += 1
             found_end = False
             while i < n:
+                cur = lines[i].strip()
+                if cur == end_marker:
+                    found_end = True
+                    i += 1
