@@ -35,3 +35,12 @@ SIG_ALG_NAMES = {
     "1.2.840.113549.1.1.4": "md5WithRSAEncryption",
     "1.2.840.113549.1.1.5": "sha1WithRSAEncryption",
     "1.2.840.113549.1.1.11": "sha256WithRSAEncryption",
+    "1.2.840.113549.1.1.12": "sha384WithRSAEncryption",
+    "1.2.840.113549.1.1.13": "sha512WithRSAEncryption",
+    "1.2.840.10045.4.1": "ecdsa-with-SHA1",
+    "1.2.840.10045.4.3.2": "ecdsa-with-SHA256",
+    "1.2.840.10045.4.3.3": "ecdsa-with-SHA384",
+}
+
+PUBKEY_ALG_NAMES = {
+    "1.2.840.113549.1.1.1": "rsaEncryption",
