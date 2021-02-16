@@ -54,3 +54,6 @@ def split_blocks(text: str) -> list[PEMBlock]:
                 if cur == end_marker:
                     found_end = True
                     i += 1
+                    break
+                body.append(cur)
+                i += 1
