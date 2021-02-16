@@ -57,3 +57,6 @@ def split_blocks(text: str) -> list[PEMBlock]:
                     break
                 body.append(cur)
                 i += 1
+            if not found_end:
+                raise PEMError(f"unterminated PEM block for {label}")
+            joined = "".join(body)
