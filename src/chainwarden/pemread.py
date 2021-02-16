@@ -60,3 +60,6 @@ def split_blocks(text: str) -> list[PEMBlock]:
             if not found_end:
                 raise PEMError(f"unterminated PEM block for {label}")
             joined = "".join(body)
+            try:
+                der = base64.b64decode(joined, validate=True)
+            except (binascii.Error, ValueError) as exc:
