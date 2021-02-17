@@ -44,3 +44,12 @@ SIG_ALG_NAMES = {
 
 PUBKEY_ALG_NAMES = {
     "1.2.840.113549.1.1.1": "rsaEncryption",
+    "1.2.840.10045.2.1": "id-ecPublicKey",
+    "1.3.101.112": "Ed25519",
+}
+
+# Attribute type OIDs for RDN components we render.
+ATTR_NAMES = {
+    "2.5.4.3": "CN",
+    "2.5.4.6": "C",
+    "2.5.4.7": "L",
