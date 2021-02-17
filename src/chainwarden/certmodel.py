@@ -63,3 +63,12 @@ EXT_BASIC_CONSTRAINTS = "2.5.29.19"
 EXT_KEY_USAGE = "2.5.29.15"
 EXT_EXT_KEY_USAGE = "2.5.29.37"
 EXT_SUBJECT_ALT_NAME = "2.5.29.17"
+
+# Key usage bit names in order (RFC 5280 section 4.2.1.3).
+KEY_USAGE_BITS = [
+    "digitalSignature",
+    "nonRepudiation",
+    "keyEncipherment",
+    "dataEncipherment",
+    "keyAgreement",
+    "keyCertSign",
