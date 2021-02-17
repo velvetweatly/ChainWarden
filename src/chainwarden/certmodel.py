@@ -72,3 +72,13 @@ KEY_USAGE_BITS = [
     "dataEncipherment",
     "keyAgreement",
     "keyCertSign",
+    "cRLSign",
+    "encipherOnly",
+    "decipherOnly",
+]
+
+
+class CertParseError(ValueError):
+    """Raised when a DER buffer does not parse as an X.509 certificate."""
+
+
