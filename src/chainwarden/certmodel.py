@@ -91,3 +91,13 @@ class BasicConstraints:
 
 
 @dataclass
+class Certificate:
+    """A parsed certificate. Times are timezone aware UTC datetimes."""
+
+    subject: str
+    issuer: str
+    serial: int
+    not_before: datetime
+    not_after: datetime
+    sig_alg_oid: str
+    pubkey_alg_oid: str
