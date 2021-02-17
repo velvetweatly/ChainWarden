@@ -53,3 +53,13 @@ ATTR_NAMES = {
     "2.5.4.3": "CN",
     "2.5.4.6": "C",
     "2.5.4.7": "L",
+    "2.5.4.8": "ST",
+    "2.5.4.10": "O",
+    "2.5.4.11": "OU",
+}
+
+# Extension OIDs.
+EXT_BASIC_CONSTRAINTS = "2.5.29.19"
+EXT_KEY_USAGE = "2.5.29.15"
+EXT_EXT_KEY_USAGE = "2.5.29.37"
+EXT_SUBJECT_ALT_NAME = "2.5.29.17"
