@@ -82,3 +82,12 @@ class CertParseError(ValueError):
     """Raised when a DER buffer does not parse as an X.509 certificate."""
 
 
+@dataclass(frozen=True)
+class BasicConstraints:
+    present: bool = False
+    critical: bool = False
+    ca: bool = False
+    path_len: int | None = None
+
+
+@dataclass
