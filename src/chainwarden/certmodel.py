@@ -101,3 +101,12 @@ class Certificate:
     not_after: datetime
     sig_alg_oid: str
     pubkey_alg_oid: str
+    rsa_modulus_bits: int | None
+    basic_constraints: BasicConstraints
+    key_usage: list[str] = field(default_factory=list)
+    ext_key_usage: list[str] = field(default_factory=list)
+    subject_alt_names: list[str] = field(default_factory=list)
+    fingerprint_sha256: str = ""
+    source: str = ""
+
+    @property
