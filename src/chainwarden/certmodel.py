@@ -110,3 +110,13 @@ class Certificate:
     source: str = ""
 
     @property
+    def sig_alg_name(self) -> str:
+        return SIG_ALG_NAMES.get(self.sig_alg_oid, self.sig_alg_oid)
+
+    @property
+    def pubkey_alg_name(self) -> str:
+        return PUBKEY_ALG_NAMES.get(self.pubkey_alg_oid, self.pubkey_alg_oid)
+
+    @property
+    def is_self_issued(self) -> bool:
+        return self.subject == self.issuer
