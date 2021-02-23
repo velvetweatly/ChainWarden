@@ -129,3 +129,13 @@ class Certificate:
                 return part[3:]
         return self.subject
 
+
+def _parse_time(tlv: TLV) -> datetime:
+    text = tlv.value.decode("ascii")
+    if tlv.tag == der.TAG_UTC_TIME:
+        # YYMMDDHHMMSSZ. RFC 5280: years 50..99 => 19xx, 00..49 => 20xx.
+        if not text.endswith("Z"):
+            raise CertParseError("unexpected UTCTime form")
+        yy = int(text[0:2])
+        year = 1900 + yy if yy >= 50 else 2000 + yy
+        return datetime(
