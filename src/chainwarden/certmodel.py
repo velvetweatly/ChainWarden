@@ -120,3 +120,12 @@ class Certificate:
     @property
     def is_self_issued(self) -> bool:
         return self.subject == self.issuer
+
+    @property
+    def common_name(self) -> str:
+        for part in self.subject.split(","):
+            part = part.strip()
+            if part.startswith("CN="):
+                return part[3:]
+        return self.subject
+
