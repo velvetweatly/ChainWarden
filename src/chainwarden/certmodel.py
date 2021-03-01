@@ -139,3 +139,12 @@ def _parse_time(tlv: TLV) -> datetime:
         yy = int(text[0:2])
         year = 1900 + yy if yy >= 50 else 2000 + yy
         return datetime(
+            year,
+            int(text[2:4]),
+            int(text[4:6]),
+            int(text[6:8]),
+            int(text[8:10]),
+            int(text[10:12]),
+            tzinfo=timezone.utc,
+        )
+    if tlv.tag == der.TAG_GENERALIZED_TIME:
