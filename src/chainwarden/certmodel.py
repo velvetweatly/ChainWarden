@@ -158,3 +158,12 @@ def _parse_time(tlv: TLV) -> datetime:
             int(text[8:10]),
             int(text[10:12]),
             int(text[12:14]),
+            tzinfo=timezone.utc,
+        )
+    raise CertParseError(f"unexpected time tag {tlv.tag:#x}")
+
+
+def _parse_name(name_tlv: TLV, buf: bytes) -> str:
+    """Render a Name as a comma joined RDN string, for example
+    'C=US, O=Example, CN=host'. Multi valued RDNs are joined with '+'."""
+    rdns: list[str] = []
