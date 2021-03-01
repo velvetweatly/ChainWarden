@@ -167,3 +167,13 @@ def _parse_name(name_tlv: TLV, buf: bytes) -> str:
     """Render a Name as a comma joined RDN string, for example
     'C=US, O=Example, CN=host'. Multi valued RDNs are joined with '+'."""
     rdns: list[str] = []
+    for rdn in der.read_children(name_tlv, buf):
+        atvs: list[str] = []
+        for atv in der.read_children(rdn, buf):
+            fields = der.read_children(atv, buf)
+            if len(fields) != 2:
+                continue
+            oid = der.decode_oid(fields[0].value)
+            key = ATTR_NAMES.get(oid, oid)
+            val = fields[1].value.decode("utf-8", errors="replace")
+            atvs.append(f"{key}={val}")
