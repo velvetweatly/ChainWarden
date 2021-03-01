@@ -148,3 +148,13 @@ def _parse_time(tlv: TLV) -> datetime:
             tzinfo=timezone.utc,
         )
     if tlv.tag == der.TAG_GENERALIZED_TIME:
+        # YYYYMMDDHHMMSSZ.
+        if not text.endswith("Z"):
+            raise CertParseError("unexpected GeneralizedTime form")
+        return datetime(
+            int(text[0:4]),
+            int(text[4:6]),
+            int(text[6:8]),
+            int(text[8:10]),
+            int(text[10:12]),
+            int(text[12:14]),
