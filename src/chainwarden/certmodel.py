@@ -186,3 +186,13 @@ def _alg_oid(alg_tlv: TLV, buf: bytes) -> str:
     if not children or children[0].tag != der.TAG_OID:
         raise CertParseError("AlgorithmIdentifier missing OID")
     return der.decode_oid(children[0].value)
+
+
+def _parse_spki(spki: TLV, buf: bytes) -> tuple[str, int | None]:
+    """Return (pubkey_alg_oid, rsa_modulus_bits or None)."""
+    children = der.read_children(spki, buf)
+    if len(children) < 2:
+        raise CertParseError("SubjectPublicKeyInfo malformed")
+    alg_oid = _alg_oid(children[0], buf)
+    modulus_bits: int | None = None
+    if alg_oid == "1.2.840.113549.1.1.1":  # rsaEncryption
