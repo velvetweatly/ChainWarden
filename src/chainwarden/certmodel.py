@@ -177,3 +177,12 @@ def _parse_name(name_tlv: TLV, buf: bytes) -> str:
             key = ATTR_NAMES.get(oid, oid)
             val = fields[1].value.decode("utf-8", errors="replace")
             atvs.append(f"{key}={val}")
+        rdns.append("+".join(atvs))
+    return ", ".join(rdns)
+
+
+def _alg_oid(alg_tlv: TLV, buf: bytes) -> str:
+    children = der.read_children(alg_tlv, buf)
+    if not children or children[0].tag != der.TAG_OID:
+        raise CertParseError("AlgorithmIdentifier missing OID")
+    return der.decode_oid(children[0].value)
