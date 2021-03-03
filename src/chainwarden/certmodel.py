@@ -196,3 +196,12 @@ def _parse_spki(spki: TLV, buf: bytes) -> tuple[str, int | None]:
     alg_oid = _alg_oid(children[0], buf)
     modulus_bits: int | None = None
     if alg_oid == "1.2.840.113549.1.1.1":  # rsaEncryption
+        bit_string = children[1]
+        if bit_string.tag != der.TAG_BIT_STRING or not bit_string.value:
+            raise CertParseError("RSA public key BIT STRING malformed")
+        # First byte of a BIT STRING is the count of unused bits.
+        rsa_key_der = bit_string.value[1:]
+        seq = der.read_tlv(rsa_key_der, 0)
+        parts = der.read_children(seq, rsa_key_der)
+        if not parts or parts[0].tag != der.TAG_INTEGER:
+            raise CertParseError("RSA modulus missing")
