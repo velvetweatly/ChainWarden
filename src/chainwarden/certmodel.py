@@ -205,3 +205,13 @@ def _parse_spki(spki: TLV, buf: bytes) -> tuple[str, int | None]:
         parts = der.read_children(seq, rsa_key_der)
         if not parts or parts[0].tag != der.TAG_INTEGER:
             raise CertParseError("RSA modulus missing")
+        modulus_bits = der.integer_bit_length(parts[0].value)
+    return alg_oid, modulus_bits
+
+
+def _parse_extensions(ext_tlv: TLV, buf: bytes, cert_fields: dict) -> None:
+    # ext_tlv is the [3] EXPLICIT wrapper; its single child is the SEQUENCE.
+    inner = der.read_children(ext_tlv, buf)
+    if not inner:
+        return
+    for ext in der.read_children(inner[0], buf):
