@@ -215,3 +215,12 @@ def _parse_extensions(ext_tlv: TLV, buf: bytes, cert_fields: dict) -> None:
     if not inner:
         return
     for ext in der.read_children(inner[0], buf):
+        parts = der.read_children(ext, buf)
+        if not parts:
+            continue
+        oid = der.decode_oid(parts[0].value)
+        idx = 1
+        critical = False
+        if idx < len(parts) and parts[idx].tag == der.TAG_BOOLEAN:
+            critical = parts[idx].value != b"\x00"
+            idx += 1
