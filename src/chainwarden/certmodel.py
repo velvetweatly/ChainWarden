@@ -224,3 +224,13 @@ def _parse_extensions(ext_tlv: TLV, buf: bytes, cert_fields: dict) -> None:
         if idx < len(parts) and parts[idx].tag == der.TAG_BOOLEAN:
             critical = parts[idx].value != b"\x00"
             idx += 1
+        if idx >= len(parts):
+            continue
+        ext_value = parts[idx].value  # OCTET STRING content
+        if oid == EXT_BASIC_CONSTRAINTS:
+            cert_fields["basic_constraints"] = _parse_basic_constraints(
+                ext_value, critical
+            )
+        elif oid == EXT_KEY_USAGE:
+            cert_fields["key_usage"] = _parse_key_usage(ext_value)
+        elif oid == EXT_EXT_KEY_USAGE:
