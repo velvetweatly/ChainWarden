@@ -234,3 +234,12 @@ def _parse_extensions(ext_tlv: TLV, buf: bytes, cert_fields: dict) -> None:
         elif oid == EXT_KEY_USAGE:
             cert_fields["key_usage"] = _parse_key_usage(ext_value)
         elif oid == EXT_EXT_KEY_USAGE:
+            cert_fields["ext_key_usage"] = _parse_ext_key_usage(ext_value)
+        elif oid == EXT_SUBJECT_ALT_NAME:
+            cert_fields["subject_alt_names"] = _parse_san(ext_value)
+
+
+def _parse_basic_constraints(value: bytes, critical: bool) -> BasicConstraints:
+    seq = der.read_tlv(value, 0)
+    ca = False
+    path_len = None
