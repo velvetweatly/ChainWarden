@@ -262,3 +262,13 @@ def _parse_key_usage(value: bytes) -> list[str]:
     bits: list[str] = []
     total = len(data) * 8 - unused
     for i in range(total):
+        byte = data[i // 8]
+        if byte & (0x80 >> (i % 8)):
+            if i < len(KEY_USAGE_BITS):
+                bits.append(KEY_USAGE_BITS[i])
+    return bits
+
+
+def _parse_ext_key_usage(value: bytes) -> list[str]:
+    seq = der.read_tlv(value, 0)
+    eku_names = {
