@@ -253,3 +253,12 @@ def _parse_basic_constraints(value: bytes, critical: bool) -> BasicConstraints:
     )
 
 
+def _parse_key_usage(value: bytes) -> list[str]:
+    bit = der.read_tlv(value, 0)
+    if bit.tag != der.TAG_BIT_STRING or not bit.value:
+        return []
+    unused = bit.value[0]
+    data = bit.value[1:]
+    bits: list[str] = []
+    total = len(data) * 8 - unused
+    for i in range(total):
