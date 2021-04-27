@@ -272,3 +272,12 @@ def _parse_key_usage(value: bytes) -> list[str]:
 def _parse_ext_key_usage(value: bytes) -> list[str]:
     seq = der.read_tlv(value, 0)
     eku_names = {
+        "1.3.6.1.5.5.7.3.1": "serverAuth",
+        "1.3.6.1.5.5.7.3.2": "clientAuth",
+        "1.3.6.1.5.5.7.3.3": "codeSigning",
+        "1.3.6.1.5.5.7.3.4": "emailProtection",
+        "1.3.6.1.5.5.7.3.8": "timeStamping",
+        "1.3.6.1.5.5.7.3.9": "OCSPSigning",
+    }
+    out: list[str] = []
+    for child in der.read_children(seq, value):
