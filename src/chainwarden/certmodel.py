@@ -243,3 +243,13 @@ def _parse_basic_constraints(value: bytes, critical: bool) -> BasicConstraints:
     seq = der.read_tlv(value, 0)
     ca = False
     path_len = None
+    for child in der.read_children(seq, value):
+        if child.tag == der.TAG_BOOLEAN:
+            ca = child.value != b"\x00"
+        elif child.tag == der.TAG_INTEGER:
+            path_len = der.decode_integer(child.value)
+    return BasicConstraints(
+        present=True, critical=critical, ca=ca, path_len=path_len
+    )
+
+
