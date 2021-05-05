@@ -281,3 +281,12 @@ def _parse_ext_key_usage(value: bytes) -> list[str]:
     }
     out: list[str] = []
     for child in der.read_children(seq, value):
+        if child.tag == der.TAG_OID:
+            oid = der.decode_oid(child.value)
+            out.append(eku_names.get(oid, oid))
+    return out
+
+
+def _parse_san(value: bytes) -> list[str]:
+    seq = der.read_tlv(value, 0)
+    names: list[str] = []
