@@ -290,3 +290,13 @@ def _parse_ext_key_usage(value: bytes) -> list[str]:
 def _parse_san(value: bytes) -> list[str]:
     seq = der.read_tlv(value, 0)
     names: list[str] = []
+    for child in der.read_children(seq, value):
+        # dNSName is context tag [2], IA5String content.
+        if child.tag == 0x82:
+            names.append(child.value.decode("ascii", errors="replace"))
+    return names
+
+
+def parse_certificate(data: bytes, source: str = "") -> Certificate:
+    """Parse a DER encoded certificate into a Certificate."""
+    outer = der.read_tlv(data, 0)
