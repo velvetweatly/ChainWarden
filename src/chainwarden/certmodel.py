@@ -300,3 +300,12 @@ def _parse_san(value: bytes) -> list[str]:
 def parse_certificate(data: bytes, source: str = "") -> Certificate:
     """Parse a DER encoded certificate into a Certificate."""
     outer = der.read_tlv(data, 0)
+    if outer.tag != der.TAG_SEQUENCE:
+        raise CertParseError("certificate is not a SEQUENCE")
+    top = der.read_children(outer, data)
+    if len(top) != 3:
+        raise CertParseError("certificate must have three top level fields")
+    tbs = top[0]
+    tbs_children = der.read_children(tbs, data)
+
+    idx = 0
