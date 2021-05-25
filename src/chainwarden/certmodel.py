@@ -309,3 +309,13 @@ def parse_certificate(data: bytes, source: str = "") -> Certificate:
     tbs_children = der.read_children(tbs, data)
 
     idx = 0
+    # Optional [0] EXPLICIT version.
+    if tbs_children and tbs_children[0].tag == 0xA0:
+        idx = 1
+    serial_tlv = tbs_children[idx]
+    if serial_tlv.tag != der.TAG_INTEGER:
+        raise CertParseError("serial is not an INTEGER")
+    serial = der.decode_integer(serial_tlv.value)
+    idx += 1
+
+    _tbs_sig_alg = tbs_children[idx]
