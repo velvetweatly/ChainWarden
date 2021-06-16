@@ -27,3 +27,9 @@ from pathlib import Path
 from . import __version__, report
 from .certmodel import CertParseError, Certificate, parse_certificate
 from .chainbuild import build_all_chains
+from .der import DERError
+from .pemread import PEMError, certificate_ders
+
+_CERT_SUFFIXES = {".pem", ".crt", ".cer"}
+
+
