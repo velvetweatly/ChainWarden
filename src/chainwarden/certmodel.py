@@ -319,3 +319,12 @@ def parse_certificate(data: bytes, source: str = "") -> Certificate:
     idx += 1
 
     _tbs_sig_alg = tbs_children[idx]
+    idx += 1
+    issuer = _parse_name(tbs_children[idx], data)
+    idx += 1
+
+    validity = tbs_children[idx]
+    idx += 1
+    vparts = der.read_children(validity, data)
+    if len(vparts) != 2:
+        raise CertParseError("validity must have two times")
