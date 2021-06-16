@@ -15,3 +15,9 @@ audit and expiry subcommands so output never depends on the wall clock, which
 keeps runs reproducible. The date is echoed in the output header.
 
 Exit codes: 0 clean, 1 findings present, 2 usage error.
+"""
+
+from __future__ import annotations
+
+import argparse
+import sys
