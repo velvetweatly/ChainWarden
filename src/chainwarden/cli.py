@@ -33,3 +33,8 @@ from .pemread import PEMError, certificate_ders
 _CERT_SUFFIXES = {".pem", ".crt", ".cer"}
 
 
+def _parse_as_of(text: str) -> date:
+    try:
+        return datetime.strptime(text, "%Y-%m-%d").date()
+    except ValueError:
+        raise argparse.ArgumentTypeError(
