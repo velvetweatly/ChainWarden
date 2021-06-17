@@ -38,3 +38,9 @@ def _parse_as_of(text: str) -> date:
         return datetime.strptime(text, "%Y-%m-%d").date()
     except ValueError:
         raise argparse.ArgumentTypeError(
+            f"--as-of must be YYYY-MM-DD, got {text!r}"
+        )
+
+
+def _gather_files(paths: list[str]) -> list[Path]:
+    files: list[Path] = []
