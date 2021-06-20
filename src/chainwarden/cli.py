@@ -44,3 +44,9 @@ def _parse_as_of(text: str) -> date:
 
 def _gather_files(paths: list[str]) -> list[Path]:
     files: list[Path] = []
+    for raw in paths:
+        p = Path(raw)
+        if p.is_dir():
+            for child in sorted(p.iterdir()):
+                if child.is_file() and child.suffix.lower() in _CERT_SUFFIXES:
+                    files.append(child)
