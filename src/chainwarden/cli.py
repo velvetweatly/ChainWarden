@@ -50,3 +50,9 @@ def _gather_files(paths: list[str]) -> list[Path]:
             for child in sorted(p.iterdir()):
                 if child.is_file() and child.suffix.lower() in _CERT_SUFFIXES:
                     files.append(child)
+        elif p.is_file():
+            files.append(p)
+        else:
+            raise FileNotFoundError(f"path not found: {raw}")
+    return files
+
