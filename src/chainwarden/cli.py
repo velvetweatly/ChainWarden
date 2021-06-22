@@ -62,3 +62,9 @@ def _load_certificates(paths: list[str]) -> list[Certificate]:
 
     Files are visited in sorted order and blocks in file order, so the returned
     list is deterministic. Duplicate certificates (same fingerprint) are kept
+    once, first occurrence wins."""
+    certs: list[Certificate] = []
+    seen: set[str] = set()
+    for path in _gather_files(paths):
+        text = path.read_text(encoding="utf-8", errors="replace")
+        for der_bytes in certificate_ders(text):
