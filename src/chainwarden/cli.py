@@ -56,3 +56,9 @@ def _gather_files(paths: list[str]) -> list[Path]:
             raise FileNotFoundError(f"path not found: {raw}")
     return files
 
+
+def _load_certificates(paths: list[str]) -> list[Certificate]:
+    """Load and parse every certificate found under the given paths.
+
+    Files are visited in sorted order and blocks in file order, so the returned
+    list is deterministic. Duplicate certificates (same fingerprint) are kept
