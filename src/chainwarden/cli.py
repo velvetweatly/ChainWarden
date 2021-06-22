@@ -68,3 +68,9 @@ def _load_certificates(paths: list[str]) -> list[Certificate]:
     for path in _gather_files(paths):
         text = path.read_text(encoding="utf-8", errors="replace")
         for der_bytes in certificate_ders(text):
+            cert = parse_certificate(der_bytes, source=str(path))
+            if cert.fingerprint_sha256 in seen:
+                continue
+            seen.add(cert.fingerprint_sha256)
+            certs.append(cert)
+    return certs
