@@ -80,3 +80,9 @@ def _add_input_args(sub: argparse.ArgumentParser) -> None:
     sub.add_argument(
         "paths",
         nargs="+",
+        help="PEM files or directories of PEM certificates",
+    )
+
+
+def build_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(
