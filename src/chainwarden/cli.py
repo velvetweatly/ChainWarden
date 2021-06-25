@@ -74,3 +74,9 @@ def _load_certificates(paths: list[str]) -> list[Certificate]:
             seen.add(cert.fingerprint_sha256)
             certs.append(cert)
     return certs
+
+
+def _add_input_args(sub: argparse.ArgumentParser) -> None:
+    sub.add_argument(
+        "paths",
+        nargs="+",
