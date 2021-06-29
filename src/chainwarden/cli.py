@@ -98,3 +98,8 @@ def build_parser() -> argparse.ArgumentParser:
         help="reference date for expiry checks",
     )
     p_audit.add_argument("--expiry-warn-days", type=int, default=90)
+    p_audit.add_argument("--cliff-window-days", type=int, default=30)
+    p_audit.add_argument("--cliff-count", type=int, default=3)
+
+    p_chain = sub.add_parser("chain", help="build and print trust chains")
+    _add_input_args(p_chain)
