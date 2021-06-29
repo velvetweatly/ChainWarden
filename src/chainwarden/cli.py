@@ -103,3 +103,9 @@ def build_parser() -> argparse.ArgumentParser:
 
     p_chain = sub.add_parser("chain", help="build and print trust chains")
     _add_input_args(p_chain)
+
+    p_expiry = sub.add_parser("expiry", help="list certificates by expiry")
+    _add_input_args(p_expiry)
+    p_expiry.add_argument(
+        "--as-of", type=_parse_as_of, required=True, metavar="YYYY-MM-DD",
+        help="reference date for the remaining days column",
