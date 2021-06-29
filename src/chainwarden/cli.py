@@ -92,3 +92,9 @@ def build_parser() -> argparse.ArgumentParser:
     sub = parser.add_subparsers(dest="command", required=True)
 
     p_audit = sub.add_parser("audit", help="run policy checks and print findings")
+    _add_input_args(p_audit)
+    p_audit.add_argument(
+        "--as-of", type=_parse_as_of, required=True, metavar="YYYY-MM-DD",
+        help="reference date for expiry checks",
+    )
+    p_audit.add_argument("--expiry-warn-days", type=int, default=90)
