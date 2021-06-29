@@ -86,3 +86,9 @@ def _add_input_args(sub: argparse.ArgumentParser) -> None:
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
+        prog="chainwarden",
+        description="Offline X.509 and TLS certificate fleet auditor.",
+    )
+    sub = parser.add_subparsers(dest="command", required=True)
+
+    p_audit = sub.add_parser("audit", help="run policy checks and print findings")
