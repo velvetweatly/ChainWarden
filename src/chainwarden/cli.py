@@ -109,3 +109,9 @@ def build_parser() -> argparse.ArgumentParser:
     p_expiry.add_argument(
         "--as-of", type=_parse_as_of, required=True, metavar="YYYY-MM-DD",
         help="reference date for the remaining days column",
+    )
+
+    sub.add_parser("version", help="print the version and exit")
+    return parser
+
+
