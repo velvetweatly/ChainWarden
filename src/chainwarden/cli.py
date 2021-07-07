@@ -115,3 +115,9 @@ def build_parser() -> argparse.ArgumentParser:
     return parser
 
 
+def _cmd_audit(args: argparse.Namespace) -> int:
+    from .policy import AuditConfig, run_audit
+
+    certs = _load_certificates(args.paths)
+    chains = build_all_chains(certs)
+    config = AuditConfig(
