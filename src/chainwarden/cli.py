@@ -121,3 +121,9 @@ def _cmd_audit(args: argparse.Namespace) -> int:
     certs = _load_certificates(args.paths)
     chains = build_all_chains(certs)
     config = AuditConfig(
+        as_of=args.as_of,
+        expiry_warn_days=args.expiry_warn_days,
+        cliff_window_days=args.cliff_window_days,
+        cliff_count=args.cliff_count,
+    )
+    findings = run_audit(certs, chains, config)
