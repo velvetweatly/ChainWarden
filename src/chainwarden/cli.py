@@ -127,3 +127,9 @@ def _cmd_audit(args: argparse.Namespace) -> int:
         cliff_count=args.cliff_count,
     )
     findings = run_audit(certs, chains, config)
+    for line in report.render_findings(findings, args.as_of):
+        print(line)
+    return 1 if findings else 0
+
+
+def _cmd_chain(args: argparse.Namespace) -> int:
