@@ -133,3 +133,9 @@ def _cmd_audit(args: argparse.Namespace) -> int:
 
 
 def _cmd_chain(args: argparse.Namespace) -> int:
+    certs = _load_certificates(args.paths)
+    chains = build_all_chains(certs)
+    for line in report.render_all_chains(chains):
+        print(line)
+    incomplete = any(not c.complete for c in chains)
+    return 1 if incomplete else 0
