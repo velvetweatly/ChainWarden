@@ -139,3 +139,9 @@ def _cmd_chain(args: argparse.Namespace) -> int:
         print(line)
     incomplete = any(not c.complete for c in chains)
     return 1 if incomplete else 0
+
+
+def _cmd_expiry(args: argparse.Namespace) -> int:
+    certs = _load_certificates(args.paths)
+    for line in report.render_expiry(certs, args.as_of):
+        print(line)
