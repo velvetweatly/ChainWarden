@@ -145,3 +145,9 @@ def _cmd_expiry(args: argparse.Namespace) -> int:
     certs = _load_certificates(args.paths)
     for line in report.render_expiry(certs, args.as_of):
         print(line)
+    expired = any(c.not_after.date() < args.as_of for c in certs)
+    return 1 if expired else 0
+
+
+def _cmd_version(_args: argparse.Namespace) -> int:
+    print(f"chainwarden {__version__}")
