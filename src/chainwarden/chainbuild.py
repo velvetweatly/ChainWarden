@@ -8,3 +8,8 @@ reach a self signed certificate (a root) or run out of candidates.
 
 Ambiguity is possible when two certificates share a subject name. We record the
 first match in deterministic order and flag nothing here; policy decides
+severity. Loops are guarded by tracking visited fingerprints.
+"""
+
+from __future__ import annotations
+
