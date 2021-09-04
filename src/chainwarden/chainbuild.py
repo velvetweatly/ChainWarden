@@ -18,3 +18,9 @@ from dataclasses import dataclass
 from .certmodel import Certificate
 
 
+@dataclass
+class Chain:
+    """An assembled chain from a leaf up toward a root.
+
+    certs[0] is the leaf. The last element is either a self signed root or the
+    highest certificate we could reach. complete is True only when the last
