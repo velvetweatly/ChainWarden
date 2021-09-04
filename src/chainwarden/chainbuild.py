@@ -24,3 +24,8 @@ class Chain:
 
     certs[0] is the leaf. The last element is either a self signed root or the
     highest certificate we could reach. complete is True only when the last
+    element is self signed (a root anchor present in the pool)."""
+
+    certs: list[Certificate]
+
+    @property
