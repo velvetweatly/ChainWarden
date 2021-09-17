@@ -29,3 +29,9 @@ class Chain:
     certs: list[Certificate]
 
     @property
+    def leaf(self) -> Certificate:
+        return self.certs[0]
+
+    @property
+    def anchor(self) -> Certificate:
+        return self.certs[-1]
