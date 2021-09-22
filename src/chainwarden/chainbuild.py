@@ -40,3 +40,9 @@ class Chain:
     def complete(self) -> bool:
         return self.anchor.is_self_issued
 
+    @property
+    def depth(self) -> int:
+        return len(self.certs)
+
+
+def _subject_index(certs: list[Certificate]) -> dict[str, list[Certificate]]:
