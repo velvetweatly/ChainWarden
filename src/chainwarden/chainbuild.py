@@ -35,3 +35,8 @@ class Chain:
     @property
     def anchor(self) -> Certificate:
         return self.certs[-1]
+
+    @property
+    def complete(self) -> bool:
+        return self.anchor.is_self_issued
+
