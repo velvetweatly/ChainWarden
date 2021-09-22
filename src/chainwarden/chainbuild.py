@@ -46,3 +46,8 @@ class Chain:
 
 
 def _subject_index(certs: list[Certificate]) -> dict[str, list[Certificate]]:
+    index: dict[str, list[Certificate]] = {}
+    for cert in certs:
+        index.setdefault(cert.subject, []).append(cert)
+    return index
+
