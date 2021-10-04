@@ -57,3 +57,8 @@ def find_leaves(certs: list[Certificate]) -> list[Certificate]:
     their subject is not the issuer of anything else, and that are not self
     signed. Order follows the input order for determinism."""
     issued_subjects = set()
+    for cert in certs:
+        for other in certs:
+            if other is cert:
+                continue
+            if other.issuer == cert.subject and not cert.is_self_issued:
