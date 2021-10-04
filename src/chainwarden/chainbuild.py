@@ -51,3 +51,9 @@ def _subject_index(certs: list[Certificate]) -> dict[str, list[Certificate]]:
         index.setdefault(cert.subject, []).append(cert)
     return index
 
+
+def find_leaves(certs: list[Certificate]) -> list[Certificate]:
+    """Leaves are certificates that no other certificate is issued by, that is
+    their subject is not the issuer of anything else, and that are not self
+    signed. Order follows the input order for determinism."""
+    issued_subjects = set()
