@@ -62,3 +62,9 @@ def find_leaves(certs: list[Certificate]) -> list[Certificate]:
             if other is cert:
                 continue
             if other.issuer == cert.subject and not cert.is_self_issued:
+                issued_subjects.add(cert.subject)
+                break
+    leaves = []
+    for cert in certs:
+        if cert.is_self_issued:
+            continue
