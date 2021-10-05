@@ -79,3 +79,8 @@ def build_chain(leaf: Certificate, certs: list[Certificate]) -> Chain:
     chain = [leaf]
     visited = {leaf.fingerprint_sha256}
     current = leaf
+    while not current.is_self_issued:
+        candidates = index.get(current.issuer, [])
+        # Deterministic pick: lowest fingerprint that is not already visited.
+        nxt = None
+        for cand in sorted(candidates, key=lambda c: c.fingerprint_sha256):
