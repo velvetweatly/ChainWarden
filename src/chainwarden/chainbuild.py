@@ -73,3 +73,9 @@ def find_leaves(certs: list[Certificate]) -> list[Certificate]:
     return leaves
 
 
+def build_chain(leaf: Certificate, certs: list[Certificate]) -> Chain:
+    """Walk from leaf upward by matching issuer to a subject in the pool."""
+    index = _subject_index(certs)
+    chain = [leaf]
+    visited = {leaf.fingerprint_sha256}
+    current = leaf
