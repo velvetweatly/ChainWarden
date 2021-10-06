@@ -23,3 +23,13 @@ WEAK_SIG_OIDS = {
     "1.2.840.113549.1.1.4": "MD5 based signature",
     "1.2.840.113549.1.1.5": "SHA1 based signature",
     "1.2.840.10045.4.1": "SHA1 based ECDSA signature",
+}
+
+# RSA modulus sizes below this are flagged.
+MIN_RSA_BITS = 2048
+
+# Default window, in days, used to group expiry dates into a cliff.
+DEFAULT_CLIFF_WINDOW_DAYS = 30
+# Number of certificates expiring within one window to call it a cliff.
+DEFAULT_CLIFF_COUNT = 3
+# Warn when a certificate expires within this many days of as_of.
