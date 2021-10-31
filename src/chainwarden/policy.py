@@ -53,3 +53,13 @@ def _as_datetime(as_of: date) -> datetime:
 
 def check_weak_signature(cert: Certificate) -> list[Finding]:
     findings = []
+    reason = WEAK_SIG_OIDS.get(cert.sig_alg_oid)
+    if reason:
+        findings.append(
+            Finding(
+                "ERROR",
+                "WEAK_SIG",
+                cert.subject,
+                f"weak signature algorithm {cert.sig_alg_name} ({reason})",
+            )
+        )
