@@ -73,3 +73,13 @@ def check_weak_key(cert: Certificate) -> list[Finding]:
             Finding(
                 "ERROR",
                 "WEAK_KEY",
+                cert.subject,
+                f"RSA key size {cert.rsa_modulus_bits} bits is below the "
+                f"{MIN_RSA_BITS} bit minimum",
+            )
+        )
+    return findings
+
+
+def check_validity(cert: Certificate, as_of: date, warn_days: int) -> list[Finding]:
+    findings = []
