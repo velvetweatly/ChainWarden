@@ -63,3 +63,13 @@ def check_weak_signature(cert: Certificate) -> list[Finding]:
                 f"weak signature algorithm {cert.sig_alg_name} ({reason})",
             )
         )
+    return findings
+
+
+def check_weak_key(cert: Certificate) -> list[Finding]:
+    findings = []
+    if cert.rsa_modulus_bits is not None and cert.rsa_modulus_bits < MIN_RSA_BITS:
+        findings.append(
+            Finding(
+                "ERROR",
+                "WEAK_KEY",
