@@ -43,3 +43,13 @@ class Finding:
     subject: str
     message: str
 
+    def sort_key(self) -> tuple:
+        return (SEVERITY_ORDER[self.severity], self.code, self.subject)
+
+
+def _as_datetime(as_of: date) -> datetime:
+    return datetime(as_of.year, as_of.month, as_of.day, tzinfo=timezone.utc)
+
+
+def check_weak_signature(cert: Certificate) -> list[Finding]:
+    findings = []
