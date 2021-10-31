@@ -33,3 +33,13 @@ DEFAULT_CLIFF_WINDOW_DAYS = 30
 # Number of certificates expiring within one window to call it a cliff.
 DEFAULT_CLIFF_COUNT = 3
 # Warn when a certificate expires within this many days of as_of.
+DEFAULT_EXPIRY_WARN_DAYS = 90
+
+
+@dataclass(frozen=True)
+class Finding:
+    severity: str
+    code: str
+    subject: str
+    message: str
+
