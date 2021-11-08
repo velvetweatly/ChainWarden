@@ -83,3 +83,13 @@ def check_weak_key(cert: Certificate) -> list[Finding]:
 
 def check_validity(cert: Certificate, as_of: date, warn_days: int) -> list[Finding]:
     findings = []
+    now = _as_datetime(as_of)
+    if cert.not_after < now:
+        days = (now - cert.not_after).days
+        findings.append(
+            Finding(
+                "ERROR",
+                "EXPIRED",
+                cert.subject,
+                f"expired {days} days ago on "
+                f"{cert.not_after.date().isoformat()}",
