@@ -93,3 +93,13 @@ def check_validity(cert: Certificate, as_of: date, warn_days: int) -> list[Findi
                 cert.subject,
                 f"expired {days} days ago on "
                 f"{cert.not_after.date().isoformat()}",
+            )
+        )
+    elif cert.not_before > now:
+        days = (cert.not_before - now).days
+        findings.append(
+            Finding(
+                "WARN",
+                "NOT_YET_VALID",
+                cert.subject,
+                f"not valid for another {days} days, starts "
