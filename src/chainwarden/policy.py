@@ -123,3 +123,13 @@ def check_validity(cert: Certificate, as_of: date, warn_days: int) -> list[Findi
 
 def check_constraints(cert: Certificate) -> list[Finding]:
     """Basic constraints and key usage sanity, per RFC 5280 section 4.2.1."""
+    findings = []
+    bc = cert.basic_constraints
+    if bc.ca:
+        # A CA that signs certificates should assert keyCertSign.
+        if cert.key_usage and "keyCertSign" not in cert.key_usage:
+            findings.append(
+                Finding(
+                    "WARN",
+                    "CA_NO_CERTSIGN",
+                    cert.subject,
