@@ -113,3 +113,13 @@ def check_validity(cert: Certificate, as_of: date, warn_days: int) -> list[Findi
                 Finding(
                     "WARN",
                     "EXPIRING_SOON",
+                    cert.subject,
+                    f"expires in {remaining} days on "
+                    f"{cert.not_after.date().isoformat()}",
+                )
+            )
+    return findings
+
+
+def check_constraints(cert: Certificate) -> list[Finding]:
+    """Basic constraints and key usage sanity, per RFC 5280 section 4.2.1."""
