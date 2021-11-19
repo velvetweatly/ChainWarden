@@ -133,3 +133,12 @@ def check_constraints(cert: Certificate) -> list[Finding]:
                     "WARN",
                     "CA_NO_CERTSIGN",
                     cert.subject,
+                    "basic constraints say CA but keyCertSign is not set",
+                )
+            )
+    else:
+        # A non CA that still asserts keyCertSign is a misconfiguration.
+        if "keyCertSign" in cert.key_usage:
+            findings.append(
+                Finding(
+                    "ERROR",
