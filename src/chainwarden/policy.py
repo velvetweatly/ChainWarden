@@ -142,3 +142,13 @@ def check_constraints(cert: Certificate) -> list[Finding]:
             findings.append(
                 Finding(
                     "ERROR",
+                    "LEAF_CERTSIGN",
+                    cert.subject,
+                    "not a CA but keyCertSign is set",
+                )
+            )
+    if bc.present and bc.ca and not bc.critical:
+        findings.append(
+            Finding(
+                "WARN",
+                "BC_NOT_CRITICAL",
