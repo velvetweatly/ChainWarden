@@ -152,3 +152,13 @@ def check_constraints(cert: Certificate) -> list[Finding]:
             Finding(
                 "WARN",
                 "BC_NOT_CRITICAL",
+                cert.subject,
+                "basic constraints CA:TRUE should be marked critical",
+            )
+        )
+    return findings
+
+
+def check_chain(chain: Chain) -> list[Finding]:
+    findings = []
+    if not chain.complete:
