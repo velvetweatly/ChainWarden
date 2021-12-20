@@ -162,3 +162,13 @@ def check_constraints(cert: Certificate) -> list[Finding]:
 def check_chain(chain: Chain) -> list[Finding]:
     findings = []
     if not chain.complete:
+        findings.append(
+            Finding(
+                "ERROR",
+                "CHAIN_INCOMPLETE",
+                chain.leaf.subject,
+                "no path to a self signed root in the pool, top reached is "
+                f"issuer {chain.anchor.issuer}",
+            )
+        )
+    # Enforce pathlen on intermediates: count of certs below a CA must not
