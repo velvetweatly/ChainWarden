@@ -192,3 +192,13 @@ def check_chain(chain: Chain) -> list[Finding]:
 
 
 def check_expiry_cliff(
+    certs: list[Certificate],
+    window_days: int,
+    min_count: int,
+) -> list[Finding]:
+    """Group certificates by expiry into buckets of window_days and flag any
+    bucket with min_count or more members. Buckets are anchored at the earliest
+    not_after so results are stable and independent of as_of."""
+    findings = []
+    dated = sorted(certs, key=lambda c: c.not_after)
+    if not dated:
