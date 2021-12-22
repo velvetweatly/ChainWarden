@@ -182,3 +182,13 @@ def check_chain(chain: Chain) -> list[Finding]:
                 findings.append(
                     Finding(
                         "ERROR",
+                        "PATHLEN_EXCEEDED",
+                        cert.subject,
+                        f"pathlen {bc.path_len} exceeded, {below} "
+                        "certificates appear below this CA",
+                    )
+                )
+    return findings
+
+
+def check_expiry_cliff(
