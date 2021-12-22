@@ -202,3 +202,13 @@ def check_expiry_cliff(
     findings = []
     dated = sorted(certs, key=lambda c: c.not_after)
     if not dated:
+        return findings
+    base = dated[0].not_after
+    buckets: dict[int, list[Certificate]] = {}
+    for cert in dated:
+        offset = (cert.not_after - base).days
+        bucket = offset // window_days
+        buckets.setdefault(bucket, []).append(cert)
+    for bucket in sorted(buckets):
+        members = buckets[bucket]
+        if len(members) >= min_count:
