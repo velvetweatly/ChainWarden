@@ -7,3 +7,7 @@ from datetime import date
 
 from .certmodel import Certificate
 from .chainbuild import Chain
+from .policy import Finding
+
+
+def render_findings(findings: list[Finding], as_of: date) -> list[str]:
