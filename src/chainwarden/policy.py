@@ -212,3 +212,13 @@ def check_expiry_cliff(
     for bucket in sorted(buckets):
         members = buckets[bucket]
         if len(members) >= min_count:
+            lo = members[0].not_after.date().isoformat()
+            hi = members[-1].not_after.date().isoformat()
+            findings.append(
+                Finding(
+                    "WARN",
+                    "EXPIRY_CLIFF",
+                    "(fleet)",
+                    f"{len(members)} certificates expire between {lo} and "
+                    f"{hi}, within a {window_days} day window",
+                )
