@@ -172,3 +172,13 @@ def check_chain(chain: Chain) -> list[Finding]:
             )
         )
     # Enforce pathlen on intermediates: count of certs below a CA must not
+    # exceed its pathlen constraint.
+    for depth, cert in enumerate(chain.certs):
+        bc = cert.basic_constraints
+        if bc.ca and bc.path_len is not None:
+            below = depth  # number of certs beneath this CA in the chain
+            allowed = bc.path_len + 1
+            if below > allowed:
+                findings.append(
+                    Finding(
+                        "ERROR",
