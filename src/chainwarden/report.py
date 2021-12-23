@@ -11,3 +11,7 @@ from .policy import Finding
 
 
 def render_findings(findings: list[Finding], as_of: date) -> list[str]:
+    lines = [f"# chainwarden audit as of {as_of.isoformat()}"]
+    if not findings:
+        lines.append("OK  no findings")
+        return lines
