@@ -15,3 +15,7 @@ def render_findings(findings: list[Finding], as_of: date) -> list[str]:
     if not findings:
         lines.append("OK  no findings")
         return lines
+    for f in findings:
+        lines.append(f"{f.severity:<5} {f.code:<16} {f.subject} :: {f.message}")
+    counts: dict[str, int] = {}
+    for f in findings:
