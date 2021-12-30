@@ -31,3 +31,6 @@ def render_chain(chain: Chain) -> list[str]:
     lines.append(f"chain {chain.leaf.common_name} depth={chain.depth} {status}")
     for i, cert in enumerate(chain.certs):
         indent = "  " * i
+        role = "root" if cert.is_self_issued else ("leaf" if i == 0 else "ca")
+        lines.append(
+            f"{indent}[{role}] {cert.common_name} "
