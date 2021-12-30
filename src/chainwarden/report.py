@@ -27,3 +27,7 @@ def render_findings(findings: list[Finding], as_of: date) -> list[str]:
 
 def render_chain(chain: Chain) -> list[str]:
     lines = []
+    status = "complete" if chain.complete else "incomplete"
+    lines.append(f"chain {chain.leaf.common_name} depth={chain.depth} {status}")
+    for i, cert in enumerate(chain.certs):
+        indent = "  " * i
