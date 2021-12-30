@@ -19,3 +19,7 @@ def render_findings(findings: list[Finding], as_of: date) -> list[str]:
         lines.append(f"{f.severity:<5} {f.code:<16} {f.subject} :: {f.message}")
     counts: dict[str, int] = {}
     for f in findings:
+        counts[f.severity] = counts.get(f.severity, 0) + 1
+    summary = ", ".join(f"{counts[s]} {s}" for s in ("ERROR", "WARN", "INFO") if s in counts)
+    lines.append(f"# {len(findings)} findings: {summary}")
+    return lines
