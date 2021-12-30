@@ -23,3 +23,7 @@ def render_findings(findings: list[Finding], as_of: date) -> list[str]:
     summary = ", ".join(f"{counts[s]} {s}" for s in ("ERROR", "WARN", "INFO") if s in counts)
     lines.append(f"# {len(findings)} findings: {summary}")
     return lines
+
+
+def render_chain(chain: Chain) -> list[str]:
+    lines = []
