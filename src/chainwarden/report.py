@@ -34,3 +34,7 @@ def render_chain(chain: Chain) -> list[str]:
         role = "root" if cert.is_self_issued else ("leaf" if i == 0 else "ca")
         lines.append(
             f"{indent}[{role}] {cert.common_name} "
+            f"exp {cert.not_after.date().isoformat()} "
+            f"{cert.pubkey_alg_name}"
+            + (f"/{cert.rsa_modulus_bits}" if cert.rsa_modulus_bits else "")
+            + f" {cert.sig_alg_name}"
