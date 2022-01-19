@@ -38,3 +38,7 @@ def render_chain(chain: Chain) -> list[str]:
             f"{cert.pubkey_alg_name}"
             + (f"/{cert.rsa_modulus_bits}" if cert.rsa_modulus_bits else "")
             + f" {cert.sig_alg_name}"
+        )
+    return lines
+
+
