@@ -46,3 +46,7 @@ def render_all_chains(chains: list[Chain]) -> list[str]:
     lines: list[str] = []
     for chain in chains:
         lines.extend(render_chain(chain))
+    return lines
+
+
+def render_expiry(certs: list[Certificate], as_of: date) -> list[str]:
