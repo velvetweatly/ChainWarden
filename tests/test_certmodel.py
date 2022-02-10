@@ -15,3 +15,8 @@ def _load(name: str):
 
 class TestCertModel(unittest.TestCase):
     def test_root_is_self_signed_ca(self):
+        root = _load("root.pem")
+        self.assertTrue(root.is_self_issued)
+        self.assertTrue(root.basic_constraints.ca)
+        self.assertEqual(root.common_name, "ChainWarden Test Root CA")
+        self.assertEqual(root.rsa_modulus_bits, 2048)
