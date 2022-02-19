@@ -20,3 +20,9 @@ class TestCertModel(unittest.TestCase):
         self.assertTrue(root.basic_constraints.ca)
         self.assertEqual(root.common_name, "ChainWarden Test Root CA")
         self.assertEqual(root.rsa_modulus_bits, 2048)
+        self.assertEqual(root.sig_alg_name, "sha256WithRSAEncryption")
+
+    def test_intermediate_pathlen(self):
+        inter = _load("intermediate.pem")
+        self.assertFalse(inter.is_self_issued)
+        self.assertTrue(inter.basic_constraints.ca)
