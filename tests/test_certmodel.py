@@ -37,3 +37,9 @@ class TestCertModel(unittest.TestCase):
         self.assertEqual(leaf.not_after.date().isoformat(), "2027-01-01")
 
     def test_leaf_weak_key_and_sig(self):
+        weak = _load("leaf-weak.pem")
+        self.assertEqual(weak.rsa_modulus_bits, 1024)
+        self.assertEqual(weak.sig_alg_name, "sha1WithRSAEncryption")
+
+    def test_leaf_expired_dates(self):
+        exp = _load("leaf-expired.pem")
