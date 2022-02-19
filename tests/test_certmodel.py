@@ -26,3 +26,8 @@ class TestCertModel(unittest.TestCase):
         inter = _load("intermediate.pem")
         self.assertFalse(inter.is_self_issued)
         self.assertTrue(inter.basic_constraints.ca)
+        self.assertEqual(inter.basic_constraints.path_len, 0)
+
+    def test_leaf_good_fields(self):
+        leaf = _load("leaf-good.pem")
+        self.assertEqual(leaf.common_name, "good.example.test")
