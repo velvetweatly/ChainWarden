@@ -31,3 +31,9 @@ class TestCertModel(unittest.TestCase):
     def test_leaf_good_fields(self):
         leaf = _load("leaf-good.pem")
         self.assertEqual(leaf.common_name, "good.example.test")
+        self.assertFalse(leaf.basic_constraints.ca)
+        self.assertIn("digitalSignature", leaf.key_usage)
+        self.assertIn("serverAuth", leaf.ext_key_usage)
+        self.assertEqual(leaf.not_after.date().isoformat(), "2027-01-01")
+
+    def test_leaf_weak_key_and_sig(self):
