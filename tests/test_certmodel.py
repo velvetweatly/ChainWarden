@@ -43,3 +43,8 @@ class TestCertModel(unittest.TestCase):
 
     def test_leaf_expired_dates(self):
         exp = _load("leaf-expired.pem")
+        self.assertEqual(exp.not_after.date().isoformat(), "2024-06-01")
+
+    def test_serials(self):
+        self.assertEqual(_load("root.pem").serial, 1)
+        self.assertEqual(_load("intermediate.pem").serial, 2)
