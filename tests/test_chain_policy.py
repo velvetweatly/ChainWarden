@@ -32,3 +32,11 @@ class TestChainBuild(unittest.TestCase):
     def setUp(self):
         self.certs = _load_all(ALL_NAMES)
 
+    def test_four_leaves_detected(self):
+        leaves = find_leaves(self.certs)
+        names = sorted(c.common_name for c in leaves)
+        self.assertEqual(
+            names,
+            [
+                "expired.example.test",
+                "good.example.test",
