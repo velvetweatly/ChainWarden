@@ -9,3 +9,11 @@ from chainwarden.policy import AuditConfig, check_expiry_cliff, run_audit
 
 SAMPLES = Path(__file__).resolve().parent.parent / "samples"
 
+
+def _load_all(names):
+    certs = []
+    for name in names:
+        for d in certificate_ders((SAMPLES / name).read_text()):
+            certs.append(parse_certificate(d, source=name))
+    return certs
+
