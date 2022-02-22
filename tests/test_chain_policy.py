@@ -17,3 +17,10 @@ def _load_all(names):
             certs.append(parse_certificate(d, source=name))
     return certs
 
+
+ALL_NAMES = [
+    "root.pem",
+    "intermediate.pem",
+    "leaf-good.pem",
+    "leaf-soon.pem",
+    "leaf-expired.pem",
