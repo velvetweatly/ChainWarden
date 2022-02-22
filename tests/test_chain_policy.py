@@ -24,3 +24,11 @@ ALL_NAMES = [
     "leaf-good.pem",
     "leaf-soon.pem",
     "leaf-expired.pem",
+    "leaf-weak.pem",
+]
+
+
+class TestChainBuild(unittest.TestCase):
+    def setUp(self):
+        self.certs = _load_all(ALL_NAMES)
+
