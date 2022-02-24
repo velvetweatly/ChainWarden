@@ -79,3 +79,11 @@ class TestPolicy(unittest.TestCase):
         cfg = AuditConfig(as_of=date(2026, 9, 2))
         findings = run_audit(self.certs, self.chains, cfg)
         severities = [f.severity for f in findings]
+        self.assertEqual(severities, sorted(severities, key=lambda s: {"ERROR": 0, "WARN": 1, "INFO": 2}[s]))
+
+    def test_expiring_soon_boundary(self):
+        # soon.example.test expires 2026-10-01. As of 2026-09-02 that is 29 days.
+        cfg = AuditConfig(as_of=date(2026, 9, 2), expiry_warn_days=90)
+        findings = run_audit(self.certs, self.chains, cfg)
+        soon = [f for f in findings if f.code == "EXPIRING_SOON"]
+        self.assertTrue(any("soon.example.test" in f.subject for f in soon))
