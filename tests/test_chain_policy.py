@@ -63,3 +63,11 @@ class TestChainBuild(unittest.TestCase):
 
 
 class TestPolicy(unittest.TestCase):
+    def setUp(self):
+        self.certs = _load_all(ALL_NAMES)
+        self.chains = build_all_chains(self.certs)
+
+    def test_audit_flags_expired_weak_key_and_sig(self):
+        cfg = AuditConfig(as_of=date(2026, 9, 2))
+        findings = run_audit(self.certs, self.chains, cfg)
+        codes = {f.code for f in findings}
