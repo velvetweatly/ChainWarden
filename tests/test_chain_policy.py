@@ -48,3 +48,11 @@ class TestChainBuild(unittest.TestCase):
     def test_good_chain_reaches_root(self):
         leaf = next(c for c in self.certs if c.common_name == "good.example.test")
         chain = build_chain(leaf, self.certs)
+        self.assertEqual(chain.depth, 3)
+        self.assertTrue(chain.complete)
+        self.assertEqual(chain.anchor.common_name, "ChainWarden Test Root CA")
+
+    def test_incomplete_chain_when_root_absent(self):
+        no_root = [c for c in self.certs if not c.is_self_issued]
+        leaf = next(c for c in no_root if c.common_name == "good.example.test")
+        chain = build_chain(leaf, no_root)
