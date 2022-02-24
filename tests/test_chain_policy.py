@@ -56,3 +56,10 @@ class TestChainBuild(unittest.TestCase):
         no_root = [c for c in self.certs if not c.is_self_issued]
         leaf = next(c for c in no_root if c.common_name == "good.example.test")
         chain = build_chain(leaf, no_root)
+        self.assertFalse(chain.complete)
+
+    def test_all_chains_count(self):
+        self.assertEqual(len(build_all_chains(self.certs)), 4)
+
+
+class TestPolicy(unittest.TestCase):
