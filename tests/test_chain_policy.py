@@ -40,3 +40,11 @@ class TestChainBuild(unittest.TestCase):
             [
                 "expired.example.test",
                 "good.example.test",
+                "soon.example.test",
+                "weak.example.test",
+            ],
+        )
+
+    def test_good_chain_reaches_root(self):
+        leaf = next(c for c in self.certs if c.common_name == "good.example.test")
+        chain = build_chain(leaf, self.certs)
