@@ -71,3 +71,11 @@ class TestPolicy(unittest.TestCase):
         cfg = AuditConfig(as_of=date(2026, 9, 2))
         findings = run_audit(self.certs, self.chains, cfg)
         codes = {f.code for f in findings}
+        self.assertIn("EXPIRED", codes)
+        self.assertIn("WEAK_KEY", codes)
+        self.assertIn("WEAK_SIG", codes)
+
+    def test_findings_sorted_errors_first(self):
+        cfg = AuditConfig(as_of=date(2026, 9, 2))
+        findings = run_audit(self.certs, self.chains, cfg)
+        severities = [f.severity for f in findings]
