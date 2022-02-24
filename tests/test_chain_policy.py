@@ -87,3 +87,11 @@ class TestPolicy(unittest.TestCase):
         findings = run_audit(self.certs, self.chains, cfg)
         soon = [f for f in findings if f.code == "EXPIRING_SOON"]
         self.assertTrue(any("soon.example.test" in f.subject for f in soon))
+
+    def test_expiry_cliff_fires_with_wide_window(self):
+        # The four leaf expiries span 2024-06-01 to 2028-01-01, a range under
+        # 1300 days. A single 1400 day window groups all four into one bucket,
+        # which is at or above the min_count of 3.
+        leaves = [c for c in self.certs if not c.basic_constraints.ca]
+        cliff = check_expiry_cliff(leaves, window_days=1400, min_count=3)
+        self.assertTrue(cliff)
