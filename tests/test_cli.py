@@ -13,3 +13,8 @@ def _run(argv):
     with redirect_stdout(buf):
         code = cli.main(argv)
     return code, buf.getvalue()
+
+
+class TestCLI(unittest.TestCase):
+    def test_version_exit_zero(self):
+        code, out = _run(["version"])
