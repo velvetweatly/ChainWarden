@@ -29,3 +29,8 @@ class TestCLI(unittest.TestCase):
 
     def test_chain_lists_four_leaves(self):
         code, out = _run(["chain", SAMPLES])
+        self.assertEqual(out.count("chain "), 4)
+        self.assertEqual(code, 0)
+
+    def test_expiry_returns_one_when_expired(self):
+        code, out = _run(["expiry", SAMPLES, "--as-of", "2026-09-02"])
