@@ -34,3 +34,8 @@ class TestCLI(unittest.TestCase):
 
     def test_expiry_returns_one_when_expired(self):
         code, out = _run(["expiry", SAMPLES, "--as-of", "2026-09-02"])
+        self.assertEqual(code, 1)
+        self.assertIn("EXPIRED", out)
+
+    def test_missing_path_is_usage_error(self):
+        code, _ = _run(["chain", "no_such_dir_xyz"])
