@@ -14,3 +14,8 @@ class TestDER(unittest.TestCase):
 
     def test_read_long_length_tlv(self):
         # OCTET STRING with two byte length 0x0102 = 258 bytes.
+        payload = b"\x00" * 258
+        buf = bytes([0x04, 0x82, 0x01, 0x02]) + payload
+        tlv = der.read_tlv(buf)
+        self.assertEqual(tlv.length, 258)
+        self.assertEqual(len(tlv.value), 258)
