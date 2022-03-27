@@ -19,3 +19,8 @@ class TestDER(unittest.TestCase):
         tlv = der.read_tlv(buf)
         self.assertEqual(tlv.length, 258)
         self.assertEqual(len(tlv.value), 258)
+
+    def test_indefinite_length_rejected(self):
+        with self.assertRaises(der.DERError):
+            der.read_tlv(bytes([0x30, 0x80]))
+
