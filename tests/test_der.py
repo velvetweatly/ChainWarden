@@ -35,3 +35,8 @@ class TestDER(unittest.TestCase):
         kids = der.read_children(seq, buf)
         self.assertEqual(len(kids), 2)
         self.assertEqual(der.decode_integer(kids[0].value), 1)
+        self.assertEqual(der.decode_integer(kids[1].value), 2)
+
+    def test_decode_oid_rsa_encryption(self):
+        # 1.2.840.113549.1.1.1 encoded.
+        content = bytes([0x2A, 0x86, 0x48, 0x86, 0xF7, 0x0D, 0x01, 0x01, 0x01])
