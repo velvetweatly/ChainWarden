@@ -40,3 +40,9 @@ class TestDER(unittest.TestCase):
     def test_decode_oid_rsa_encryption(self):
         # 1.2.840.113549.1.1.1 encoded.
         content = bytes([0x2A, 0x86, 0x48, 0x86, 0xF7, 0x0D, 0x01, 0x01, 0x01])
+        self.assertEqual(der.decode_oid(content), "1.2.840.113549.1.1.1")
+
+    def test_decode_oid_short(self):
+        # 2.5.29.19 (basicConstraints): 0x55 0x1D 0x13.
+        self.assertEqual(der.decode_oid(bytes([0x55, 0x1D, 0x13])), "2.5.29.19")
+
