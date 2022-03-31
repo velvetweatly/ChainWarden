@@ -30,3 +30,8 @@ class TestDER(unittest.TestCase):
 
     def test_read_children(self):
         # SEQUENCE { INTEGER 1, INTEGER 2 }
+        buf = bytes([0x30, 0x06, 0x02, 0x01, 0x01, 0x02, 0x01, 0x02])
+        seq = der.read_tlv(buf)
+        kids = der.read_children(seq, buf)
+        self.assertEqual(len(kids), 2)
+        self.assertEqual(der.decode_integer(kids[0].value), 1)
