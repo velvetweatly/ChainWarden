@@ -24,3 +24,9 @@ class TestDER(unittest.TestCase):
         with self.assertRaises(der.DERError):
             der.read_tlv(bytes([0x30, 0x80]))
 
+    def test_value_past_end_rejected(self):
+        with self.assertRaises(der.DERError):
+            der.read_tlv(bytes([0x02, 0x05, 0x01]))
+
+    def test_read_children(self):
+        # SEQUENCE { INTEGER 1, INTEGER 2 }
