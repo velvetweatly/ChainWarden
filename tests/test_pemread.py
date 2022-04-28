@@ -20,3 +20,7 @@ class TestPEMRead(unittest.TestCase):
 
     def test_certificate_ders_filters_labels(self):
         text = _wrap("CERTIFICATE", b"AAAA") + _wrap("PRIVATE KEY", b"BBBB")
+        ders = pemread.certificate_ders(text)
+        self.assertEqual(ders, [b"AAAA"])
+
+    def test_headers_between_blocks_ignored(self):
