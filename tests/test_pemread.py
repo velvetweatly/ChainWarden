@@ -11,3 +11,7 @@ def _wrap(label: str, data: bytes) -> str:
 
 
 class TestPEMRead(unittest.TestCase):
+    def test_single_block(self):
+        text = _wrap("CERTIFICATE", b"\x30\x03\x02\x01\x05")
+        blocks = pemread.split_blocks(text)
+        self.assertEqual(len(blocks), 1)
