@@ -15,3 +15,8 @@ class TestPEMRead(unittest.TestCase):
         text = _wrap("CERTIFICATE", b"\x30\x03\x02\x01\x05")
         blocks = pemread.split_blocks(text)
         self.assertEqual(len(blocks), 1)
+        self.assertEqual(blocks[0].label, "CERTIFICATE")
+        self.assertEqual(blocks[0].der, b"\x30\x03\x02\x01\x05")
+
+    def test_certificate_ders_filters_labels(self):
+        text = _wrap("CERTIFICATE", b"AAAA") + _wrap("PRIVATE KEY", b"BBBB")
