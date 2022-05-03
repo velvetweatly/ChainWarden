@@ -9,3 +9,8 @@ organisation is literally "ChainWarden Test PKI".
 ## What is here
 
 | File               | Role         | Key        | Signature              | notAfter    |
+|--------------------|--------------|------------|------------------------|-------------|
+| `root.pem`         | root CA      | RSA 2048   | sha256WithRSAEncryption| 2034-01-01  |
+| `intermediate.pem` | intermediate | RSA 2048   | sha256WithRSAEncryption| 2032-01-01  |
+| `leaf-good.pem`    | leaf         | RSA 2048   | sha256WithRSAEncryption| 2027-01-01  |
+| `leaf-soon.pem`    | leaf         | RSA 2048   | sha256WithRSAEncryption| 2026-10-01  |
