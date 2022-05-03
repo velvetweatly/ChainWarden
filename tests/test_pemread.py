@@ -29,3 +29,7 @@ class TestPEMRead(unittest.TestCase):
             + _wrap("CERTIFICATE", b"\x01\x02")
             + "subject=CN=two\n"
             + _wrap("CERTIFICATE", b"\x03\x04")
+        )
+        ders = pemread.certificate_ders(text)
+        self.assertEqual(ders, [b"\x01\x02", b"\x03\x04"])
+
