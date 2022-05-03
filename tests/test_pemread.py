@@ -24,3 +24,8 @@ class TestPEMRead(unittest.TestCase):
         self.assertEqual(ders, [b"AAAA"])
 
     def test_headers_between_blocks_ignored(self):
+        text = (
+            "subject=CN=one\n"
+            + _wrap("CERTIFICATE", b"\x01\x02")
+            + "subject=CN=two\n"
+            + _wrap("CERTIFICATE", b"\x03\x04")
