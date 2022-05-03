@@ -33,3 +33,7 @@ class TestPEMRead(unittest.TestCase):
         ders = pemread.certificate_ders(text)
         self.assertEqual(ders, [b"\x01\x02", b"\x03\x04"])
 
+    def test_unterminated_block_raises(self):
+        text = "-----BEGIN CERTIFICATE-----\nAAAA\n"
+        with self.assertRaises(pemread.PEMError):
+            pemread.split_blocks(text)
