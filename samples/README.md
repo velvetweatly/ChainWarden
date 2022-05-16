@@ -19,3 +19,8 @@ organisation is literally "ChainWarden Test PKI".
 | `bundle.pem`       | all six certs concatenated, in the order above                |
 
 `leaf-expired.pem` is already past its notAfter. `leaf-weak.pem` uses both a
+1024 bit RSA key and a SHA1 signature so the weak key and weak signature checks
+each have a target. The root and intermediate are ordinary healthy CA
+certificates.
+
+## How they were built
