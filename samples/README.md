@@ -24,3 +24,9 @@ each have a target. The root and intermediate are ordinary healthy CA
 certificates.
 
 ## How they were built
+
+The validity dates are pinned with OpenSSL's `-not_before` and `-not_after`
+flags rather than `-days`, so regenerating the PKI produces the same dates on
+any machine and the certificates stay reproducible. Serial numbers are fixed
+with `-set_serial`.
+
