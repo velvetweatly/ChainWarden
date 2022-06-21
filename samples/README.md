@@ -30,3 +30,8 @@ flags rather than `-days`, so regenerating the PKI produces the same dates on
 any machine and the certificates stay reproducible. Serial numbers are fixed
 with `-set_serial`.
 
+The exact commands are in `gen_pki.sh` in this directory. In short:
+
+1. Create the root key and CSR with `openssl req`, then self sign it with
+   `openssl x509 -req -signkey`, RSA 2048, SHA256, basic constraints CA:TRUE
+   and key usage keyCertSign, cRLSign, serial 1.
