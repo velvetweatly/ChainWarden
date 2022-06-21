@@ -35,3 +35,8 @@ The exact commands are in `gen_pki.sh` in this directory. In short:
 1. Create the root key and CSR with `openssl req`, then self sign it with
    `openssl x509 -req -signkey`, RSA 2048, SHA256, basic constraints CA:TRUE
    and key usage keyCertSign, cRLSign, serial 1.
+2. Create the intermediate key and CSR, then sign it with the root using
+   `openssl x509 -req`, basic constraints CA:TRUE pathlen:0, serial 2.
+3. Create each leaf key and CSR, then sign with the intermediate. The good,
+   soon, and expired leaves use SHA256 and RSA 2048. The weak leaf uses RSA
+   1024 and is signed with `-sha1`.
