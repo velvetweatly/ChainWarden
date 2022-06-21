@@ -45,3 +45,8 @@ The exact commands are in `gen_pki.sh` in this directory. In short:
 
 `openssl.cnf` here is a two line minimal config only present because this
 OpenSSL build looks for a default config file that does not exist on the build
+machine. It defines an empty distinguished name section and nothing else.
+
+## Regenerating
+
+With OpenSSL on PATH:
