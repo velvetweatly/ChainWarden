@@ -40,3 +40,8 @@ The exact commands are in `gen_pki.sh` in this directory. In short:
 3. Create each leaf key and CSR, then sign with the intermediate. The good,
    soon, and expired leaves use SHA256 and RSA 2048. The weak leaf uses RSA
    1024 and is signed with `-sha1`.
+4. Concatenate all six into `bundle.pem`.
+5. Delete every `.key` and `.csr` file.
+
+`openssl.cnf` here is a two line minimal config only present because this
+OpenSSL build looks for a default config file that does not exist on the build
