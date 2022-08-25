@@ -108,3 +108,19 @@ def decode_oid(value: bytes) -> str:
     return ".".join(arcs)
 
 
+def decode_integer(value: bytes) -> int:
+    """Decode a DER INTEGER (two's complement, big endian)."""
+    if not value:
+        raise DERError("empty INTEGER")
+    return int.from_bytes(value, "big", signed=True)
+
+
+def integer_bit_length(value: bytes) -> int:
+    """Bit length of a non negative DER INTEGER content, ignoring a leading
+    0x00 pad byte. Used to size RSA moduli."""
+    data = value
+    if data and data[0] == 0x00:
+        data = data[1:]
+    if not data:
+        return 0
+    return (len(data) - 1) * 8 + data[0].bit_length()
