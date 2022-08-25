@@ -63,3 +63,13 @@ def split_blocks(text: str) -> list[PEMBlock]:
             try:
                 der = base64.b64decode(joined, validate=True)
             except (binascii.Error, ValueError) as exc:
+                raise PEMError(f"invalid base64 in {label} block") from exc
+            blocks.append(PEMBlock(label=label, der=der))
+        else:
+            i += 1
+    return blocks
+
+
+def certificate_ders(text: str) -> list[bytes]:
+    """Return DER bytes for every CERTIFICATE block, ignoring other labels."""
+    return [b.der for b in split_blocks(text) if b.label == "CERTIFICATE"]
