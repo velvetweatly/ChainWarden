@@ -22,3 +22,11 @@ WEAK_NB=20250101000000Z; WEAK_NA=20280101000000Z
 
 # --- root CA (RSA 2048, SHA256, self signed) ---
 openssl req -new -newkey rsa:2048 -nodes \
+  -keyout root.key -out root.csr \
+  -subj "/C=US/O=ChainWarden Test PKI/CN=ChainWarden Test Root CA"
+
+cat > ext_root.cnf <<'EOF'
+basicConstraints=critical,CA:TRUE
+keyUsage=critical,keyCertSign,cRLSign
+EOF
+
