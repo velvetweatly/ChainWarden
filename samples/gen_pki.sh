@@ -30,3 +30,10 @@ basicConstraints=critical,CA:TRUE
 keyUsage=critical,keyCertSign,cRLSign
 EOF
 
+openssl x509 -req -in root.csr -signkey root.key \
+  -set_serial 1 -sha256 \
+  -not_before "$ROOT_NB" -not_after "$ROOT_NA" \
+  -extfile ext_root.cnf -out root.pem
+
+# --- intermediate CA key and CSR ---
+openssl req -new -newkey rsa:2048 -nodes \
