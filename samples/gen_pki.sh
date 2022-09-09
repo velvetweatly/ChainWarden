@@ -37,3 +37,11 @@ openssl x509 -req -in root.csr -signkey root.key \
 
 # --- intermediate CA key and CSR ---
 openssl req -new -newkey rsa:2048 -nodes \
+  -keyout intermediate.key -out intermediate.csr \
+  -subj "/C=US/O=ChainWarden Test PKI/CN=ChainWarden Test Intermediate CA"
+
+cat > ext_int.cnf <<'EOF'
+basicConstraints=critical,CA:TRUE,pathlen:0
+keyUsage=critical,keyCertSign,cRLSign
+EOF
+
