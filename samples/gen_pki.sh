@@ -75,3 +75,10 @@ openssl x509 -req -in leaf-soon.csr \
 
 # --- leaf-expired (RSA 2048, SHA256, already expired) ---
 openssl req -new -newkey rsa:2048 -nodes \
+  -keyout leaf-expired.key -out leaf-expired.csr \
+  -subj "/C=US/O=ChainWarden Test PKI/CN=expired.example.test"
+openssl x509 -req -in leaf-expired.csr \
+  -CA intermediate.pem -CAkey intermediate.key -set_serial 18 \
+  -sha256 -not_before "$EXP_NB" -not_after "$EXP_NA" \
+  -extfile ext_leaf.cnf -out leaf-expired.pem
+
