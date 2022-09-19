@@ -60,3 +60,10 @@ keyUsage=critical,digitalSignature,keyEncipherment
 extendedKeyUsage=serverAuth
 EOF
 openssl x509 -req -in leaf-good.csr \
+  -CA intermediate.pem -CAkey intermediate.key -set_serial 16 \
+  -sha256 -not_before "$GOOD_NB" -not_after "$GOOD_NA" \
+  -extfile ext_leaf.cnf -out leaf-good.pem
+
+# --- leaf-soon (RSA 2048, SHA256, expires close to leaf-good) ---
+openssl req -new -newkey rsa:2048 -nodes \
+  -keyout leaf-soon.key -out leaf-soon.csr \
