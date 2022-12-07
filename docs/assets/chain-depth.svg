@@ -8,3 +8,8 @@
     finding an operator should read first. Two cores plus one accent.
     Contrast on the painted #ffffff background: slate 13.6:1, green 5.3:1,
     amber 5.9:1, all at or above WCAG AA.
+    Every value shown (subject common names, expiry dates, chain depth) is
+    taken verbatim from the output of `chainwarden chain samples` and
+    `chainwarden expiry samples` run with the as of date 2026-09-02. No
+    number is invented.
+    One box stroke width 1.5, one connector width 1, one corner radius 3,
