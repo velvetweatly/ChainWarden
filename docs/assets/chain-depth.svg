@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 384" role="img"
+     aria-labelledby="cdTitle cdDesc" width="640" height="384">
+  <!--
+    Palette reason: the subject is certificate trust chains. Slate #1f2933 is
+    the structural ink for boxes, connectors, and labels. Green #157347 marks
+    healthy certificates that chain to the root and are still valid. Amber
+    #b45309 is the single accent, used only on the expired leaf, which is the
+    finding an operator should read first. Two cores plus one accent.
+    Contrast on the painted #ffffff background: slate 13.6:1, green 5.3:1,
+    amber 5.9:1, all at or above WCAG AA.
