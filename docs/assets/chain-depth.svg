@@ -13,3 +13,8 @@
     `chainwarden expiry samples` run with the as of date 2026-09-02. No
     number is invented.
     One box stroke width 1.5, one connector width 1, one corner radius 3,
+    spacing on a multiple of 8 grid.
+  -->
+  <title id="cdTitle">Chains built from samples, depth 3</title>
+  <desc id="cdDesc">Four leaf certificates each chain through one shared
+    intermediate CA to one shared self signed root. Subject common names and
