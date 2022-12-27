@@ -35,3 +35,8 @@
         font-size="11" font-weight="600" fill="#1f2933">leaf</text>
   <text x="272" y="80" font-family="-apple-system, &quot;Segoe UI&quot;, Roboto, Helvetica, Arial, sans-serif"
         font-size="11" font-weight="600" fill="#1f2933">intermediate CA</text>
+  <text x="488" y="80" font-family="-apple-system, &quot;Segoe UI&quot;, Roboto, Helvetica, Arial, sans-serif"
+        font-size="11" font-weight="600" fill="#1f2933">root CA</text>
+
+  <!-- leaf boxes: x=24 width=200 height=48, gap 16, top=96 -->
+  <!-- good.example.test -->
