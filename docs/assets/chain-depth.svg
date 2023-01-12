@@ -68,3 +68,8 @@
         font-size="11" fill="#157347">exp 2028-01-01</text>
 
   <!-- intermediate box: x=272 width=176 height=48, vertically centred at y=192 -->
+  <rect x="272" y="192" width="176" height="56" rx="3" fill="none" stroke="#1f2933" stroke-width="1.5"/>
+  <text x="284" y="216" font-family="&quot;Cascadia Mono&quot;, &quot;JetBrains Mono&quot;, Consolas, &quot;DejaVu Sans Mono&quot;, monospace"
+        font-size="11" fill="#1f2933">ChainWarden Test</text>
+  <text x="284" y="230" font-family="&quot;Cascadia Mono&quot;, &quot;JetBrains Mono&quot;, Consolas, &quot;DejaVu Sans Mono&quot;, monospace"
+        font-size="11" fill="#1f2933">Intermediate CA</text>
