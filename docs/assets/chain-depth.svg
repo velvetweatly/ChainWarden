@@ -79,3 +79,8 @@
   <!-- root box: x=488 width=128 height=56 -->
   <rect x="488" y="192" width="128" height="56" rx="3" fill="none" stroke="#1f2933" stroke-width="1.5"/>
   <text x="500" y="216" font-family="&quot;Cascadia Mono&quot;, &quot;JetBrains Mono&quot;, Consolas, &quot;DejaVu Sans Mono&quot;, monospace"
+        font-size="11" fill="#1f2933">ChainWarden</text>
+  <text x="500" y="230" font-family="&quot;Cascadia Mono&quot;, &quot;JetBrains Mono&quot;, Consolas, &quot;DejaVu Sans Mono&quot;, monospace"
+        font-size="11" fill="#1f2933">Test Root CA</text>
+  <text x="500" y="244" font-family="&quot;Cascadia Mono&quot;, &quot;JetBrains Mono&quot;, Consolas, &quot;DejaVu Sans Mono&quot;, monospace"
+        font-size="11" fill="#157347">exp 2034-01-01</text>
