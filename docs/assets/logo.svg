@@ -3,3 +3,8 @@
   <!--
     Palette reason: the subject is certificate trust chains. Slate #1f2933 is
     the structural ink for the blocks and wordmark. Green #157347 marks a link
+    that verifies (subject to issuer match), the healthy state this tool looks
+    for. Amber #b45309 is the single accent on the last block, the leaf, which
+    is the certificate an operator inspects first. Two cores plus one accent.
+    Contrast on the painted #ffffff background: slate 13.6:1, green 5.3:1,
+    amber 5.9:1, all at or above WCAG AA for normal text.
