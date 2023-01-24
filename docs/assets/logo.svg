@@ -8,3 +8,7 @@
     is the certificate an operator inspects first. Two cores plus one accent.
     Contrast on the painted #ffffff background: slate 13.6:1, green 5.3:1,
     amber 5.9:1, all at or above WCAG AA for normal text.
+    The mark is a literal diagram of the core data structure: three linked
+    certificate blocks, root then intermediate then leaf. Geometry is exact,
+    every block 44 wide and 28 tall on whole pixel coordinates, one link width.
+  -->
