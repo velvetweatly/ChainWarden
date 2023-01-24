@@ -12,3 +12,8 @@
     certificate blocks, root then intermediate then leaf. Geometry is exact,
     every block 44 wide and 28 tall on whole pixel coordinates, one link width.
   -->
+  <title id="logoTitle">ChainWarden</title>
+  <desc id="logoDesc">Wordmark with a three block certificate chain: root,
+    intermediate, and leaf, linked left to right.</desc>
+
+  <rect x="0" y="0" width="240" height="96" fill="#ffffff"/>
