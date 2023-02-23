@@ -39,3 +39,16 @@ TEXT_SUFFIXES = {
 }
 
 # Directories that never hold tracked source we author.
+SKIP_DIRS = {
+    "__pycache__", ".git", ".venv", "build", "dist", ".mypy_cache",
+    ".pytest_cache",
+}
+
+BANNED_FILTERS = ("feGaussianBlur", "feDropShadow", "feTurbulence")
+
+# Marketing words that lesson 6 bans from the README.
+BANNED_MARKETING = [
+    "blazing", "blazingly", "cutting-edge", "cutting edge", "state-of-the-art",
+    "state of the art", "world-class", "world class", "revolutionary",
+    "game-changing", "game changing", "seamless", "seamlessly", "effortless",
+    "effortlessly", "lightning-fast", "lightning fast", "supercharge",
