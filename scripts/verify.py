@@ -27,3 +27,15 @@ import re
 import sys
 import xml.etree.ElementTree as ET
 from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent.parent
+ASSETS = ROOT / "docs" / "assets"
+
+# File suffixes treated as tracked text for the em dash sweep.
+TEXT_SUFFIXES = {
+    ".py", ".md", ".txt", ".svg", ".yml", ".yaml", ".toml", ".cfg", ".ini",
+    ".cff", ".sh", ".editorconfig", ".gitattributes", ".gitignore", ".pem",
+    ".cnf", "",
+}
+
+# Directories that never hold tracked source we author.
