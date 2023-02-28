@@ -77,3 +77,15 @@ def _iter_svgs() -> list[Path]:
     return sorted(ASSETS.rglob("*.svg"))
 
 
+def _iter_text_files() -> list[Path]:
+    out: list[Path] = []
+    for path in sorted(ROOT.rglob("*")):
+        if not path.is_file():
+            continue
+        if any(part in SKIP_DIRS for part in path.relative_to(ROOT).parts):
+            continue
+        name = path.name
+        suffix = path.suffix.lower()
+        if suffix in TEXT_SUFFIXES or name in TEXT_SUFFIXES:
+            out.append(path)
+    return out
