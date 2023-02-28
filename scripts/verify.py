@@ -89,3 +89,16 @@ def _iter_text_files() -> list[Path]:
         if suffix in TEXT_SUFFIXES or name in TEXT_SUFFIXES:
             out.append(path)
     return out
+
+
+def _local(tag: str) -> str:
+    return tag.rsplit("}", 1)[-1]
+
+
+def check_svg_parses() -> tuple[bool, str]:
+    failures = []
+    for svg in _iter_svgs():
+        try:
+            ET.parse(svg)
+        except ET.ParseError as exc:
+            failures.append(f"{svg.name}: {exc}")
