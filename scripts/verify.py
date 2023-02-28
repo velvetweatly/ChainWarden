@@ -64,3 +64,16 @@ EM_DASH_FORMS = (
     "\u2014",
     "&#" + "8212;",
     "&" + "mdash;",
+)
+
+# Rough advance widths in em units. Sans and mono per the standard.
+WIDTH_SANS = 0.58
+WIDTH_MONO = 0.60
+
+
+def _iter_svgs() -> list[Path]:
+    if not ASSETS.is_dir():
+        return []
+    return sorted(ASSETS.rglob("*.svg"))
+
+
