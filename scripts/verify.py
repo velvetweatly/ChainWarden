@@ -114,3 +114,16 @@ def check_no_banned_filters() -> tuple[bool, str]:
         for banned in BANNED_FILTERS:
             if banned in text:
                 failures.append(f"{svg.name}: {banned}")
+    if failures:
+        return False, "no banned svg filters: " + "; ".join(failures)
+    return True, "no banned svg filters: none found"
+
+
+def check_no_double_hyphen_in_comments() -> tuple[bool, str]:
+    failures = []
+    comment_re = re.compile(r"<!--(.*?)-->", re.DOTALL)
+    for svg in _iter_svgs():
+        text = svg.read_text(encoding="utf-8")
+        for body in comment_re.findall(text):
+            if "--" in body:
+                failures.append(svg.name)
