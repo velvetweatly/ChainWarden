@@ -102,3 +102,15 @@ def check_svg_parses() -> tuple[bool, str]:
             ET.parse(svg)
         except ET.ParseError as exc:
             failures.append(f"{svg.name}: {exc}")
+    if failures:
+        return False, "svg parses as XML: " + "; ".join(failures)
+    return True, f"svg parses as XML: {len(_iter_svgs())} files ok"
+
+
+def check_no_banned_filters() -> tuple[bool, str]:
+    failures = []
+    for svg in _iter_svgs():
+        text = svg.read_text(encoding="utf-8")
+        for banned in BANNED_FILTERS:
+            if banned in text:
+                failures.append(f"{svg.name}: {banned}")
