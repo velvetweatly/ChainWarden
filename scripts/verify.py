@@ -139,3 +139,16 @@ def check_no_em_dash() -> tuple[bool, str]:
         try:
             text = path.read_text(encoding="utf-8")
         except UnicodeDecodeError:
+            continue
+        for form in EM_DASH_FORMS:
+            if form in text:
+                rel = path.relative_to(ROOT).as_posix()
+                failures.append(f"{rel}:{form!r}")
+    if failures:
+        return False, "no em dash forms: " + "; ".join(failures)
+    return True, "no em dash forms: clean"
+
+
+def check_readme_no_pandoc_attr() -> tuple[bool, str]:
+    readme = ROOT / "README.md"
+    if not readme.is_file():
