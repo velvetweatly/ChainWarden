@@ -127,3 +127,15 @@ def check_no_double_hyphen_in_comments() -> tuple[bool, str]:
         for body in comment_re.findall(text):
             if "--" in body:
                 failures.append(svg.name)
+                break
+    if failures:
+        return False, "no '--' in svg comments: " + "; ".join(failures)
+    return True, "no '--' in svg comments: clean"
+
+
+def check_no_em_dash() -> tuple[bool, str]:
+    failures = []
+    for path in _iter_text_files():
+        try:
+            text = path.read_text(encoding="utf-8")
+        except UnicodeDecodeError:
