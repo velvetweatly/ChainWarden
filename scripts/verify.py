@@ -152,3 +152,15 @@ def check_no_em_dash() -> tuple[bool, str]:
 def check_readme_no_pandoc_attr() -> tuple[bool, str]:
     readme = ROOT / "README.md"
     if not readme.is_file():
+        return True, "readme pandoc image attr: no README.md"
+    text = readme.read_text(encoding="utf-8")
+    # Match `){` then width or height before the closing brace.
+    pattern = re.compile(r"\)\{[^}]*(?:width|height)[^}]*\}")
+    if pattern.search(text):
+        return False, "readme pandoc image attr: found `){...width...}` block"
+    return True, "readme pandoc image attr: none"
+
+
+def check_readme_no_marketing() -> tuple[bool, str]:
+    readme = ROOT / "README.md"
+    if not readme.is_file():
