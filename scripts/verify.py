@@ -177,3 +177,15 @@ def check_svg_accessibility() -> tuple[bool, str]:
     for svg in _iter_svgs():
         try:
             root = ET.parse(svg).getroot()
+        except ET.ParseError:
+            failures.append(f"{svg.name}: unparseable")
+            continue
+        missing = []
+        if root.get("viewBox") is None:
+            missing.append("viewBox")
+        if root.get("role") != "img":
+            missing.append('role="img"')
+        tags = {_local(el.tag) for el in root.iter()}
+        if "title" not in tags:
+            missing.append("<title>")
+        if "desc" not in tags:
