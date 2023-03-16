@@ -164,3 +164,16 @@ def check_readme_no_pandoc_attr() -> tuple[bool, str]:
 def check_readme_no_marketing() -> tuple[bool, str]:
     readme = ROOT / "README.md"
     if not readme.is_file():
+        return True, "readme marketing terms: no README.md"
+    text = readme.read_text(encoding="utf-8").lower()
+    hits = [term for term in BANNED_MARKETING if term in text]
+    if hits:
+        return False, "readme marketing terms: " + ", ".join(hits)
+    return True, "readme marketing terms: none"
+
+
+def check_svg_accessibility() -> tuple[bool, str]:
+    failures = []
+    for svg in _iter_svgs():
+        try:
+            root = ET.parse(svg).getroot()
