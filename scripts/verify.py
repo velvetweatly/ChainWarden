@@ -202,3 +202,15 @@ def _text_content(el: ET.Element) -> str:
     parts = []
     if el.text:
         parts.append(el.text)
+    for child in el:
+        if child.text:
+            parts.append(child.text)
+        if child.tail:
+            parts.append(child.tail)
+    return "".join(parts)
+
+
+def _est_width(text: str, font_size: float, family: str) -> float:
+    per_em = WIDTH_MONO if "mono" in (family or "").lower() else WIDTH_SANS
+    return len(text) * per_em * font_size
+
