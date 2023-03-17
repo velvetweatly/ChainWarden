@@ -239,3 +239,16 @@ def check_no_label_overlap() -> tuple[bool, str]:
             anchor = el.get("text-anchor", "start")
             width = _est_width(content, font_size, family)
             if anchor == "middle":
+                left = x - width / 2
+            elif anchor == "end":
+                left = x - width
+            else:
+                left = x
+            right = left + width
+            rows.setdefault(round(y), []).append((left, right, content))
+        for baseline, spans in rows.items():
+            spans.sort(key=lambda s: s[0])
+            for i in range(1, len(spans)):
+                prev_left, prev_right, prev_text = spans[i - 1]
+                left, right, text = spans[i]
+                if left < prev_right - 0.01:
