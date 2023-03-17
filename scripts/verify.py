@@ -214,3 +214,16 @@ def _est_width(text: str, font_size: float, family: str) -> float:
     per_em = WIDTH_MONO if "mono" in (family or "").lower() else WIDTH_SANS
     return len(text) * per_em * font_size
 
+
+def check_no_label_overlap() -> tuple[bool, str]:
+    failures = []
+    for svg in _iter_svgs():
+        try:
+            root = ET.parse(svg).getroot()
+        except ET.ParseError:
+            continue
+        rows: dict[int, list[tuple[float, float, str]]] = {}
+        for el in root.iter():
+            if _local(el.tag) != "text":
+                continue
+            content = _text_content(el).strip()
