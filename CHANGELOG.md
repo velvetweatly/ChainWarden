@@ -9,3 +9,4 @@ Keep a Changelog, and this project uses semantic versioning.
 
 - CI job runs the audit against the bundled sample PKI with `--as-of` so the
   expected failure exit code is pinned to a fixed date.
+
