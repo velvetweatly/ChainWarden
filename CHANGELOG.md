@@ -11,3 +11,4 @@ Keep a Changelog, and this project uses semantic versioning.
   expected failure exit code is pinned to a fixed date.
 
 ## [0.6.0] - 2026-09-02
+
