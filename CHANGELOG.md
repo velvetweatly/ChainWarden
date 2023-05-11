@@ -21,3 +21,4 @@ Keep a Changelog, and this project uses semantic versioning.
 - `expiry` subcommand now accepts a `--bundle` flag for reading concatenated
   bundles directly instead of scanning a directory.
 
+### Fixed
