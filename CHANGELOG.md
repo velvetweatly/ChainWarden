@@ -19,3 +19,4 @@ Keep a Changelog, and this project uses semantic versioning.
 - `--key-size-min` and `--days-before-expiry` overrides on the `audit`
   subcommand so policy thresholds can be tuned per fleet without editing code.
 - `expiry` subcommand now accepts a `--bundle` flag for reading concatenated
+  bundles directly instead of scanning a directory.
