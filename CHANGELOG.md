@@ -22,3 +22,4 @@ Keep a Changelog, and this project uses semantic versioning.
   bundles directly instead of scanning a directory.
 
 ### Fixed
+
