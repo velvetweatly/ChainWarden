@@ -24,3 +24,4 @@ Keep a Changelog, and this project uses semantic versioning.
 ### Fixed
 
 - Chain builder now prefers the longest matching candidate chain when multiple
+  issuers share a common name, instead of stopping at the first match.
