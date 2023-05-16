@@ -27,3 +27,4 @@ Keep a Changelog, and this project uses semantic versioning.
   issuers share a common name, instead of stopping at the first match.
 
 ## [0.5.0] - 2025-11-18
+
