@@ -30,3 +30,4 @@ Keep a Changelog, and this project uses semantic versioning.
 
 ### Added
 
+- Expiry cliff detection: when a configurable share of certificates in one
