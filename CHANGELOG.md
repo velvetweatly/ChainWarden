@@ -31,3 +31,4 @@ Keep a Changelog, and this project uses semantic versioning.
 ### Added
 
 - Expiry cliff detection: when a configurable share of certificates in one
+  directory expire inside the same window, a single `EXPIRY_CLIFF` finding is
