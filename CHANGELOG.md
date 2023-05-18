@@ -29,3 +29,4 @@ Keep a Changelog, and this project uses semantic versioning.
 ## [0.5.0] - 2025-11-18
 
 ### Added
+
