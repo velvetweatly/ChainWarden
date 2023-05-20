@@ -36,3 +36,4 @@ Keep a Changelog, and this project uses semantic versioning.
 - `--group-by` on `audit` to cluster findings by issuer, by day of expiry, or
   by key size for triage.
 
+### Changed
