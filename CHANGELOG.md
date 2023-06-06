@@ -41,3 +41,4 @@ Keep a Changelog, and this project uses semantic versioning.
 - Finding severities are now sorted in output: ERROR lines first, then WARN,
   then INFO, regardless of scan order.
 
+## [0.4.0] - 2024-06-21
