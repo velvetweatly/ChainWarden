@@ -38,3 +38,4 @@ Keep a Changelog, and this project uses semantic versioning.
 
 ### Changed
 
+- Finding severities are now sorted in output: ERROR lines first, then WARN,
