@@ -46,3 +46,4 @@ Keep a Changelog, and this project uses semantic versioning.
 ### Added
 
 - Extended key usage and basic constraints sanity checks for CA certificates:
+  path length violations, missing key usage bits, and leaf certificates that
