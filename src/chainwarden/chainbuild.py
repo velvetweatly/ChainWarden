@@ -84,3 +84,16 @@ def build_chain(leaf: Certificate, certs: list[Certificate]) -> Chain:
         # Deterministic pick: lowest fingerprint that is not already visited.
         nxt = None
         for cand in sorted(candidates, key=lambda c: c.fingerprint_sha256):
+            if cand.fingerprint_sha256 not in visited:
+                nxt = cand
+                break
+        if nxt is None:
+            break
+        chain.append(nxt)
+        visited.add(nxt.fingerprint_sha256)
+        current = nxt
+    return Chain(certs=chain)
+
+
+def build_all_chains(certs: list[Certificate]) -> list[Chain]:
+    """Build one chain per detected leaf, in input order."""
