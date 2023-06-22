@@ -50,3 +50,4 @@ Keep a Changelog, and this project uses semantic versioning.
   assert CA rights.
 - `--chain` flag on `audit` prints the resolved trust chain next to each
   finding so an operator can see which anchor a chain actually resolves to.
+
