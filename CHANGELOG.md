@@ -54,3 +54,4 @@ Keep a Changelog, and this project uses semantic versioning.
 ### Changed
 
 - `certmodel` now records the subject alternative names and the SHA256
+  fingerprint for every parsed certificate; both are exposed in the report.
