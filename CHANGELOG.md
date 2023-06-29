@@ -57,3 +57,4 @@ Keep a Changelog, and this project uses semantic versioning.
   fingerprint for every parsed certificate; both are exposed in the report.
 
 ## [0.3.0] - 2023-08-09
+
