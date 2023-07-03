@@ -61,3 +61,4 @@ Keep a Changelog, and this project uses semantic versioning.
 ### Added
 
 - Name based chain assembly with self signed root detection and loop guarding
+  (`chainbuild.py`). Chains are built by matching issuer names to subject
