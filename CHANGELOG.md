@@ -66,3 +66,4 @@ Keep a Changelog, and this project uses semantic versioning.
 - `chain` subcommand that prints each resolved chain, its depth, and the
   anchor fingerprint.
 
+### Changed
