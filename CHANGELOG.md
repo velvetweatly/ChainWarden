@@ -68,3 +68,4 @@ Keep a Changelog, and this project uses semantic versioning.
 
 ### Changed
 
+- `pemread` accepts concatenated bundles (multiple `BEGIN CERTIFICATE` blocks
