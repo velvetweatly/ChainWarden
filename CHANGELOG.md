@@ -72,3 +72,4 @@ Keep a Changelog, and this project uses semantic versioning.
   in one buffer) and labels every block with its line range for error
   reporting.
 
+## [0.2.0] - 2022-09-04
