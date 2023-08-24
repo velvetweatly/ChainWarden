@@ -80,3 +80,4 @@ Keep a Changelog, and this project uses semantic versioning.
   expired, not yet valid, expiring soon, and the basic sanity checks from the
   initial release (`policy.py`).
 - Line oriented report rendering with a stable column layout and a trailing
+  summary line counting findings per severity (`report.py`).
