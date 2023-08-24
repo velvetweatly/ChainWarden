@@ -79,3 +79,4 @@ Keep a Changelog, and this project uses semantic versioning.
 - Policy checks with severities: weak signature algorithm, weak RSA key,
   expired, not yet valid, expiring soon, and the basic sanity checks from the
   initial release (`policy.py`).
+- Line oriented report rendering with a stable column layout and a trailing
