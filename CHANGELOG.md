@@ -81,3 +81,4 @@ Keep a Changelog, and this project uses semantic versioning.
   initial release (`policy.py`).
 - Line oriented report rendering with a stable column layout and a trailing
   summary line counting findings per severity (`report.py`).
+- `audit` subcommand with an `--as-of` reference date so output does not
