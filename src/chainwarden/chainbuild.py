@@ -97,3 +97,4 @@ def build_chain(leaf: Certificate, certs: list[Certificate]) -> Chain:
 
 def build_all_chains(certs: list[Certificate]) -> list[Chain]:
     """Build one chain per detected leaf, in input order."""
+    return [build_chain(leaf, certs) for leaf in find_leaves(certs)]
