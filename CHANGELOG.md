@@ -83,3 +83,4 @@ Keep a Changelog, and this project uses semantic versioning.
   summary line counting findings per severity (`report.py`).
 - `audit` subcommand with an `--as-of` reference date so output does not
   depend on the wall clock and can be pinned in scripts.
+
