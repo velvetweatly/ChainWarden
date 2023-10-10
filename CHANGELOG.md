@@ -90,3 +90,4 @@ Keep a Changelog, and this project uses semantic versioning.
 
 - PEM block reader that splits a text buffer into labelled base64 blocks and
   decodes `CERTIFICATE` blocks (`pemread.py`).
+- Minimal DER tag-length-value walker that rejects indefinite lengths and
