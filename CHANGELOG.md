@@ -93,3 +93,5 @@ Keep a Changelog, and this project uses semantic versioning.
 - Minimal DER tag-length-value walker that rejects indefinite lengths and
   reaches the fields needed for auditing (`der.py`).
 - Certificate model parsed from DER: subject, issuer, serial, validity dates,
+  signature algorithm, public key algorithm and RSA modulus size
+  (`certmodel.py`).
