@@ -92,3 +92,4 @@ Keep a Changelog, and this project uses semantic versioning.
   decodes `CERTIFICATE` blocks (`pemread.py`).
 - Minimal DER tag-length-value walker that rejects indefinite lengths and
   reaches the fields needed for auditing (`der.py`).
+- Certificate model parsed from DER: subject, issuer, serial, validity dates,
