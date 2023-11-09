@@ -98,3 +98,4 @@ Keep a Changelog, and this project uses semantic versioning.
 - CLI scaffold with `version` and a first `audit` pass that reports expired
   certificates (`cli.py`).
 - Sample PKI under `samples/` generated with OpenSSL: a root, an
+  intermediate, and leaves covering the expired and healthy cases.
