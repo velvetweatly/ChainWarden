@@ -96,3 +96,4 @@ Keep a Changelog, and this project uses semantic versioning.
   signature algorithm, public key algorithm and RSA modulus size
   (`certmodel.py`).
 - CLI scaffold with `version` and a first `audit` pass that reports expired
+  certificates (`cli.py`).
