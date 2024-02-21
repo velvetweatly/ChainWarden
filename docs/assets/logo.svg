@@ -18,3 +18,7 @@
 
   <rect x="0" y="0" width="240" height="96" fill="#ffffff"/>
 
+  <!-- three certificate blocks, corner radius 3 reused throughout -->
+  <!-- root block -->
+  <rect x="16" y="18" width="44" height="28" rx="3" fill="none"
+        stroke="#1f2933" stroke-width="1.5"/>
