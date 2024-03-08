@@ -151,3 +151,22 @@ def _cmd_expiry(args: argparse.Namespace) -> int:
 
 def _cmd_version(_args: argparse.Namespace) -> int:
     print(f"chainwarden {__version__}")
+    return 0
+
+
+_DISPATCH = {
+    "audit": _cmd_audit,
+    "chain": _cmd_chain,
+    "expiry": _cmd_expiry,
+    "version": _cmd_version,
+}
+
+
+def main(argv: list[str] | None = None) -> int:
+    parser = build_parser()
+    args = parser.parse_args(argv)
+    handler = _DISPATCH[args.command]
+    try:
+        return handler(args)
+    except (FileNotFoundError, PEMError, DERError, CertParseError) as exc:
+        print(f"error: {exc}", file=sys.stderr)
