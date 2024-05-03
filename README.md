@@ -385,3 +385,36 @@ parsing into nonsense.
 
 **Name-based chaining as an acceptable first cut.** Proper path building matches
 the authority key identifier of a certificate to the subject key identifier of
+its issuer, and then verifies the signature. ChainWarden matches issuer name to
+subject name and stops there. This is weaker, and the README says so in three
+places. It was accepted as a first cut because the tool's primary job is
+lifecycle auditing, expiry and weak crypto, not trust decisions, and for that
+job a structural map of which certificate claims to be issued by which is enough
+to tell an operator whether a root is missing from their bundle. Building the
+name index and walking it is a few lines in `chainbuild.py`, it is deterministic
+because ties are broken by fingerprint, and it is loop guarded by tracking
+visited fingerprints. Adding real signature verification would mean adding a
+crypto dependency, which reopens the decision above. The honest split is:
+structure now, cryptography later, and never pretend the first is the second.
+
+A smaller decision worth noting: the reference date is a required argument, not
+a default of "today". Reading the wall clock would make output depend on when it
+ran, which breaks reproducible diffs and makes a test suite awkward. Requiring
+`--as-of` and echoing it in the header keeps every run pinned to a date the
+reader can see.
+
+## Repository layout
+
+```
+ChainWarden/
+  README.md                  this document
+  CHANGELOG.md               notable changes, Keep a Changelog format
+  LICENSE                    MIT licence text
+  pyproject.toml             package metadata, entry point, Python 3.11+
+  .gitignore                 ignores build and cache artefacts
+  .github/workflows/ci.yml   runs the tests and audits the sample bundle
+  docs/assets/
+    logo.svg                 wordmark: a three block certificate chain
+    chain-depth.svg          the sample chains, names and dates from the CLI
+  samples/
+    gen_pki.sh               regenerates the test PKI with pinned dates
