@@ -92,3 +92,36 @@ options:
 |------------|----------------------------------------------------|-----------------|
 | `audit`    | Run every check and print findings                 | Yes             |
 | `chain`    | Build and print candidate trust chains             | No              |
+| `expiry`   | List certificates ordered by expiry                | Yes             |
+| `version`  | Print the version and exit                         | No              |
+
+A path argument may be a single PEM file that holds one or many CERTIFICATE
+blocks, or a directory. When it is a directory, every `*.pem`, `*.crt`, and
+`*.cer` file inside is read, non recursively. Files are visited in sorted order
+and blocks in file order, and duplicate certificates (same SHA256 fingerprint)
+are kept once, so the output is deterministic.
+
+The `audit` subcommand takes four tuning flags beyond the input paths:
+
+```
+$ python -m chainwarden audit --help
+usage: chainwarden audit [-h] --as-of YYYY-MM-DD
+                         [--expiry-warn-days EXPIRY_WARN_DAYS]
+                         [--cliff-window-days CLIFF_WINDOW_DAYS]
+                         [--cliff-count CLIFF_COUNT]
+                         paths [paths ...]
+
+positional arguments:
+  paths                 PEM files or directories of PEM certificates
+
+options:
+  -h, --help            show this help message and exit
+  --as-of YYYY-MM-DD    reference date for expiry checks
+  --expiry-warn-days EXPIRY_WARN_DAYS
+  --cliff-window-days CLIFF_WINDOW_DAYS
+  --cliff-count CLIFF_COUNT
+```
+
+The defaults are 90 days for the expiring soon warning, a 30 day window for the
+cliff grouping, and a minimum of 3 certificates to call a window a cliff.
+
