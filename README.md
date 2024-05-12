@@ -190,3 +190,36 @@ chain soon.example.test depth=3 complete
   [ca] ChainWarden Test Intermediate CA exp 2032-01-01 rsaEncryption/2048 sha256WithRSAEncryption
     [root] ChainWarden Test Root CA exp 2034-01-01 rsaEncryption/2048 sha256WithRSAEncryption
 chain expired.example.test depth=3 complete
+[leaf] expired.example.test exp 2024-06-01 rsaEncryption/2048 sha256WithRSAEncryption
+  [ca] ChainWarden Test Intermediate CA exp 2032-01-01 rsaEncryption/2048 sha256WithRSAEncryption
+    [root] ChainWarden Test Root CA exp 2034-01-01 rsaEncryption/2048 sha256WithRSAEncryption
+chain weak.example.test depth=3 complete
+[leaf] weak.example.test exp 2028-01-01 rsaEncryption/1024 sha1WithRSAEncryption
+  [ca] ChainWarden Test Intermediate CA exp 2032-01-01 rsaEncryption/2048 sha256WithRSAEncryption
+    [root] ChainWarden Test Root CA exp 2034-01-01 rsaEncryption/2048 sha256WithRSAEncryption
+```
+
+The four chains above are drawn in the diagram below. Every common name and
+expiry date in the diagram is the same text the CLI printed.
+
+![Four leaf certificates, good soon expired and weak, each chaining through one shared intermediate CA to one shared self signed root, three levels deep](docs/assets/chain-depth.svg)
+
+## What each check means
+
+Each finding has a severity, a stable code, the subject it concerns, and a
+message. The table below is the catalogue. Codes come from the `Finding`
+objects constructed in `policy.py`.
+
+| Check id           | Severity | What triggers it                                                                 | What to do                                                                 |
+|--------------------|----------|----------------------------------------------------------------------------------|----------------------------------------------------------------------------|
+| `EXPIRED`          | ERROR    | `not_after` is earlier than `--as-of`                                            | Renew or remove the certificate now, it is already invalid                 |
+| `NOT_YET_VALID`    | WARN     | `not_before` is later than `--as-of`                                             | Check the clock and the issuance date, deploy only after the start date    |
+| `EXPIRING_SOON`    | WARN     | `not_after` is within `--expiry-warn-days` of `--as-of` (default 90)             | Schedule renewal before the printed date                                   |
+| `WEAK_SIG`         | ERROR    | Signature algorithm is an MD5 or SHA1 based OID                                   | Reissue with a SHA256 or stronger signature                                |
+| `WEAK_KEY`         | ERROR    | RSA modulus is below 2048 bits                                                    | Reissue with a 2048 bit or larger RSA key                                  |
+| `LEAF_CERTSIGN`    | ERROR    | Basic constraints say not a CA, but key usage asserts `keyCertSign`              | Reissue without `keyCertSign`, a leaf must not sign certificates           |
+| `CA_NO_CERTSIGN`   | WARN     | Basic constraints say CA, but key usage omits `keyCertSign`                      | Add `keyCertSign` to the CA, or it cannot issue                            |
+| `BC_NOT_CRITICAL`  | WARN     | Basic constraints CA:TRUE is present but not marked critical                     | Reissue with basic constraints marked critical, per RFC 5280               |
+| `CHAIN_INCOMPLETE` | ERROR    | A leaf never reaches a self signed root present in the pool                      | Add the missing issuer or root PEM to the input, then re-run              |
+| `PATHLEN_EXCEEDED` | ERROR    | More certificates appear below a CA than its `pathlen` constraint allows         | Shorten the chain or reissue the CA with a larger `pathlen`                |
+| `EXPIRY_CLIFF`     | WARN     | `--cliff-count` or more certificates expire inside one `--cliff-window-days`     | Stagger the renewals so they do not all fall due together                  |
