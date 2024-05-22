@@ -255,3 +255,36 @@ fields:
 |----------|------------|------------|---------------------------------|------------------------------------------------|
 | Severity | 1          | 5, left    | `Finding.severity`              | `ERROR`                                        |
 | Code     | 2          | 16, left   | `Finding.code`                  | `WEAK_KEY`                                      |
+| Subject  | 3          | to `::`    | `Finding.subject` (full RDN)    | `C=US, O=ChainWarden Test PKI, CN=weak...`     |
+| Message  | after `::` | rest       | `Finding.message`               | `RSA key size 1024 bits is below the 2048...`  |
+
+When there are no findings the body is a single `OK  no findings` line. The
+summary counts findings by severity in the fixed order ERROR, WARN, INFO.
+
+The `expiry` output opens with a header, then one line per certificate sorted by
+`not_after` then common name. Each line carries the expiry date, the remaining
+days as a signed right aligned integer with a `d` suffix, a state word, and the
+common name:
+
+```
+$ python -m chainwarden expiry samples/bundle.pem --as-of 2026-09-02
+# expiry sorted by notAfter, as of 2026-09-02
+2024-06-01   -823d EXPIRED expired.example.test
+2026-10-01     29d valid   soon.example.test
+2027-01-01    121d valid   good.example.test
+2028-01-01    486d valid   weak.example.test
+2032-01-01   1947d valid   ChainWarden Test Intermediate CA
+2034-01-01   2678d valid   ChainWarden Test Root CA
+```
+
+The `chain` output prints, per leaf, a header line reading
+`chain <cn> depth=<n> <complete|incomplete>`, then one indented line per
+certificate from leaf to anchor. Each certificate line names its role (`leaf`,
+`ca`, or `root`), the common name, the expiry date, the public key algorithm
+with the RSA size appended when known, and the signature algorithm.
+
+## Exit codes
+
+The exit code is the machine readable summary. It lets a CI job or a shell
+script react without parsing the text.
+
