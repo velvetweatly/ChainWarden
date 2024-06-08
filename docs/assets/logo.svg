@@ -44,3 +44,7 @@
   <circle cx="79" cy="32" r="7" fill="none" stroke="#157347" stroke-width="1.5"/>
   <line x1="60" y1="32" x2="72" y2="32" stroke="#157347" stroke-width="1.5"/>
   <line x1="86" y1="32" x2="98" y2="32" stroke="#157347" stroke-width="1.5"/>
+
+  <circle cx="161" cy="32" r="7" fill="none" stroke="#157347" stroke-width="1.5"/>
+  <line x1="142" y1="32" x2="154" y2="32" stroke="#157347" stroke-width="1.5"/>
+  <line x1="168" y1="32" x2="180" y2="32" stroke="#157347" stroke-width="1.5"/>
