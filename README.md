@@ -125,3 +125,36 @@ options:
 The defaults are 90 days for the expiring soon warning, a 30 day window for the
 cliff grouping, and a minimum of 3 certificates to call a window a cliff.
 
+## A worked audit
+
+This section follows one certificate, `leaf-weak.pem` in the samples, from the
+PEM text on disk to the two findings it produces. The other samples travel the
+same path.
+
+The file starts as base64 wrapped in markers:
+
+```
+-----BEGIN CERTIFICATE-----
+MIIC... (trimmed)
+-----END CERTIFICATE-----
+```
+
+`pemread.certificate_ders` splits the buffer on the BEGIN and END lines, keeps
+only blocks labelled `CERTIFICATE`, and base64 decodes the body to raw DER
+bytes. Any other label, such as a `PRIVATE KEY` block in a mixed bundle, is
+skipped rather than treated as an error.
+
+`certmodel.parse_certificate` then walks that DER with the tag-length-value
+reader in `der.py`. It descends the outer `Certificate` SEQUENCE into the
+`TBSCertificate`, reads past the optional version tag, and pulls out the serial,
+the issuer and subject names, the two validity times, and the
+`SubjectPublicKeyInfo`. For this leaf the public key algorithm OID is
+`1.2.840.113549.1.1.1` (rsaEncryption), so the parser reads the RSA modulus
+INTEGER and measures its bit length: 1024. The signature algorithm OID on the
+outer certificate is `1.2.840.113549.1.1.5`, which the name table renders as
+`sha1WithRSAEncryption`.
+
+Two policy checks in `policy.py` now have targets. `check_weak_key` sees the
+1024 bit modulus is below the 2048 bit minimum and emits an ERROR with code
+`WEAK_KEY`. `check_weak_signature` looks up the signature OID in the weak set,
+finds the SHA1 reason, and emits an ERROR with code `WEAK_SIG`. Running the
