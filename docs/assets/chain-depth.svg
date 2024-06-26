@@ -18,3 +18,9 @@
   <title id="cdTitle">Chains built from samples, depth 3</title>
   <desc id="cdDesc">Four leaf certificates each chain through one shared
     intermediate CA to one shared self signed root. Subject common names and
+    expiry dates are the real output of the chainwarden CLI. The expired leaf
+    is marked in amber.</desc>
+
+  <rect x="0" y="0" width="640" height="384" fill="#ffffff"/>
+
+  <text x="24" y="32"
