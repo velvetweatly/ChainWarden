@@ -43,3 +43,10 @@
   <rect x="24" y="96" width="200" height="48" rx="3" fill="none" stroke="#157347" stroke-width="1.5"/>
   <text x="36" y="120" font-family="&quot;Cascadia Mono&quot;, &quot;JetBrains Mono&quot;, Consolas, &quot;DejaVu Sans Mono&quot;, monospace"
         font-size="12" fill="#1f2933">good.example.test</text>
+  <text x="36" y="136" font-family="&quot;Cascadia Mono&quot;, &quot;JetBrains Mono&quot;, Consolas, &quot;DejaVu Sans Mono&quot;, monospace"
+        font-size="11" fill="#157347">exp 2027-01-01</text>
+
+  <!-- soon.example.test -->
+  <rect x="24" y="160" width="200" height="48" rx="3" fill="none" stroke="#157347" stroke-width="1.5"/>
+  <text x="36" y="184" font-family="&quot;Cascadia Mono&quot;, &quot;JetBrains Mono&quot;, Consolas, &quot;DejaVu Sans Mono&quot;, monospace"
+        font-size="12" fill="#1f2933">soon.example.test</text>
