@@ -288,3 +288,35 @@ with the RSA size appended when known, and the signature algorithm.
 The exit code is the machine readable summary. It lets a CI job or a shell
 script react without parsing the text.
 
+| Code | Meaning              | Which subcommands                                        |
+|------|----------------------|----------------------------------------------------------|
+| 0    | Clean                | `audit` with no findings; `chain` when all chains complete; `expiry` when nothing is expired; `version` always |
+| 1    | Findings present     | `audit` with one or more findings; `chain` with an incomplete chain; `expiry` when at least one certificate is expired |
+| 2    | Usage error          | Any subcommand: a path not found, malformed PEM, bad DER, or a certificate that fails to parse |
+
+Confirmed from the runs above: the audit over the sample bundle prints findings
+and exits 1, and pointing `chain` at a missing directory exits 2:
+
+```
+$ python -m chainwarden chain no_such_dir_xyz
+error: path not found: no_such_dir_xyz
+$ echo $LASTEXITCODE
+2
+```
+
+## The test PKI in samples
+
+The `samples/` directory holds a real test PKI generated with OpenSSL 3.6.1 on
+the machine that built the project. These are test vectors, not production
+certificates. Every private key was discarded after signing, so nothing here can
+impersonate anything. Subject names use the reserved `.test` label and the
+organisation is literally `ChainWarden Test PKI`.
+
+| File               | Role         | Key      | Signature               | notAfter   |
+|--------------------|--------------|----------|-------------------------|------------|
+| `root.pem`         | root CA      | RSA 2048 | sha256WithRSAEncryption | 2034-01-01 |
+| `intermediate.pem` | intermediate | RSA 2048 | sha256WithRSAEncryption | 2032-01-01 |
+| `leaf-good.pem`    | leaf         | RSA 2048 | sha256WithRSAEncryption | 2027-01-01 |
+| `leaf-soon.pem`    | leaf         | RSA 2048 | sha256WithRSAEncryption | 2026-10-01 |
+| `leaf-expired.pem` | leaf         | RSA 2048 | sha256WithRSAEncryption | 2024-06-01 |
+| `leaf-weak.pem`    | leaf         | RSA 1024 | sha1WithRSAEncryption   | 2028-01-01 |
