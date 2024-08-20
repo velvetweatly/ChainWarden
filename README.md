@@ -353,3 +353,35 @@ clean run does and does not tell you.
 - It does not check revocation. There is no CRL handling and no OCSP handling,
   by design, because both require network access and this tool makes none. A
   certificate revoked by its issuer this morning will still be reported as valid
+  if its dates and structure are fine.
+- It does not validate name constraints, policy constraints, or the full set of
+  RFC 5280 path validation rules. It covers basic constraints, key usage,
+  extended key usage parsing, and path length only.
+- The DER reader targets the specific fields listed above. It measures RSA key
+  sizes but does not size elliptic curve or Ed25519 keys, so weak key detection
+  applies to RSA only.
+- Expiry cliff bucketing is anchored at the earliest expiry in the pool and uses
+  fixed width windows. It groups nearby expiries, it does not cluster them
+  adaptively, so two certificates one day apart can land in different buckets if
+  they straddle a window boundary.
+
+## Design decisions
+
+The two decisions most likely to surprise a reader are the hand-rolled DER
+reader and the name-based chain builder. Both were deliberate.
+
+**A hand-rolled DER walker instead of a dependency.** The obvious alternative
+was to depend on `cryptography` or `pyOpenSSL` and let a mature library parse
+the certificates. That would have given signature verification for free, which
+this tool does not attempt. The reason not to is the constraint that shaped the
+whole project: standard library only, no network, no build step for a C
+extension. A pure Python tag-length-value reader that reaches exactly the fields
+in the audit is small, auditable in one sitting, and installs anywhere Python
+3.11 runs with nothing to compile. The cost is real and stated plainly in the
+limitations: no signature checking, and RSA is the only key type sized. The
+reader in `der.py` is intentionally strict, rejecting the indefinite length
+encodings that DER forbids anyway, so malformed input fails loudly rather than
+parsing into nonsense.
+
+**Name-based chaining as an acceptable first cut.** Proper path building matches
+the authority key identifier of a certificate to the subject key identifier of
