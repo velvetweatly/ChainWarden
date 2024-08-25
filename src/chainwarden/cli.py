@@ -170,3 +170,4 @@ def main(argv: list[str] | None = None) -> int:
         return handler(args)
     except (FileNotFoundError, PEMError, DERError, CertParseError) as exc:
         print(f"error: {exc}", file=sys.stderr)
+        return 2
