@@ -328,3 +328,43 @@ def parse_certificate(data: bytes, source: str = "") -> Certificate:
     vparts = der.read_children(validity, data)
     if len(vparts) != 2:
         raise CertParseError("validity must have two times")
+    not_before = _parse_time(vparts[0])
+    not_after = _parse_time(vparts[1])
+
+    subject = _parse_name(tbs_children[idx], data)
+    idx += 1
+    spki = tbs_children[idx]
+    idx += 1
+    pubkey_alg_oid, rsa_bits = _parse_spki(spki, data)
+
+    # signatureAlgorithm is the second top level field.
+    sig_alg_oid = _alg_oid(top[1], data)
+
+    cert_fields: dict = {
+        "basic_constraints": BasicConstraints(),
+        "key_usage": [],
+        "ext_key_usage": [],
+        "subject_alt_names": [],
+    }
+    for child in tbs_children[idx:]:
+        if child.tag == 0xA3:  # [3] EXPLICIT extensions
+            _parse_extensions(child, data, cert_fields)
+
+    fp = hashlib.sha256(data).hexdigest()
+
+    return Certificate(
+        subject=subject,
+        issuer=issuer,
+        serial=serial,
+        not_before=not_before,
+        not_after=not_after,
+        sig_alg_oid=sig_alg_oid,
+        pubkey_alg_oid=pubkey_alg_oid,
+        rsa_modulus_bits=rsa_bits,
+        basic_constraints=cert_fields["basic_constraints"],
+        key_usage=cert_fields["key_usage"],
+        ext_key_usage=cert_fields["ext_key_usage"],
+        subject_alt_names=cert_fields["subject_alt_names"],
+        fingerprint_sha256=fp,
+        source=source,
+    )
