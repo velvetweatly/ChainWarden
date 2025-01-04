@@ -158,3 +158,35 @@ Two policy checks in `policy.py` now have targets. `check_weak_key` sees the
 1024 bit modulus is below the 2048 bit minimum and emits an ERROR with code
 `WEAK_KEY`. `check_weak_signature` looks up the signature OID in the weak set,
 finds the SHA1 reason, and emits an ERROR with code `WEAK_SIG`. Running the
+audit over the bundle confirms both, verbatim:
+
+```
+$ python -m chainwarden audit samples/bundle.pem --as-of 2026-09-02
+# ChainWarden audit as of 2026-09-02
+ERROR EXPIRED          C=US, O=ChainWarden Test PKI, CN=expired.example.test :: expired 823 days ago on 2024-06-01
+ERROR WEAK_KEY         C=US, O=ChainWarden Test PKI, CN=weak.example.test :: RSA key size 1024 bits is below the 2048 bit minimum
+ERROR WEAK_SIG         C=US, O=ChainWarden Test PKI, CN=weak.example.test :: weak signature algorithm sha1WithRSAEncryption (SHA1 based signature)
+WARN  EXPIRING_SOON    C=US, O=ChainWarden Test PKI, CN=soon.example.test :: expires in 29 days on 2026-10-01
+# 4 findings: 3 ERROR, 1 WARN
+```
+
+The two `weak.example.test` lines are the end of the journey for `leaf-weak.pem`.
+The `EXPIRED` and `EXPIRING_SOON` lines come from two other leaves that took the
+same path with different data.
+
+The `chain` subcommand walks the same parsed certificates upward instead. It
+takes each leaf and repeatedly finds a certificate whose subject equals the
+current issuer, until it reaches a self signed root or runs out of candidates.
+For the weak leaf that path is three deep and complete:
+
+```
+$ python -m chainwarden chain samples/bundle.pem
+chain good.example.test depth=3 complete
+[leaf] good.example.test exp 2027-01-01 rsaEncryption/2048 sha256WithRSAEncryption
+  [ca] ChainWarden Test Intermediate CA exp 2032-01-01 rsaEncryption/2048 sha256WithRSAEncryption
+    [root] ChainWarden Test Root CA exp 2034-01-01 rsaEncryption/2048 sha256WithRSAEncryption
+chain soon.example.test depth=3 complete
+[leaf] soon.example.test exp 2026-10-01 rsaEncryption/2048 sha256WithRSAEncryption
+  [ca] ChainWarden Test Intermediate CA exp 2032-01-01 rsaEncryption/2048 sha256WithRSAEncryption
+    [root] ChainWarden Test Root CA exp 2034-01-01 rsaEncryption/2048 sha256WithRSAEncryption
+chain expired.example.test depth=3 complete
