@@ -320,3 +320,36 @@ organisation is literally `ChainWarden Test PKI`.
 | `leaf-soon.pem`    | leaf         | RSA 2048 | sha256WithRSAEncryption | 2026-10-01 |
 | `leaf-expired.pem` | leaf         | RSA 2048 | sha256WithRSAEncryption | 2024-06-01 |
 | `leaf-weak.pem`    | leaf         | RSA 1024 | sha1WithRSAEncryption   | 2028-01-01 |
+| `bundle.pem`       | all six of the above concatenated, in the order listed             |
+
+The validity dates are pinned with OpenSSL's `-not_before` and `-not_after`
+flags rather than `-days`, and serial numbers are fixed with `-set_serial`, so
+regenerating the PKI produces the same dates and serials on any machine. The
+public keys, and therefore the SHA256 fingerprints, differ on each run because
+fresh keypairs are generated. The exact commands live in `samples/gen_pki.sh`;
+`samples/README.md` narrates them. To regenerate, with OpenSSL on the path:
+
+```
+sh samples/gen_pki.sh
+```
+
+`leaf-expired.pem` is already past its `notAfter`, and `leaf-weak.pem` carries
+both a 1024 bit RSA key and a SHA1 signature, so the weak key and weak signature
+checks each have a dedicated target. The root and intermediate are ordinary
+healthy CA certificates, and the intermediate carries `pathlen:0`.
+
+## What ChainWarden does not verify
+
+This tool is deliberately narrow. Read this section as a contract about what a
+clean run does and does not tell you.
+
+- It does not verify signatures. Chain building is by name matching only: the
+  issuer name of one certificate is compared, as a string, to the subject name
+  of another. Name-based chain building is not signature verification. The tool
+  does not check that the issuer's private key actually signed the certificate,
+  and it does not consult authority or subject key identifiers. A certificate
+  that claims an issuer it was never signed by will still be linked into a
+  chain. Treat the chain output as a structural map, not proof of trust.
+- It does not check revocation. There is no CRL handling and no OCSP handling,
+  by design, because both require network access and this tool makes none. A
+  certificate revoked by its issuer this morning will still be reported as valid
