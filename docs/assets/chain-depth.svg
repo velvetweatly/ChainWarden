@@ -62,3 +62,9 @@
 
   <!-- weak.example.test -->
   <rect x="24" y="288" width="200" height="48" rx="3" fill="none" stroke="#157347" stroke-width="1.5"/>
+  <text x="36" y="312" font-family="&quot;Cascadia Mono&quot;, &quot;JetBrains Mono&quot;, Consolas, &quot;DejaVu Sans Mono&quot;, monospace"
+        font-size="12" fill="#1f2933">weak.example.test</text>
+  <text x="36" y="328" font-family="&quot;Cascadia Mono&quot;, &quot;JetBrains Mono&quot;, Consolas, &quot;DejaVu Sans Mono&quot;, monospace"
+        font-size="11" fill="#157347">exp 2028-01-01</text>
+
+  <!-- intermediate box: x=272 width=176 height=48, vertically centred at y=192 -->
