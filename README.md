@@ -418,3 +418,36 @@ ChainWarden/
     chain-depth.svg          the sample chains, names and dates from the CLI
   samples/
     gen_pki.sh               regenerates the test PKI with pinned dates
+    openssl.cnf              two line minimal config the OpenSSL build needs
+    root.pem                 self signed test root CA
+    intermediate.pem         test intermediate CA, pathlen:0
+    leaf-good.pem            healthy RSA 2048 SHA256 leaf
+    leaf-soon.pem            leaf expiring soon relative to the sample date
+    leaf-expired.pem         leaf already past notAfter
+    leaf-weak.pem            RSA 1024, SHA1 signature, the weak target
+    bundle.pem               all six certificates concatenated
+    README.md                explains the fixtures and how they were built
+  src/chainwarden/
+    __init__.py              package marker and version string
+    __main__.py              enables python -m chainwarden
+    cli.py                   argument parsing, file gathering, dispatch
+    pemread.py               PEM block splitter and base64 decoder
+    der.py                   tag-length-value DER reader
+    certmodel.py             Certificate model, parsed from DER
+    chainbuild.py            name-based chain assembly
+    policy.py                the checks and their severities
+    report.py                line oriented rendering
+  tests/
+    test_der.py              DER reader unit tests
+    test_pemread.py          PEM splitting and label filtering tests
+    test_certmodel.py        certificate parsing against the samples
+    test_chain_policy.py     chain building and policy checks
+    test_cli.py              end to end CLI behaviour and exit codes
+```
+
+## Glossary of X.509 terms
+
+| Term                | Meaning as used here                                                                 |
+|---------------------|--------------------------------------------------------------------------------------|
+| X.509               | The certificate format this tool parses, defined by RFC 5280 and ITU-T X.509         |
+| DER                 | Distinguished Encoding Rules, the binary encoding of a certificate's ASN.1 structure |
