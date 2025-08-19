@@ -222,3 +222,33 @@ def check_expiry_cliff(
                     f"{len(members)} certificates expire between {lo} and "
                     f"{hi}, within a {window_days} day window",
                 )
+            )
+    return findings
+
+
+@dataclass
+class AuditConfig:
+    as_of: date
+    expiry_warn_days: int = DEFAULT_EXPIRY_WARN_DAYS
+    cliff_window_days: int = DEFAULT_CLIFF_WINDOW_DAYS
+    cliff_count: int = DEFAULT_CLIFF_COUNT
+
+
+def run_audit(
+    certs: list[Certificate],
+    chains: list[Chain],
+    config: AuditConfig,
+) -> list[Finding]:
+    """Run every check and return findings sorted deterministically."""
+    findings: list[Finding] = []
+    for cert in certs:
+        findings.extend(check_weak_signature(cert))
+        findings.extend(check_weak_key(cert))
+        findings.extend(check_validity(cert, config.as_of, config.expiry_warn_days))
+        findings.extend(check_constraints(cert))
+    for chain in chains:
+        findings.extend(check_chain(chain))
+    findings.extend(
+        check_expiry_cliff(certs, config.cliff_window_days, config.cliff_count)
+    )
+    findings.sort(key=lambda f: f.sort_key())
