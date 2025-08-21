@@ -223,3 +223,35 @@ objects constructed in `policy.py`.
 | `CHAIN_INCOMPLETE` | ERROR    | A leaf never reaches a self signed root present in the pool                      | Add the missing issuer or root PEM to the input, then re-run              |
 | `PATHLEN_EXCEEDED` | ERROR    | More certificates appear below a CA than its `pathlen` constraint allows         | Shorten the chain or reissue the CA with a larger `pathlen`                |
 | `EXPIRY_CLIFF`     | WARN     | `--cliff-count` or more certificates expire inside one `--cliff-window-days`     | Stagger the renewals so they do not all fall due together                  |
+
+The sample bundle does not trigger a cliff at the default 30 day window, because
+the leaf expiries are spread across years. Widening the window to 1400 days
+groups all four leaves into one bucket and the check fires:
+
+```
+$ python -m chainwarden audit samples/bundle.pem --as-of 2026-09-02 --cliff-window-days 1400 --cliff-count 3
+# ChainWarden audit as of 2026-09-02
+ERROR EXPIRED          C=US, O=ChainWarden Test PKI, CN=expired.example.test :: expired 823 days ago on 2024-06-01
+ERROR WEAK_KEY         C=US, O=ChainWarden Test PKI, CN=weak.example.test :: RSA key size 1024 bits is below the 2048 bit minimum
+ERROR WEAK_SIG         C=US, O=ChainWarden Test PKI, CN=weak.example.test :: weak signature algorithm sha1WithRSAEncryption (SHA1 based signature)
+WARN  EXPIRING_SOON    C=US, O=ChainWarden Test PKI, CN=soon.example.test :: expires in 29 days on 2026-10-01
+WARN  EXPIRY_CLIFF     (fleet) :: 4 certificates expire between 2024-06-01 and 2028-01-01, within a 1400 day window
+```
+
+The cliff buckets are anchored at the earliest `not_after` in the pool and use
+fixed width windows, so the grouping does not depend on `--as-of`. This is a
+deliberate simplification, discussed under design decisions below.
+
+## Output format
+
+Output is line oriented and rendered by `report.py`. Every subcommand prints one
+record per line so two runs can be diffed cleanly in git.
+
+The `audit` output opens with a header line, then one line per finding sorted by
+severity then code then subject, then a summary line. Each finding line has four
+fields:
+
+| Field    | Column     | Width      | Source                          | Example                                        |
+|----------|------------|------------|---------------------------------|------------------------------------------------|
+| Severity | 1          | 5, left    | `Finding.severity`              | `ERROR`                                        |
+| Code     | 2          | 16, left   | `Finding.code`                  | `WEAK_KEY`                                      |
