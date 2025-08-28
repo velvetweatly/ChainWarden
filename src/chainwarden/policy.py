@@ -252,3 +252,4 @@ def run_audit(
         check_expiry_cliff(certs, config.cliff_window_days, config.cliff_count)
     )
     findings.sort(key=lambda f: f.sort_key())
+    return findings
