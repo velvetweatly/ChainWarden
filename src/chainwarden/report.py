@@ -50,3 +50,12 @@ def render_all_chains(chains: list[Chain]) -> list[str]:
 
 
 def render_expiry(certs: list[Certificate], as_of: date) -> list[str]:
+    lines = [f"# expiry sorted by notAfter, as of {as_of.isoformat()}"]
+    for cert in sorted(certs, key=lambda c: (c.not_after, c.common_name)):
+        remaining = (cert.not_after.date() - as_of).days
+        state = "EXPIRED" if remaining < 0 else "valid"
+        lines.append(
+            f"{cert.not_after.date().isoformat()} "
+            f"{remaining:>6}d {state:<7} {cert.common_name}"
+        )
+    return lines
