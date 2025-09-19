@@ -509,6 +509,17 @@ No dates are promised. In rough order of value:
 - A JSON output mode alongside the line oriented text, for callers that would
   rather parse than diff.
 
+## Reporting a security issue
+
+ChainWarden is a security tool, so please report problems responsibly. If you
+believe you have found a vulnerability in the certificate parsing, the chain
+builder, or anything else, do not open a public issue. Write to the private
+security contact address listed on the repository home page, include the exact
+input that triggered the problem (a minimal PEM bundle is ideal), and the
+version you tested against. Reports are acknowledged within a few days. The
+project has no bounty programme, but the standard library only design keeps the
+attack surface small by construction.
+
 ## License
 
 MIT. See [`LICENSE`](LICENSE).
