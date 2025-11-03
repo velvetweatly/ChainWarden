@@ -61,3 +61,18 @@ fresh keypair for each certificate. The subjects, dates, serials, key sizes,
 and signature algorithms stay identical because those are all pinned in the
 script. The SHA256 fingerprints will differ because the public keys differ.
 
+## Using the fixtures
+
+The bundle is the fastest way to exercise the CLI: it contains every
+certificate in the directory in one file, so a single path argument reaches all
+of them.
+
+```
+python -m chainwarden audit samples/bundle.pem --as-of 2026-09-02
+```
+
+If you regenerate the PKI, keep the fixtures in this order when you rebuild the
+bundle: root, intermediate, then the four leaves. `gen_pki.sh` preserves that
+order, and the CLI tests rely on it only through the parsed fields, so any
+consistent order works for the checks themselves.
+
