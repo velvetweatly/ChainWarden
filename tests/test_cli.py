@@ -39,3 +39,13 @@ class TestCLI(unittest.TestCase):
 
     def test_missing_path_is_usage_error(self):
         code, _ = _run(["chain", "no_such_dir_xyz"])
+        self.assertEqual(code, 2)
+
+    def test_deterministic_cli_output(self):
+        _, a = _run(["audit", SAMPLES, "--as-of", "2026-09-02"])
+        _, b = _run(["audit", SAMPLES, "--as-of", "2026-09-02"])
+        self.assertEqual(a, b)
+
+
+if __name__ == "__main__":
+    unittest.main()
