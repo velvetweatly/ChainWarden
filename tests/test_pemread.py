@@ -37,3 +37,12 @@ class TestPEMRead(unittest.TestCase):
         text = "-----BEGIN CERTIFICATE-----\nAAAA\n"
         with self.assertRaises(pemread.PEMError):
             pemread.split_blocks(text)
+
+    def test_bad_base64_raises(self):
+        text = "-----BEGIN CERTIFICATE-----\n!!!!\n-----END CERTIFICATE-----\n"
+        with self.assertRaises(pemread.PEMError):
+            pemread.split_blocks(text)
+
+
+if __name__ == "__main__":
+    unittest.main()
