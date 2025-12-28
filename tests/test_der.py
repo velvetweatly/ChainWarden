@@ -46,3 +46,13 @@ class TestDER(unittest.TestCase):
         # 2.5.29.19 (basicConstraints): 0x55 0x1D 0x13.
         self.assertEqual(der.decode_oid(bytes([0x55, 0x1D, 0x13])), "2.5.29.19")
 
+    def test_integer_bit_length_strips_pad(self):
+        # 0x00 0x80 => 128, which is 8 bits.
+        self.assertEqual(der.integer_bit_length(b"\x00\x80"), 8)
+        # 0xFF 0xFF => 16 bits.
+        self.assertEqual(der.integer_bit_length(b"\xff\xff"), 16)
+        self.assertEqual(der.integer_bit_length(b"\x00"), 0)
+
+
+if __name__ == "__main__":
+    unittest.main()
