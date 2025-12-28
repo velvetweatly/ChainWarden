@@ -48,3 +48,14 @@ class TestCertModel(unittest.TestCase):
     def test_serials(self):
         self.assertEqual(_load("root.pem").serial, 1)
         self.assertEqual(_load("intermediate.pem").serial, 2)
+        self.assertEqual(_load("leaf-good.pem").serial, 16)
+
+    def test_fingerprint_is_stable_hex(self):
+        fp = _load("root.pem").fingerprint_sha256
+        self.assertEqual(len(fp), 64)
+        int(fp, 16)  # parses as hex
+
+
+if __name__ == "__main__":
+    unittest.main()
+
