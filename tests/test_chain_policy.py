@@ -95,3 +95,20 @@ class TestPolicy(unittest.TestCase):
         leaves = [c for c in self.certs if not c.basic_constraints.ca]
         cliff = check_expiry_cliff(leaves, window_days=1400, min_count=3)
         self.assertTrue(cliff)
+        self.assertEqual(cliff[0].code, "EXPIRY_CLIFF")
+
+    def test_no_cliff_with_narrow_window(self):
+        leaves = [c for c in self.certs if not c.basic_constraints.ca]
+        cliff = check_expiry_cliff(leaves, window_days=30, min_count=3)
+        self.assertEqual(cliff, [])
+
+    def test_deterministic_output(self):
+        cfg = AuditConfig(as_of=date(2026, 9, 2))
+        a = run_audit(self.certs, self.chains, cfg)
+        b = run_audit(self.certs, self.chains, cfg)
+        self.assertEqual(a, b)
+
+
+if __name__ == "__main__":
+    unittest.main()
+
