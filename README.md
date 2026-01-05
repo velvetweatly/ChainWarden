@@ -223,3 +223,296 @@ objects constructed in `policy.py`.
 | `CHAIN_INCOMPLETE` | ERROR    | A leaf never reaches a self signed root present in the pool                      | Add the missing issuer or root PEM to the input, then re-run              |
 | `PATHLEN_EXCEEDED` | ERROR    | More certificates appear below a CA than its `pathlen` constraint allows         | Shorten the chain or reissue the CA with a larger `pathlen`                |
 | `EXPIRY_CLIFF`     | WARN     | `--cliff-count` or more certificates expire inside one `--cliff-window-days`     | Stagger the renewals so they do not all fall due together                  |
+
+The sample bundle does not trigger a cliff at the default 30 day window, because
+the leaf expiries are spread across years. Widening the window to 1400 days
+groups all four leaves into one bucket and the check fires:
+
+```
+$ python -m chainwarden audit samples/bundle.pem --as-of 2026-09-02 --cliff-window-days 1400 --cliff-count 3
+# ChainWarden audit as of 2026-09-02
+ERROR EXPIRED          C=US, O=ChainWarden Test PKI, CN=expired.example.test :: expired 823 days ago on 2024-06-01
+ERROR WEAK_KEY         C=US, O=ChainWarden Test PKI, CN=weak.example.test :: RSA key size 1024 bits is below the 2048 bit minimum
+ERROR WEAK_SIG         C=US, O=ChainWarden Test PKI, CN=weak.example.test :: weak signature algorithm sha1WithRSAEncryption (SHA1 based signature)
+WARN  EXPIRING_SOON    C=US, O=ChainWarden Test PKI, CN=soon.example.test :: expires in 29 days on 2026-10-01
+WARN  EXPIRY_CLIFF     (fleet) :: 4 certificates expire between 2024-06-01 and 2028-01-01, within a 1400 day window
+```
+
+The cliff buckets are anchored at the earliest `not_after` in the pool and use
+fixed width windows, so the grouping does not depend on `--as-of`. This is a
+deliberate simplification, discussed under design decisions below.
+
+## Output format
+
+Output is line oriented and rendered by `report.py`. Every subcommand prints one
+record per line so two runs can be diffed cleanly in git.
+
+The `audit` output opens with a header line, then one line per finding sorted by
+severity then code then subject, then a summary line. Each finding line has four
+fields:
+
+| Field    | Column     | Width      | Source                          | Example                                        |
+|----------|------------|------------|---------------------------------|------------------------------------------------|
+| Severity | 1          | 5, left    | `Finding.severity`              | `ERROR`                                        |
+| Code     | 2          | 16, left   | `Finding.code`                  | `WEAK_KEY`                                      |
+| Subject  | 3          | to `::`    | `Finding.subject` (full RDN)    | `C=US, O=ChainWarden Test PKI, CN=weak...`     |
+| Message  | after `::` | rest       | `Finding.message`               | `RSA key size 1024 bits is below the 2048...`  |
+
+When there are no findings the body is a single `OK  no findings` line. The
+summary counts findings by severity in the fixed order ERROR, WARN, INFO.
+
+The `expiry` output opens with a header, then one line per certificate sorted by
+`not_after` then common name. Each line carries the expiry date, the remaining
+days as a signed right aligned integer with a `d` suffix, a state word, and the
+common name:
+
+```
+$ python -m chainwarden expiry samples/bundle.pem --as-of 2026-09-02
+# expiry sorted by notAfter, as of 2026-09-02
+2024-06-01   -823d EXPIRED expired.example.test
+2026-10-01     29d valid   soon.example.test
+2027-01-01    121d valid   good.example.test
+2028-01-01    486d valid   weak.example.test
+2032-01-01   1947d valid   ChainWarden Test Intermediate CA
+2034-01-01   2678d valid   ChainWarden Test Root CA
+```
+
+The `chain` output prints, per leaf, a header line reading
+`chain <cn> depth=<n> <complete|incomplete>`, then one indented line per
+certificate from leaf to anchor. Each certificate line names its role (`leaf`,
+`ca`, or `root`), the common name, the expiry date, the public key algorithm
+with the RSA size appended when known, and the signature algorithm.
+
+## Exit codes
+
+The exit code is the machine readable summary. It lets a CI job or a shell
+script react without parsing the text.
+
+| Code | Meaning              | Which subcommands                                        |
+|------|----------------------|----------------------------------------------------------|
+| 0    | Clean                | `audit` with no findings; `chain` when all chains complete; `expiry` when nothing is expired; `version` always |
+| 1    | Findings present     | `audit` with one or more findings; `chain` with an incomplete chain; `expiry` when at least one certificate is expired |
+| 2    | Usage error          | Any subcommand: a path not found, malformed PEM, bad DER, or a certificate that fails to parse |
+
+Confirmed from the runs above: the audit over the sample bundle prints findings
+and exits 1, and pointing `chain` at a missing directory exits 2:
+
+```
+$ python -m chainwarden chain no_such_dir_xyz
+error: path not found: no_such_dir_xyz
+$ echo $LASTEXITCODE
+2
+```
+
+## The test PKI in samples
+
+The `samples/` directory holds a real test PKI generated with OpenSSL 3.6.1 on
+the machine that built the project. These are test vectors, not production
+certificates. Every private key was discarded after signing, so nothing here can
+impersonate anything. Subject names use the reserved `.test` label and the
+organisation is literally `ChainWarden Test PKI`.
+
+| File               | Role         | Key      | Signature               | notAfter   |
+|--------------------|--------------|----------|-------------------------|------------|
+| `root.pem`         | root CA      | RSA 2048 | sha256WithRSAEncryption | 2034-01-01 |
+| `intermediate.pem` | intermediate | RSA 2048 | sha256WithRSAEncryption | 2032-01-01 |
+| `leaf-good.pem`    | leaf         | RSA 2048 | sha256WithRSAEncryption | 2027-01-01 |
+| `leaf-soon.pem`    | leaf         | RSA 2048 | sha256WithRSAEncryption | 2026-10-01 |
+| `leaf-expired.pem` | leaf         | RSA 2048 | sha256WithRSAEncryption | 2024-06-01 |
+| `leaf-weak.pem`    | leaf         | RSA 1024 | sha1WithRSAEncryption   | 2028-01-01 |
+| `bundle.pem`       | all six of the above concatenated, in the order listed             |
+
+The validity dates are pinned with OpenSSL's `-not_before` and `-not_after`
+flags rather than `-days`, and serial numbers are fixed with `-set_serial`, so
+regenerating the PKI produces the same dates and serials on any machine. The
+public keys, and therefore the SHA256 fingerprints, differ on each run because
+fresh keypairs are generated. The exact commands live in `samples/gen_pki.sh`;
+`samples/README.md` narrates them. To regenerate, with OpenSSL on the path:
+
+```
+sh samples/gen_pki.sh
+```
+
+`leaf-expired.pem` is already past its `notAfter`, and `leaf-weak.pem` carries
+both a 1024 bit RSA key and a SHA1 signature, so the weak key and weak signature
+checks each have a dedicated target. The root and intermediate are ordinary
+healthy CA certificates, and the intermediate carries `pathlen:0`.
+
+## What ChainWarden does not verify
+
+This tool is deliberately narrow. Read this section as a contract about what a
+clean run does and does not tell you.
+
+- It does not verify signatures. Chain building is by name matching only: the
+  issuer name of one certificate is compared, as a string, to the subject name
+  of another. Name-based chain building is not signature verification. The tool
+  does not check that the issuer's private key actually signed the certificate,
+  and it does not consult authority or subject key identifiers. A certificate
+  that claims an issuer it was never signed by will still be linked into a
+  chain. Treat the chain output as a structural map, not proof of trust.
+- It does not check revocation. There is no CRL handling and no OCSP handling,
+  by design, because both require network access and this tool makes none. A
+  certificate revoked by its issuer this morning will still be reported as valid
+  if its dates and structure are fine.
+- It does not validate name constraints, policy constraints, or the full set of
+  RFC 5280 path validation rules. It covers basic constraints, key usage,
+  extended key usage parsing, and path length only.
+- The DER reader targets the specific fields listed above. It measures RSA key
+  sizes but does not size elliptic curve or Ed25519 keys, so weak key detection
+  applies to RSA only.
+- Expiry cliff bucketing is anchored at the earliest expiry in the pool and uses
+  fixed width windows. It groups nearby expiries, it does not cluster them
+  adaptively, so two certificates one day apart can land in different buckets if
+  they straddle a window boundary.
+
+## Design decisions
+
+The two decisions most likely to surprise a reader are the hand-rolled DER
+reader and the name-based chain builder. Both were deliberate.
+
+**A hand-rolled DER walker instead of a dependency.** The obvious alternative
+was to depend on `cryptography` or `pyOpenSSL` and let a mature library parse
+the certificates. That would have given signature verification for free, which
+this tool does not attempt. The reason not to is the constraint that shaped the
+whole project: standard library only, no network, no build step for a C
+extension. A pure Python tag-length-value reader that reaches exactly the fields
+in the audit is small, auditable in one sitting, and installs anywhere Python
+3.11 runs with nothing to compile. The cost is real and stated plainly in the
+limitations: no signature checking, and RSA is the only key type sized. The
+reader in `der.py` is intentionally strict, rejecting the indefinite length
+encodings that DER forbids anyway, so malformed input fails loudly rather than
+parsing into nonsense.
+
+**Name-based chaining as an acceptable first cut.** Proper path building matches
+the authority key identifier of a certificate to the subject key identifier of
+its issuer, and then verifies the signature. ChainWarden matches issuer name to
+subject name and stops there. This is weaker, and the README says so in three
+places. It was accepted as a first cut because the tool's primary job is
+lifecycle auditing, expiry and weak crypto, not trust decisions, and for that
+job a structural map of which certificate claims to be issued by which is enough
+to tell an operator whether a root is missing from their bundle. Building the
+name index and walking it is a few lines in `chainbuild.py`, it is deterministic
+because ties are broken by fingerprint, and it is loop guarded by tracking
+visited fingerprints. Adding real signature verification would mean adding a
+crypto dependency, which reopens the decision above. The honest split is:
+structure now, cryptography later, and never pretend the first is the second.
+
+A smaller decision worth noting: the reference date is a required argument, not
+a default of "today". Reading the wall clock would make output depend on when it
+ran, which breaks reproducible diffs and makes a test suite awkward. Requiring
+`--as-of` and echoing it in the header keeps every run pinned to a date the
+reader can see.
+
+## Repository layout
+
+```
+ChainWarden/
+  README.md                  this document
+  CHANGELOG.md               notable changes, Keep a Changelog format
+  LICENSE                    MIT licence text
+  pyproject.toml             package metadata, entry point, Python 3.11+
+  .gitignore                 ignores build and cache artefacts
+  .github/workflows/ci.yml   runs the tests and audits the sample bundle
+  docs/assets/
+    logo.svg                 wordmark: a three block certificate chain
+    chain-depth.svg          the sample chains, names and dates from the CLI
+  samples/
+    gen_pki.sh               regenerates the test PKI with pinned dates
+    openssl.cnf              two line minimal config the OpenSSL build needs
+    root.pem                 self signed test root CA
+    intermediate.pem         test intermediate CA, pathlen:0
+    leaf-good.pem            healthy RSA 2048 SHA256 leaf
+    leaf-soon.pem            leaf expiring soon relative to the sample date
+    leaf-expired.pem         leaf already past notAfter
+    leaf-weak.pem            RSA 1024, SHA1 signature, the weak target
+    bundle.pem               all six certificates concatenated
+    README.md                explains the fixtures and how they were built
+  src/chainwarden/
+    __init__.py              package marker and version string
+    __main__.py              enables python -m chainwarden
+    cli.py                   argument parsing, file gathering, dispatch
+    pemread.py               PEM block splitter and base64 decoder
+    der.py                   tag-length-value DER reader
+    certmodel.py             Certificate model, parsed from DER
+    chainbuild.py            name-based chain assembly
+    policy.py                the checks and their severities
+    report.py                line oriented rendering
+  tests/
+    test_der.py              DER reader unit tests
+    test_pemread.py          PEM splitting and label filtering tests
+    test_certmodel.py        certificate parsing against the samples
+    test_chain_policy.py     chain building and policy checks
+    test_cli.py              end to end CLI behaviour and exit codes
+```
+
+## Glossary of X.509 terms
+
+| Term                | Meaning as used here                                                                 |
+|---------------------|--------------------------------------------------------------------------------------|
+| X.509               | The certificate format this tool parses, defined by RFC 5280 and ITU-T X.509         |
+| DER                 | Distinguished Encoding Rules, the binary encoding of a certificate's ASN.1 structure |
+| PEM                 | Base64 of the DER wrapped in `-----BEGIN CERTIFICATE-----` markers                   |
+| TLV                 | Tag-length-value, the triple the DER reader walks                                    |
+| OID                 | Object identifier, a dotted-number name for an algorithm or attribute                |
+| RDN                 | Relative distinguished name, one component of a subject or issuer name such as `CN=` |
+| Subject             | The entity a certificate identifies                                                  |
+| Issuer              | The entity whose key signed the certificate; its name links a certificate upward     |
+| Leaf                | An end entity certificate, not a CA, at the bottom of a chain                        |
+| CA                  | Certificate authority, a certificate allowed to sign other certificates              |
+| Root                | A self signed CA at the top of a chain, where subject equals issuer                  |
+| Basic constraints   | The extension that marks a certificate as a CA and may cap chain depth with `pathlen`|
+| Key usage           | The extension listing allowed operations, such as `keyCertSign`                      |
+| `notBefore`/`notAfter` | The start and end of a certificate's validity window                              |
+| Fingerprint         | The SHA256 hash of the DER bytes, used here to de-duplicate and break ties           |
+
+## Verification
+
+Run the test suite with the standard library runner. No third party test tools
+are needed:
+
+```
+python -m unittest discover -s tests -v
+```
+
+In this session the suite reported 36 tests passing:
+
+```
+Ran 36 tests in 0.027s
+
+OK
+```
+
+The 36 tests are spread across five files: `test_der.py` covers the length and
+OID decoding edge cases including rejection of indefinite lengths;
+`test_pemread.py` covers block splitting, label filtering, and malformed input;
+`test_certmodel.py` parses the real sample certificates and asserts their fields;
+`test_chain_policy.py` checks leaf detection, chain completeness, the individual
+policy checks, cliff detection at wide and narrow windows, and deterministic
+output; `test_cli.py` drives the four subcommands end to end and asserts the
+exit codes. The CI workflow in `.github/workflows/ci.yml` runs the same command
+and then audits the sample bundle, treating exit code 1 as expected because the
+sample bundle contains known findings.
+
+## Roadmap
+
+No dates are promised. In rough order of value:
+
+- Optional signature verification behind a flag, which would require an added
+  crypto dependency and a clear boundary so the standard library only path stays
+  the default.
+- Sizing for elliptic curve and Ed25519 keys so weak key detection is not RSA
+  only.
+- Authority and subject key identifier matching to disambiguate chains where two
+  certificates share a subject name.
+- Adaptive expiry clustering, so nearby expiries are grouped by proximity rather
+  than fixed window boundaries.
+- A JSON output mode alongside the line oriented text, for callers that would
+  rather parse than diff.
+
+## License
+
+MIT. See [`LICENSE`](LICENSE).
+
+
+
+# draft note 2
