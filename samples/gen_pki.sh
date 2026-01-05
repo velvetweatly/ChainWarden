@@ -82,3 +82,21 @@ openssl x509 -req -in leaf-expired.csr \
   -sha256 -not_before "$EXP_NB" -not_after "$EXP_NA" \
   -extfile ext_leaf.cnf -out leaf-expired.pem
 
+# --- leaf-weak (RSA 1024, SHA1 signature) ---
+openssl req -new -newkey rsa:1024 -nodes \
+  -keyout leaf-weak.key -out leaf-weak.csr \
+  -subj "/C=US/O=ChainWarden Test PKI/CN=weak.example.test"
+openssl x509 -req -in leaf-weak.csr \
+  -CA intermediate.pem -CAkey intermediate.key -set_serial 19 \
+  -sha1 -not_before "$WEAK_NB" -not_after "$WEAK_NA" \
+  -extfile ext_leaf.cnf -out leaf-weak.pem
+
+# --- bundle of all end entity and CA certs, plus an inventory file ---
+cat root.pem intermediate.pem leaf-good.pem leaf-soon.pem \
+    leaf-expired.pem leaf-weak.pem > bundle.pem
+
+rm -f *.csr *.key ext_int.cnf ext_leaf.cnf ext_root.cnf
+echo "PKI generated."
+
+
+# draft note 6
