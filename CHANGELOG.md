@@ -99,3 +99,14 @@ Keep a Changelog, and this project uses semantic versioning.
   certificates (`cli.py`).
 - Sample PKI under `samples/` generated with OpenSSL: a root, an
   intermediate, and leaves covering the expired and healthy cases.
+
+## [0.0.1] - 2020-04-22
+
+### Added
+
+- Initial project scaffold: package skeleton, `pyproject.toml`, README, and
+  the MIT licence.
+- First working DER walker (`der.py`) and PEM block splitter (`pemread.py`)
+  with the minimal fields needed to read a certificate's validity window.
+- A `version` subcommand and a hand written test for the PEM splitter.
+# draft note 1
