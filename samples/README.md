@@ -50,3 +50,16 @@ machine. It defines an empty distinguished name section and nothing else.
 ## Regenerating
 
 With OpenSSL on PATH:
+
+```
+sh samples/gen_pki.sh
+```
+
+The private keys are intentionally not committed, so you cannot re sign or
+extend these certificates from the repository alone. Regeneration produces a
+fresh keypair for each certificate. The subjects, dates, serials, key sizes,
+and signature algorithms stay identical because those are all pinned in the
+script. The SHA256 fingerprints will differ because the public keys differ.
+
+
+# draft note 4
