@@ -2,3 +2,7 @@
 distinguished_name = dn
 prompt = no
 
+[ dn ]
+CN = placeholder
+
+# draft note 12
