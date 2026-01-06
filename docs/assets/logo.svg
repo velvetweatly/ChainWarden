@@ -26,3 +26,36 @@
   <line x1="24" y1="33" x2="52" y2="33" stroke="#1f2933" stroke-width="1"/>
   <line x1="24" y1="39" x2="44" y2="39" stroke="#1f2933" stroke-width="1"/>
 
+  <!-- intermediate block -->
+  <rect x="98" y="18" width="44" height="28" rx="3" fill="none"
+        stroke="#1f2933" stroke-width="1.5"/>
+  <line x1="106" y1="27" x2="134" y2="27" stroke="#1f2933" stroke-width="1"/>
+  <line x1="106" y1="33" x2="134" y2="33" stroke="#1f2933" stroke-width="1"/>
+  <line x1="106" y1="39" x2="126" y2="39" stroke="#1f2933" stroke-width="1"/>
+
+  <!-- leaf block, accent stroke because it is inspected first -->
+  <rect x="180" y="18" width="44" height="28" rx="3" fill="none"
+        stroke="#b45309" stroke-width="1.5"/>
+  <line x1="188" y1="27" x2="216" y2="27" stroke="#b45309" stroke-width="1"/>
+  <line x1="188" y1="33" x2="216" y2="33" stroke="#b45309" stroke-width="1"/>
+  <line x1="188" y1="39" x2="208" y2="39" stroke="#b45309" stroke-width="1"/>
+
+  <!-- links: an open ring joining adjacent blocks, in the verify green -->
+  <circle cx="79" cy="32" r="7" fill="none" stroke="#157347" stroke-width="1.5"/>
+  <line x1="60" y1="32" x2="72" y2="32" stroke="#157347" stroke-width="1.5"/>
+  <line x1="86" y1="32" x2="98" y2="32" stroke="#157347" stroke-width="1.5"/>
+
+  <circle cx="161" cy="32" r="7" fill="none" stroke="#157347" stroke-width="1.5"/>
+  <line x1="142" y1="32" x2="154" y2="32" stroke="#157347" stroke-width="1.5"/>
+  <line x1="168" y1="32" x2="180" y2="32" stroke="#157347" stroke-width="1.5"/>
+
+  <!-- wordmark, colour split at the chain/warden morpheme boundary -->
+  <text x="16" y="78"
+        font-family="-apple-system, &quot;Segoe UI&quot;, Roboto, Helvetica, Arial, sans-serif"
+        font-size="26" font-weight="600">
+    <tspan fill="#157347">chain</tspan><tspan fill="#1f2933">warden</tspan>
+  </text>
+</svg>
+
+
+# draft note 15
