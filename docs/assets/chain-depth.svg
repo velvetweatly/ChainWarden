@@ -43,3 +43,60 @@
   <rect x="24" y="96" width="200" height="48" rx="3" fill="none" stroke="#157347" stroke-width="1.5"/>
   <text x="36" y="120" font-family="&quot;Cascadia Mono&quot;, &quot;JetBrains Mono&quot;, Consolas, &quot;DejaVu Sans Mono&quot;, monospace"
         font-size="12" fill="#1f2933">good.example.test</text>
+  <text x="36" y="136" font-family="&quot;Cascadia Mono&quot;, &quot;JetBrains Mono&quot;, Consolas, &quot;DejaVu Sans Mono&quot;, monospace"
+        font-size="11" fill="#157347">exp 2027-01-01</text>
+
+  <!-- soon.example.test -->
+  <rect x="24" y="160" width="200" height="48" rx="3" fill="none" stroke="#157347" stroke-width="1.5"/>
+  <text x="36" y="184" font-family="&quot;Cascadia Mono&quot;, &quot;JetBrains Mono&quot;, Consolas, &quot;DejaVu Sans Mono&quot;, monospace"
+        font-size="12" fill="#1f2933">soon.example.test</text>
+  <text x="36" y="200" font-family="&quot;Cascadia Mono&quot;, &quot;JetBrains Mono&quot;, Consolas, &quot;DejaVu Sans Mono&quot;, monospace"
+        font-size="11" fill="#157347">exp 2026-10-01</text>
+
+  <!-- expired.example.test, the accent -->
+  <rect x="24" y="224" width="200" height="48" rx="3" fill="none" stroke="#b45309" stroke-width="1.5"/>
+  <text x="36" y="248" font-family="&quot;Cascadia Mono&quot;, &quot;JetBrains Mono&quot;, Consolas, &quot;DejaVu Sans Mono&quot;, monospace"
+        font-size="12" fill="#1f2933">expired.example.test</text>
+  <text x="36" y="264" font-family="&quot;Cascadia Mono&quot;, &quot;JetBrains Mono&quot;, Consolas, &quot;DejaVu Sans Mono&quot;, monospace"
+        font-size="11" fill="#b45309">exp 2024-06-01 EXPIRED</text>
+
+  <!-- weak.example.test -->
+  <rect x="24" y="288" width="200" height="48" rx="3" fill="none" stroke="#157347" stroke-width="1.5"/>
+  <text x="36" y="312" font-family="&quot;Cascadia Mono&quot;, &quot;JetBrains Mono&quot;, Consolas, &quot;DejaVu Sans Mono&quot;, monospace"
+        font-size="12" fill="#1f2933">weak.example.test</text>
+  <text x="36" y="328" font-family="&quot;Cascadia Mono&quot;, &quot;JetBrains Mono&quot;, Consolas, &quot;DejaVu Sans Mono&quot;, monospace"
+        font-size="11" fill="#157347">exp 2028-01-01</text>
+
+  <!-- intermediate box: x=272 width=176 height=48, vertically centred at y=192 -->
+  <rect x="272" y="192" width="176" height="56" rx="3" fill="none" stroke="#1f2933" stroke-width="1.5"/>
+  <text x="284" y="216" font-family="&quot;Cascadia Mono&quot;, &quot;JetBrains Mono&quot;, Consolas, &quot;DejaVu Sans Mono&quot;, monospace"
+        font-size="11" fill="#1f2933">ChainWarden Test</text>
+  <text x="284" y="230" font-family="&quot;Cascadia Mono&quot;, &quot;JetBrains Mono&quot;, Consolas, &quot;DejaVu Sans Mono&quot;, monospace"
+        font-size="11" fill="#1f2933">Intermediate CA</text>
+  <text x="284" y="244" font-family="&quot;Cascadia Mono&quot;, &quot;JetBrains Mono&quot;, Consolas, &quot;DejaVu Sans Mono&quot;, monospace"
+        font-size="11" fill="#157347">exp 2032-01-01</text>
+
+  <!-- root box: x=488 width=128 height=56 -->
+  <rect x="488" y="192" width="128" height="56" rx="3" fill="none" stroke="#1f2933" stroke-width="1.5"/>
+  <text x="500" y="216" font-family="&quot;Cascadia Mono&quot;, &quot;JetBrains Mono&quot;, Consolas, &quot;DejaVu Sans Mono&quot;, monospace"
+        font-size="11" fill="#1f2933">ChainWarden</text>
+  <text x="500" y="230" font-family="&quot;Cascadia Mono&quot;, &quot;JetBrains Mono&quot;, Consolas, &quot;DejaVu Sans Mono&quot;, monospace"
+        font-size="11" fill="#1f2933">Test Root CA</text>
+  <text x="500" y="244" font-family="&quot;Cascadia Mono&quot;, &quot;JetBrains Mono&quot;, Consolas, &quot;DejaVu Sans Mono&quot;, monospace"
+        font-size="11" fill="#157347">exp 2034-01-01</text>
+
+  <!-- connectors from each leaf right edge (x=224) to intermediate left edge (x=272) -->
+  <line x1="224" y1="120" x2="272" y2="210" stroke="#1f2933" stroke-width="1"/>
+  <line x1="224" y1="184" x2="272" y2="216" stroke="#1f2933" stroke-width="1"/>
+  <line x1="224" y1="248" x2="272" y2="224" stroke="#1f2933" stroke-width="1"/>
+  <line x1="224" y1="312" x2="272" y2="230" stroke="#1f2933" stroke-width="1"/>
+
+  <!-- connector from intermediate right edge (x=448) to root left edge (x=488) -->
+  <line x1="448" y1="220" x2="488" y2="220" stroke="#1f2933" stroke-width="1"/>
+
+  <text x="24" y="368" font-family="-apple-system, &quot;Segoe UI&quot;, Roboto, Helvetica, Arial, sans-serif"
+        font-size="11" fill="#1f2933">All four chains reach the self signed root, so each is complete at depth 3.</text>
+</svg>
+
+
+# draft note 14
