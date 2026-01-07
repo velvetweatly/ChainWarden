@@ -252,3 +252,41 @@ def check_no_label_overlap() -> tuple[bool, str]:
                 prev_left, prev_right, prev_text = spans[i - 1]
                 left, right, text = spans[i]
                 if left < prev_right - 0.01:
+                    failures.append(
+                        f"{svg.name} y={baseline}: "
+                        f"{prev_text!r} overlaps {text!r}"
+                    )
+    if failures:
+        return False, "no label overlap: " + "; ".join(failures)
+    return True, "no label overlap: clean"
+
+
+CHECKS = [
+    check_svg_parses,
+    check_no_banned_filters,
+    check_no_double_hyphen_in_comments,
+    check_no_em_dash,
+    check_readme_no_pandoc_attr,
+    check_readme_no_marketing,
+    check_svg_accessibility,
+    check_no_label_overlap,
+]
+
+
+def main() -> int:
+    failures = 0
+    for check in CHECKS:
+        ok, message = check()
+        status = "PASS" if ok else "FAIL"
+        if not ok:
+            failures += 1
+        print(f"[{status}] {message}")
+    print(f"verify: {len(CHECKS)} checks, {failures} failures")
+    return 0 if failures == 0 else 1
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
+
+
+# draft note 16
