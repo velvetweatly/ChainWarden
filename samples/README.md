@@ -62,4 +62,4 @@ and signature algorithms stay identical because those are all pinned in the
 script. The SHA256 fingerprints will differ because the public keys differ.
 
 
-# draft note 20
+# draft note 36
