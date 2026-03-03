@@ -99,4 +99,4 @@ rm -f *.csr *.key ext_int.cnf ext_leaf.cnf ext_root.cnf
 echo "PKI generated."
 
 
-# draft note 22
+# draft note 38
