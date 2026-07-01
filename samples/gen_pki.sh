@@ -98,5 +98,3 @@ cat root.pem intermediate.pem leaf-good.pem leaf-soon.pem \
 rm -f *.csr *.key ext_int.cnf ext_leaf.cnf ext_root.cnf
 echo "PKI generated."
 
-
-# draft note 6
