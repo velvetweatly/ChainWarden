@@ -61,5 +61,3 @@ fresh keypair for each certificate. The subjects, dates, serials, key sizes,
 and signature algorithms stay identical because those are all pinned in the
 script. The SHA256 fingerprints will differ because the public keys differ.
 
-
-# draft note 4
