@@ -514,5 +514,3 @@ No dates are promised. In rough order of value:
 MIT. See [`LICENSE`](LICENSE).
 
 
-
-# draft note 34
