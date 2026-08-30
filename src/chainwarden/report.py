@@ -3,6 +3,7 @@ CLI can join them and callers can diff them cleanly."""
 
 from __future__ import annotations
 
+import json
 from datetime import date
 
 from .certmodel import Certificate
@@ -23,6 +24,23 @@ def render_findings(findings: list[Finding], as_of: date) -> list[str]:
     summary = ", ".join(f"{counts[s]} {s}" for s in ("ERROR", "WARN", "INFO") if s in counts)
     lines.append(f"# {len(findings)} findings: {summary}")
     return lines
+
+
+def render_findings_json(findings: list[Finding], as_of: date) -> str:
+    """Render findings as one JSON object per line, prefixed by a header
+    object. Each finding keeps the same fields as the text report so the two
+    formats are interchangeable for downstream consumers."""
+    header = {"as_of": as_of.isoformat(), "count": len(findings)}
+    records = [
+        {
+            "severity": f.severity,
+            "code": f.code,
+            "subject": f.subject,
+            "message": f.message,
+        }
+        for f in findings
+    ]
+    return json.dumps({"header": header, "findings": records})
 
 
 def render_chain(chain: Chain) -> list[str]:

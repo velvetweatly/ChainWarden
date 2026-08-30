@@ -100,6 +100,10 @@ def build_parser() -> argparse.ArgumentParser:
     p_audit.add_argument("--expiry-warn-days", type=int, default=90)
     p_audit.add_argument("--cliff-window-days", type=int, default=30)
     p_audit.add_argument("--cliff-count", type=int, default=3)
+    p_audit.add_argument(
+        "--format", choices=("text", "json"), default="text",
+        help="output format for findings (default: text)",
+    )
 
     p_chain = sub.add_parser("chain", help="build and print trust chains")
     _add_input_args(p_chain)
@@ -127,8 +131,11 @@ def _cmd_audit(args: argparse.Namespace) -> int:
         cliff_count=args.cliff_count,
     )
     findings = run_audit(certs, chains, config)
-    for line in report.render_findings(findings, args.as_of):
-        print(line)
+    if args.format == "json":
+        print(report.render_findings_json(findings, args.as_of))
+    else:
+        for line in report.render_findings(findings, args.as_of):
+            print(line)
     return 1 if findings else 0
 
 
