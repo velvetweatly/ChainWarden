@@ -1,4 +1,5 @@
 import io
+import json
 import unittest
 from contextlib import redirect_stdout
 from pathlib import Path
@@ -45,6 +46,15 @@ class TestCLI(unittest.TestCase):
         _, a = _run(["audit", SAMPLES, "--as-of", "2026-09-02"])
         _, b = _run(["audit", SAMPLES, "--as-of", "2026-09-02"])
         self.assertEqual(a, b)
+
+    def test_audit_json_format(self):
+        code, out = _run(["audit", SAMPLES, "--as-of", "2026-09-02", "--format", "json"])
+        self.assertEqual(code, 1)
+        doc = json.loads(out)
+        self.assertEqual(doc["header"]["as_of"], "2026-09-02")
+        self.assertEqual(doc["header"]["count"], 4)
+        codes = {f["code"] for f in doc["findings"]}
+        self.assertEqual(codes, {"EXPIRED", "WEAK_KEY", "WEAK_SIG", "EXPIRING_SOON"})
 
 
 if __name__ == "__main__":
